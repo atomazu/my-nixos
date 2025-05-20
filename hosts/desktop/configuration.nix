@@ -59,7 +59,7 @@
     }
   ];
 
-  environment.systemPackages = with pkgs; [ xclip ];
+  environment.systemPackages = with pkgs; [ xclip calibre ];
 
   home-manager.users.${config.sys.user} = {
     # ...

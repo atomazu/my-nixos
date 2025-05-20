@@ -90,8 +90,6 @@ in
           lsp-signature.enable = true;
           lsp-status.enable = true;
 
-          # TODO These should be contained in dev flakes, not the mainline nvim config.
-          # The lsp server should pick them up automatically (I hope)
           lsp = {
             enable = true;
             servers = {
@@ -100,6 +98,7 @@ in
               nixd.enable = true;
               pyright.enable = true;
               gopls.enable = true;
+              asm_lsp.enable = true;
             };
           };
 
