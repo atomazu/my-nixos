@@ -58,8 +58,16 @@
     tmux.enable = true;
   };
 
-  # profiles.cinnamon.enable = true;
-  profiles.hyprland.enable = true;
+  profiles.hyprland = {
+    enable = true;
+    albertIntegration = true;
+    extraSettings = {
+      bind = [
+        "$mod, RETURN, exec, ${pkgs.kitty}/bin/kitty"
+        "$mod, B, exec, ${pkgs.chromium}/bin/chromium"
+      ];
+    };
+  };
 
   ### Custom Tweaks ###
 
