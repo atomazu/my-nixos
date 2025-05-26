@@ -25,11 +25,11 @@ in
       description = "The primary user of the system";
     };
 
-    # theme = lib.mkOption {
-    #   type = lib.types.str;
-    #   default = "";
-    #   description = "The overall system theme";
-    # };
+    nh = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "If nh should be enabled";
+    };
 
     gpu = lib.mkOption {
       type = lib.types.str;
@@ -197,7 +197,12 @@ in
       useUserPackages = true;
     };
 
-    # services.xserver.enable = true;
+    programs.nh = {
+      enable = cfg.nh;
+      clean.enable = true;
+      clean.extraArgs = "--keep-since 4d --keep 3";
+      flake = "/home/${cfg.user}/.nixos";
+    };
 
     system.stateVersion = "24.11";
   };

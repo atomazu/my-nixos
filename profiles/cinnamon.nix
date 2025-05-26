@@ -44,9 +44,9 @@ in
             icon-theme = "Mint-Y-Blue";
           };
 
-          "org/cinnamon/muffin" = {
-            tile-maximize = true;
-          };
+          # "org/cinnamon/muffin" = {
+          #   tile-maximize = true;
+          # };
         };
       }];
     }

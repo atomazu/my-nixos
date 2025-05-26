@@ -5,7 +5,7 @@
     ./../system/default.nix
     ./../profiles/default.nix
     ./../hosts/default.nix
-    ./desktop-hardware.nix
+    ./hardware-desktop.nix
 
     inputs.home-manager.nixosModules.default
   ];
@@ -13,7 +13,6 @@
   ### System Settings ###
 
   sys.gpu = "nvidia";
-  # sys.theme = "catppuccin";
   sys.host = "desktop";
   sys.user = "jonas";
   sys.locale = "en_US.UTF-8";
@@ -28,31 +27,19 @@
     plymouth = true;
   };
 
-  # ...
-
   ### Profile Settings ###
 
   profiles.cinnamon.enable = true;
 
-  # ...
-
   ### Custom Configuration ###
 
-  # ...
+  environment.sessionVariables = {
+    FLAKE = "/home/jonas/.nixos";
+  };
 
   services.xserver.enable = true;
   services.xserver.excludePackages = with pkgs; [
     xterm
-  ];
-  services.xserver.xrandrHeads = [
-    {
-      output = "DP-0";
-      monitorConfig = "Option \"Rotate\" \"left\"";
-    }
-    {
-      output = "DP-4";
-      primary = true;
-    }
   ];
 
   environment.systemPackages = with pkgs; [
