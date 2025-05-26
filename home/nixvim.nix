@@ -41,12 +41,13 @@ in
           tabstop = 2;
           shiftwidth = 2;
           cursorline = true;
-          scrolloff = 10;
+          scrolloff = 20;
           expandtab = true;
           autoindent = true;
         };
 
         colorschemes.catppuccin.enable = true;
+        # colorschemes.gruvbox.enable = true;
         clipboard.register = "unnamedplus";
 
         plugins = {
@@ -138,23 +139,23 @@ in
             };
           };
 
+          nvim-autopairs.enable = true;
           nvim-surround = {
             enable = true;
-            settings.keymaps = {
+            settings = {
               insert = "<C-g>s";
               insert_line = "<C-g>S";
-              normal = "<leader>sa";
-              normal_cur = "<leader>sl";
-              normal_line = "<leader>sn";
-              normal_cur_line = "<leader>sN";
+              normal = "ys";
+              normal_cur = "yss";
+              normal_line = "yS";
+              normal_cur_line = "ySS";
               visual = "S";
               visual_line = "gS";
-              delete = "<leader>sd";
-              change = "<leader>sr";
-              change_line = "<leader>sR";
+              delete = "ds";
+              change = "cs";
+              change_line = "cS";
             };
           };
-          nvim-autopairs.enable = true;
 
           dashboard.enable = true;
           noice.enable = true;
@@ -165,14 +166,7 @@ in
           cmake-tools.enable = true;
           toggleterm = {
             enable = true;
-            # FIXME
-            # settings = {
-            #   open_mapping = "<leader>tt";
-            #   direction = "float";
-            #   float_opts = {
-            #     border = "curved";
-            #   };
-            # };
+            settings.open_mapping = "[[<leader>t]]";
           };
         };
 
