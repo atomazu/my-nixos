@@ -21,12 +21,12 @@ in
     git = {
       enable = lib.mkEnableOption "Git version control";
       name = lib.mkOption {
-        type = lib.types.string;
+        type = lib.types.str;
         default = "John Doe";
         description = "Git name";
       };
       email = lib.mkOption {
-        type = lib.types.string;
+        type = lib.types.str;
         default = "example@mail.com";
         description = "Git email";
       };
