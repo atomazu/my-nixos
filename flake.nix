@@ -1,5 +1,5 @@
 {
-  description = "My Configuration";
+  description = "atomazu's configuration";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -23,7 +23,7 @@
           system = "x86_64-linux";
           specialArgs = { inherit inputs; };
           modules = [
-            ./hosts/desktop.nix
+            ./hosts/desktop/configuration.nix
           ];
         };
       };

@@ -11,18 +11,14 @@ in
   ### Options ###
 
   options.profiles.hyprland = {
-    enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable the Hyprland profile. (planned)";
-    };
+    enable = lib.mkEnableOption "Hyprland profile";
   };
 
   ### Configuration ###
 
   config = {
-    home-manager.users.${config.sys.user} = lib.mkMerge [
+    home-manager.users.${config.sys.user} = lib.mkIf (cfg.hyprland.enable) {
       # ...
-    ];
+    };
   };
 }

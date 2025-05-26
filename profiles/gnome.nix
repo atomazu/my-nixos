@@ -12,17 +12,13 @@ in
   ### Options ###
 
   options.profiles.gnome = {
-    enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable the Gnome profile.";
-    };
+    enable = lib.mkEnableOption "GNOME profile";
   };
 
   ### Configuration ###
 
   config = (
-    lib.mkIf (cfg.gnome.enable) ({
+    lib.mkIf (cfg.gnome.enable) {
       environment.gnome.excludePackages = with pkgs; [
         gnome-tour
       ];
@@ -75,6 +71,6 @@ in
           };
         }
       ];
-    })
+    }
   );
 }

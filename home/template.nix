@@ -1,24 +1,23 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 
 let
-  cfg = config.home;
+  cfg = config.home.template;
 in
 {
   options.home.template = {
     enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
-      description = "Enable the template home module.";
+      description = "Template module";
     };
     # Add more options specific to this module here
   };
 
-  config = lib.mkIf (cfg.template.enable) {
+  config = lib.mkIf (cfg.enable) {
     # Home-manager configuration specific to this module goes here
   };
 }

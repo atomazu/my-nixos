@@ -1,6 +1,11 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-let 
+let
   cfg = config.profiles;
 in
 {
@@ -11,36 +16,12 @@ in
   ### Options ###
 
   options.profiles.sway = {
-    enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable the Sway profile.";
-    };
-    mako.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Enable Mako notification service.";
-    };
-    wpaperd.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Enable wpaperd for wallpapers.";
-    };
-    tofi.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Enable tofi app launcher.";
-    };
-    foot.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Enable foot terminal emulator.";
-    };
-    waybar.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Enable waybar as info bar.";
-    };
+    enable = lib.mkEnableOption "Sway profile";
+    mako.enable = lib.mkEnableOption "Mako notification daemon";
+    wpaperd.enable = lib.mkEnableOption "wpaperd wallpaper daemon";
+    tofi.enable = lib.mkEnableOption "Tofi application launcher";
+    foot.enable = lib.mkEnableOption "Foot terminal emulator";
+    waybar.enable = lib.mkEnableOption "Waybar status bar";
   };
 
   ### Configuration ###
@@ -63,19 +44,23 @@ in
               terminal = "${pkgs.foot}/bin/foot";
             })
             (lib.mkIf (cfg.sway.waybar.enable) {
-              bars = [{
-                command = "${pkgs.waybar}/bin/waybar"; 
-              }];
+              bars = [
+                {
+                  command = "${pkgs.waybar}/bin/waybar";
+                }
+              ];
             })
             (lib.mkIf (cfg.sway.wpaperd.enable) {
-              startup = [{
-                command = "${pkgs.wpaperd}/bin/wpaperd"; 
-              }];
+              startup = [
+                {
+                  command = "${pkgs.wpaperd}/bin/wpaperd";
+                }
+              ];
             })
-            ({
+            {
               modifier = "Mod4";
               window.titlebar = false;
-            })
+            }
           ];
         };
       })
@@ -84,7 +69,7 @@ in
           enable = true;
           settings = {
             default = {
-              path = "~/.nixos/assets/wallpaper.jpg";
+              path = "~/.nixos/assets/binary.jpg";
             };
           };
         };

@@ -1,8 +1,5 @@
-{ config, lib, ... }:
+{ ... }:
 
-let
-  cfg = config.sys;
-in
 {
   imports = [
     ./hyprland.nix
@@ -10,12 +7,4 @@ in
     ./gnome.nix
     ./cinnamon.nix
   ];
-
-  ### Options ###
-
-  # options.profiles = {};
-
-  ### Configuration ###
-
-  # config = {};
 }

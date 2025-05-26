@@ -1,7 +1,7 @@
 {
+  inputs,
   config,
   lib,
-  inputs,
   ...
 }:
 
@@ -9,40 +9,37 @@ let
   cfg = config.home;
 in
 {
+  imports = [
+    inputs.home-manager.nixosModules.default
+    ./nixvim.nix
+    ./tmux.nix
+    ./vim.nix
+    ./albert.nix
+  ];
+
   options.home = {
-    git.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Enable git";
+    git = {
+      enable = lib.mkEnableOption "Git version control";
+      name = lib.mkOption {
+        type = lib.types.string;
+        default = "John Doe";
+        description = "Git name";
+      };
+      email = lib.mkOption {
+        type = lib.types.string;
+        default = "example@mail.com";
+        description = "Git email";
+      };
     };
-
-    chromium.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Enable chromium";
-    };
-
-    albert.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Enable albert application launcher";
-    };
+    chromium.enable = lib.mkEnableOption "Chromium web browser";
   };
 
   config = {
     home-manager.users.${config.sys.user} = {
-      imports = [
-        inputs.nixvim.homeManagerModules.nixvim
-        ./nixvim.nix
-        ./tmux.nix
-        ./vim.nix
-        ./albert.nix
-      ];
-
       programs.git = {
         enable = cfg.git.enable;
-        userName = "atomazu";
-        userEmail = "contact@atomazu.org";
+        userName = "${cfg.git.name}";
+        userEmail = "${cfg.git.email}";
       };
 
       programs.chromium = {

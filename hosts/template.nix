@@ -1,25 +1,39 @@
-{ inputs, pkgs, lib, ... }:
+{
+  pkgs,
+  config,
+  ...
+}:
 
 {
   imports = [
-    ./../hosts/default.nix
-    # ./hardware-template.nix # Add hardware config import here
-
-    inputs.home-manager.nixosModules.default
+    ../default.nix
+    ./hardware-configuration.nix
   ];
 
-  sys.host = "template-host";
-  sys.user = "template-user";
-  # Add other sys options here
+  ### Settings ###
 
-  # Enable desired profiles here
-  # profiles.example.enable = true;
+  sys = {
+    # ...
+  };
 
-  # Override home options if needed
-  # home.example.enable = false;
+  home = {
+    # ...
+  };
 
-  # Enable system modules if needed
-  # system.example.enable = true;
+  profiles = {
+    # ...
+  };
+
+  ### Tweaks ###
+
+  environment.systemPackages = with pkgs; [
+    tree
+    # ...
+  ];
+
+  home-manager.users.${config.sys.user} = {
+    # ...
+  };
 
   system.stateVersion = "24.11"; # Or your current version
 }
