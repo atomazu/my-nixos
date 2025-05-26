@@ -41,6 +41,9 @@
   # ...
 
   services.xserver.enable = true;
+  services.xserver.excludePackages = with pkgs; [
+    xterm
+  ];
   services.xserver.xrandrHeads = [
     {
       output = "DP-0";
@@ -56,7 +59,6 @@
     tree
     gh
     alacritty
-    chromium
   ];
 
   # ...

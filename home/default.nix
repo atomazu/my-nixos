@@ -25,9 +25,9 @@
       # ];
 
       extensions = [
-        { id = "nngceckbapebfimnlniiiahkandclblb"; }
-        { id = "ddkjiahejlhfcafbddmgiahcphecmpfh"; }
-        { id = "eimadpbcbfnmbkopoojfekhnkhdbieeh"; }
+        { id = "nngceckbapebfimnlniiiahkandclblb"; } # Bitwarden
+        { id = "ddkjiahejlhfcafbddmgiahcphecmpfh"; } # uBlock Origin Lite
+        { id = "eimadpbcbfnmbkopoojfekhnkhdbieeh"; } # Dark-Reader
       ];
     };
 

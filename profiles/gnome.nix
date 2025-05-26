@@ -19,6 +19,10 @@ in
   ### Configuration ###
 
   config = (lib.mkIf (cfg.gnome.enable) ({
+    environment.gnome.excludePackages = with pkgs; [
+      gnome-tour
+    ];
+
     services.xserver.displayManager.gdm.enable = true;
     services.xserver.desktopManager.gnome.enable = true;
     services.gnome.core-utilities.enable = false;
