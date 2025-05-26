@@ -2,8 +2,6 @@
 
 {
   imports = [
-    ./../system/default.nix
-    ./../profiles/default.nix
     ./../hosts/default.nix
     ./hardware-desktop.nix
 

@@ -9,11 +9,6 @@ let
   cfg = config.home;
 in
 {
-  # Hybrid home/nix imports
-  imports = [
-    ./albert.nix
-  ];
-
   options.home = {
     git.enable = lib.mkOption {
       type = lib.types.bool;
@@ -41,6 +36,7 @@ in
         ./nixvim.nix
         ./tmux.nix
         ./vim.nix
+        ./albert.nix
       ];
 
       programs.git = {

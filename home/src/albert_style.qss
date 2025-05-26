@@ -1,7 +1,7 @@
 *{
     border: none;
     color: #808080;
-    background: #000000;
+    background: #111111;
     margin: 0;
     padding: 0;
 }
@@ -9,7 +9,7 @@
 #frame {
     padding: 4px;
     border-radius: 9px;
-    background: #000000;
+    background: #111111;
     border: 2px solid #808080;
     min-width: 640px;
     max-width: 640px;
@@ -21,7 +21,7 @@
     font-size: 24px;
     selection-color: #808080;
     selection-background-color: #1a1a1a;
-    background: #000000;
+    background: #111111;
     border: none;
     margin: 4px;
     color: #808080;
@@ -30,7 +30,7 @@
 #settingsButton {
     margin: 6px;
     color: #808080;
-    background: #000000;
+    background: #111111;
     padding: 2px;
     min-width: 14px;
     min-height: 14px;
@@ -41,7 +41,7 @@
 
 /********** ListViews ************/
 QListView {
-    background: #000000;
+    background: #111111;
     selection-color: #ffffff;
     border: none;
     outline: 0;
@@ -50,7 +50,7 @@ QListView {
 QListView::item {
     padding: 4px;
     margin: 2px;
-    background: #000000;
+    background: #111111;
 }
 
 QListView::item:selected {
@@ -60,7 +60,7 @@ QListView::item:selected {
 
 QListView QScrollBar:vertical {
     width: 3px;
-    background: #000000;
+    background: #222222;
     margin: 0;
 }
 
@@ -76,7 +76,7 @@ QListView QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
     border: 0;
     width: 0;
     height: 0;
-    background: #000000;
+    background: #111111;
 }
 
 /********** resultsList **********/
@@ -84,17 +84,17 @@ QListView#resultsList {
     icon-size: 32px;
     font-size: 20px;
     margin: 4px 0;
-    background: #000000;
+    background: #111111;
 }
 
 QListView#resultsList::item {
     padding: 8px;
-    background: #000000;
+    background: #111111;
 }
 
 /********** actionList **********/
 QListView#actionList {
     font-size: 16px;
     margin: 4px 0;
-    background: #000000;
+    background: #1111111;
 }
