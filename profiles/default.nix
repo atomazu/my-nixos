@@ -7,6 +7,7 @@ in
   imports = [
     ./hyprland.nix
     ./sway.nix
+    ./gnome.nix
   ];
 
   ### Options ###
