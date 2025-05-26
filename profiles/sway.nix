@@ -74,8 +74,8 @@ in
         };
       };
 
-    services.mako.enable = true;
-    programs.waybar.enable = true;
+      services.mako.enable = true;
+      programs.waybar.enable = true;
     };
   };
 }
