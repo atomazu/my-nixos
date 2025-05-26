@@ -21,19 +21,28 @@ in
       enable = lib.mkEnableOption "Git version control";
       name = lib.mkOption {
         type = lib.types.str;
-        default = "John Doe";
+        example = "John Doe";
         description = "Git name";
       };
       email = lib.mkOption {
         type = lib.types.str;
-        default = "example@mail.com";
+        example = "example@mail.com";
         description = "Git email";
       };
       signing = {
+        enable = lib.mkEnableOption "Git commit signing";
         format = lib.mkOption {
+          type = lib.types.enum [
+            "ssh"
+            "gpg"
+          ];
+          example = "ssh";
+          description = "Signing format (ssh or gpg)";
+        };
+        key = lib.mkOption {
           type = lib.types.str;
-          default = "ssh";
-          description = "Signing format";
+          default = "~/.ssh/id_ed25519.pub";
+          description = "Path to signing key";
         };
       };
     };
@@ -46,6 +55,15 @@ in
         enable = cfg.git.enable;
         userName = "${cfg.git.name}";
         userEmail = "${cfg.git.email}";
+        signing = lib.mkIf cfg.git.signing.enable {
+          key = cfg.git.signing.key;
+          signByDefault = true;
+        };
+        extraConfig = lib.mkIf cfg.git.signing.enable {
+          gpg.format = cfg.git.signing.format;
+          commit.gpgsign = true;
+          tag.gpgsign = true;
+        };
       };
 
       programs.chromium = {

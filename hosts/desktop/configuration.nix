@@ -34,6 +34,10 @@
       enable = true;
       name = "atomazu";
       email = "contact@atomazu.org";
+      signing = {
+        enable = true;
+        format = "ssh";
+      };
     };
     shell = {
       enable = true;
