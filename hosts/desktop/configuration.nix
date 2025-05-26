@@ -46,10 +46,6 @@
 
   ### Custom Tweaks ###
 
-  environment.sessionVariables = {
-    FLAKE = "/home/${config.sys.user}/.nixos";
-  };
-
   services.xserver.enable = true;
   services.xserver.excludePackages = with pkgs; [ xterm ];
   services.xserver.xrandrHeads = [

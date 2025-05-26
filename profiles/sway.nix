@@ -6,102 +6,76 @@
 }:
 
 let
-  cfg = config.profiles;
+  cfg = config.profiles.sway;
 in
 {
   imports = [
     ./modules/waybar.nix
   ];
 
-  ### Options ###
-
   options.profiles.sway = {
     enable = lib.mkEnableOption "Sway profile";
-    mako.enable = lib.mkEnableOption "Mako notification daemon";
-    wpaperd.enable = lib.mkEnableOption "wpaperd wallpaper daemon";
-    tofi.enable = lib.mkEnableOption "Tofi application launcher";
-    foot.enable = lib.mkEnableOption "Foot terminal emulator";
-    waybar.enable = lib.mkEnableOption "Waybar status bar";
   };
 
-  ### Configuration ###
+  config = lib.mkIf (cfg.enable == true) {
+    home-manager.users.${config.sys.user} = {
+      wayland.windowmanager.sway = {
+        enable = true;
 
-  config = {
-    home-manager.users.${config.sys.user} = lib.mkMerge [
-      (lib.mkIf (cfg.sway.enable) {
-        wayland.windowmanager.sway = {
-          enable = true;
+        wrapperfeatures.gtk = true;
+        wrapperfeatures.base = true;
+        xwayland = true;
 
-          wrapperfeatures.gtk = true;
-          wrapperfeatures.base = true;
-          xwayland = true;
-
-          config = lib.mkMerge [
-            (lib.mkIf (cfg.sway.tofi.enable) {
-              menu = "${pkgs.tofi}/bin/tofi-run | xargs swaymsg exec --";
-            })
-            (lib.mkIf (cfg.sway.foot.enable) {
-              terminal = "${pkgs.foot}/bin/foot";
-            })
-            (lib.mkIf (cfg.sway.waybar.enable) {
-              bars = [
-                {
-                  command = "${pkgs.waybar}/bin/waybar";
-                }
-              ];
-            })
-            (lib.mkIf (cfg.sway.wpaperd.enable) {
-              startup = [
-                {
-                  command = "${pkgs.wpaperd}/bin/wpaperd";
-                }
-              ];
-            })
+        config = {
+          menu = "${pkgs.tofi}/bin/tofi-run | xargs swaymsg exec --";
+          terminal = "${pkgs.foot}/bin/foot";
+          bars = [
             {
-              modifier = "Mod4";
-              window.titlebar = false;
+              command = "${pkgs.waybar}/bin/waybar";
             }
           ];
+          startup = [
+            {
+              command = "${pkgs.wpaperd}/bin/wpaperd";
+            }
+          ];
+          modifier = "Mod4";
+          window.titlebar = false;
         };
-      })
-      (lib.mkIf (cfg.sway.wpaperd.enable && cfg.sway.enable) {
-        programs.wpaperd = {
-          enable = true;
-          settings = {
-            default = {
-              path = "~/.nixos/assets/binary.jpg";
-            };
+      };
+
+      programs.wpaperd = {
+        enable = true;
+        settings = {
+          default = {
+            path = ./../assets/binary.png;
           };
         };
-      })
-      (lib.mkIf (cfg.sway.tofi.enable && cfg.sway.enable) {
-        programs.tofi = {
-          enable = true;
-          settings = {
-            anchor = "top";
-            width = "100%";
-            height = 24;
-            horizontal = true;
-            font-size = 12;
-            prompt-text = " run: ";
-            font = "monospace";
-            outline-width = 0;
-            border-width = 0;
-            min-input-width = 120;
-            result-spacing = 15;
-            padding-top = 0;
-            padding-bottom = 0;
-            padding-left = 0;
-            padding-right = 0;
-          };
+      };
+
+      programs.tofi = {
+        enable = true;
+        settings = {
+          anchor = "top";
+          width = "100%";
+          height = 24;
+          horizontal = true;
+          font-size = 12;
+          prompt-text = " run: ";
+          font = "monospace";
+          outline-width = 0;
+          border-width = 0;
+          min-input-width = 120;
+          result-spacing = 15;
+          padding-top = 0;
+          padding-bottom = 0;
+          padding-left = 0;
+          padding-right = 0;
         };
-      })
-      (lib.mkIf (cfg.sway.mako.enable && cfg.sway.enable) {
-        services.mako.enable = true;
-      })
-      (lib.mkIf (cfg.sway.waybar.enable && cfg.sway.enable) {
-        programs.waybar.enable = true;
-      })
-    ];
+      };
+
+    services.mako.enable = true;
+    programs.waybar.enable = true;
+    };
   };
 }
