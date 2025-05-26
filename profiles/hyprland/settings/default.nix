@@ -35,12 +35,12 @@ let
 
     # Media & Hardware Controls
     bindel = [
-      ", XF86AudioRaiseVolume, exec, swayosd-client --output-volume raise --max-volume 100"
-      ", XF86AudioLowerVolume, exec, swayosd-client --output-volume lower --max-volume 100"
-      ", XF86AudioMute, exec, swayosd-client --output-volume mute-toggle"
-      ", XF86AudioMicMute, exec, swayosd-client --input-volume mute-toggle"
-      ", XF86MonBrightnessUp, exec, swayosd-client --brightness raise"
-      ", XF86MonBrightnessDown, exec, swayosd-client --brightness lower"
+      ", XF86AudioRaiseVolume, exec, ${pkgs.swayosd}/bin/swayosd-client --output-volume raise --max-volume 100"
+      ", XF86AudioLowerVolume, exec, ${pkgs.swayosd}/bin/swayosd-client --output-volume lower --max-volume 100"
+      ", XF86AudioMute, exec, ${pkgs.swayosd}/bin/swayosd-client --output-volume mute-toggle"
+      ", XF86AudioMicMute, exec, ${pkgs.swayosd}/bin/swayosd-client --input-volume mute-toggle"
+      ", XF86MonBrightnessUp, exec, ${pkgs.swayosd}/bin/swayosd-client --brightness raise"
+      ", XF86MonBrightnessDown, exec, ${pkgs.swayosd}/bin/swayosd-client --brightness lower"
     ];
   };
 
@@ -48,18 +48,40 @@ let
 
   playerctlSettings = {
     bindl = [
-      ", XF86AudioNext, exec, playerctl next"
-      ", XF86AudioPrev, exec, playerctl previous"
-      ", XF86AudioPlay, exec, playerctl play-pause"
-      ", XF86AudioPause, exec, playerctl play-pause"
+      ", XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next"
+      ", XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous"
+      ", XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause"
+      ", XF86AudioPause, exec, ${pkgs.playerctl}/bin/playerctl play-pause"
     ];
   };
+
+  globalSettings = {
+    "$mod" = cfg.mod;
+  };
+
+  visualSettings = {
+    general = {
+      gaps_in = 2;
+      gaps_out = "3, 3, 3, 3";
+      border_size = 2;
+    };
+
+    decoration = {
+      rounding = 6;
+
+      blur.enabled = false;
+      shadow.enabled = false;
+    };
+  };
 in
-{
-  "$mod" = cfg.mod;
-  binding = bindingSettings;
-  albert = lib.mkIf cfg.albertIntegration albertSettings;
-  playerctl = lib.mkIf cfg.playerctl playerctlSettings;
-  polkit = lib.mkIf cfg.polkit polkitSettings;
-  osd = lib.mkIf cfg.osd osdSettings;
-}
+lib.recursiveUpdate { } (
+  lib.mkMerge [
+    globalSettings
+    visualSettings
+    bindingSettings
+    (lib.mkIf cfg.albertIntegration albertSettings)
+    (lib.mkIf cfg.playerctl playerctlSettings)
+    (lib.mkIf cfg.polkit polkitSettings)
+    (lib.mkIf cfg.osd osdSettings)
+  ]
+)
