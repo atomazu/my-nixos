@@ -13,7 +13,7 @@ lib.mkIf (config.sys.gpu == "nvidia") {
 
       open = false;
       nvidiaSettings = false;
-      package = config.boot.kernelPackages.nvidiaPackages.beta;
+      # package = config.boot.kernelPackages.nvidiaPackages.beta;
     };
   };
 

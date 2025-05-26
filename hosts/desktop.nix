@@ -32,7 +32,7 @@
 
   ### Profile Settings ###
 
-  profiles.gnome.enable = true;
+  profiles.cinnamon.enable = true;
 
   # ...
 
