@@ -27,19 +27,6 @@
       silent = true;
       plymouth = true;
     };
-    # == PLANNED == (This should be display server agnostic)
-    # display = [
-    #   {
-    #     output = "DP-2";
-    #     resolution = "2560x1440@240";
-    #     primary = true;
-    #   }
-    #   {
-    #     output = "HDMI-0";
-    #     resolution = "2560x1440@140";
-    #     rotate = "left";
-    #   }
-    # ];
   };
 
   home = {

@@ -10,7 +10,6 @@ let
 in
 {
   imports = [
-    inputs.home-manager.nixosModules.default
     ./nixvim.nix
     ./tmux.nix
     ./vim.nix
@@ -53,6 +52,9 @@ in
           { id = "mnjggcdmjocbbbhaepdhchncahnbgone"; } # SponsorBlock
         ];
       };
+
+      qt.enable = true;
+      gtk.enable = true;
 
       home.stateVersion = "24.11";
     };

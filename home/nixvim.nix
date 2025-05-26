@@ -46,8 +46,6 @@ in
           autoindent = true;
         };
 
-        colorschemes.catppuccin.enable = true;
-        # colorschemes.gruvbox.enable = true;
         clipboard.register = "unnamedplus";
 
         plugins = {

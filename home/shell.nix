@@ -42,9 +42,12 @@ in
           enable = true;
           shellIntegration.enableFishIntegration = true;
           font = {
-            package = pkgs.nerd-fonts.fira-code;
-            name = "FiraCode Nerd Font";
-            size = cfg.font-size;
+            # Now set by Stylix
+            # package = pkgs.nerd-fonts.fira-code;
+            # name = "FiraCode Nerd Font";
+
+            # Overwrite Stylix default
+            # size = lib.mkForce cfg.font-size;
           };
           environment = {
             "EDITOR" = "nvim";

@@ -11,6 +11,8 @@ let
 in
 {
   imports = [
+    inputs.home-manager.nixosModules.default
+    inputs.stylix.nixosModules.stylix
     ./../system/default.nix
     ./../home/default.nix
     ./../profiles/default.nix
@@ -183,6 +185,7 @@ in
       jack.enable = true;
     };
 
+    # Can be enabled for performance (or something)
     # security.pam.loginLimits = [
     #   {
     #     domain = "@users";
@@ -191,6 +194,28 @@ in
     #     value = 1;
     #   }
     # ];
+
+    # Style with Stylix
+    stylix = {
+      enable = true;
+      base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+      image = ../assets/binary.png;
+      polarity = "dark";
+      cursor = {
+        package = pkgs.bibata-cursors;
+        name = "Bibata-Modern-Classic";
+        size = 16;
+      };
+
+      fonts = {
+        sizes.terminal = 18;
+        monospace = {
+          package = pkgs.nerd-fonts.fira-code;
+          name = "FiraCode Nerd Font";
+        };
+        serif = config.stylix.fonts.sansSerif;
+      };
+    };
 
     users.users.${cfg.user} = {
       isNormalUser = true;
@@ -206,12 +231,7 @@ in
       enable = cfg.nh;
       clean.enable = true;
       clean.extraArgs = "--keep-since 4d --keep 3";
-      # flake = ./..;
     };
-
-    # environment.sessionVariables = {
-    #   NH_FLAKE = ./..;
-    # };
 
     home-manager = {
       extraSpecialArgs = { inherit inputs; };
