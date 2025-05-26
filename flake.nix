@@ -22,11 +22,16 @@
 
   outputs =
     inputs@{ nixpkgs, ... }:
+    let
+      libutils = import ./utils { lib = nixpkgs.lib; };
+    in
     {
       nixosConfigurations = {
         desktop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
+          specialArgs = {
+            inherit inputs libutils;
+          };
           modules = [
             ./hosts/desktop/configuration.nix
           ];
