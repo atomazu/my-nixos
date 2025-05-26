@@ -36,7 +36,7 @@
       email = "contact@atomazu.org";
     };
     chromium.enable = true;
-    albert.enable = false;
+    albert.enable = true;
     nixvim.enable = true;
     tmux.enable = true;
   };
@@ -69,6 +69,9 @@
   ];
 
   home-manager.users.${config.sys.user} = {
-    # ...
+    programs.kitty.enable = true;
+    programs.kitty.shellIntegration.enableFishIntegration = true;
+    programs.starship.enable = true;
+    programs.fish.enable = true;
   };
 }
