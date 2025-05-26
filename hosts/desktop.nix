@@ -20,34 +20,50 @@
   sys.time = "Europe/Berlin";
   sys.boot = {
     loader = "grub";
-    resolution = "1920x1080";
+    # resolution = "2560x1440";
     prober = true;
     silent = true;
   };
 
   # ...
 
+  ### Profile Settings ###
+
+  profiles.hyprland.enable = true;
+
+  # ...
+
   ### Custom Configuration ###
 
-  services.desktopManager.plasma6.enable = true;
-  services.displayManager.sddm.enable = true;
-  programs.firefox.enable = true;
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+  };
+  programs.uwsm.enable = true;
 
-  boot.kernelParams = [ "nvme_core.default_ps_max_latency_us=0" ];
-  services.xserver.xrandrHeads = [
-    {
-      output = "DP-0";
-      monitorConfig = "Option \"Rotate\" \"left\"";
-    }
-    {
-      output = "DP-4";
-      primary = true;
-    }
-  ];
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet -r -i --cmd 'uwsm start -S -F /run/current-system/sw/bin/Hyprland'";
+        user = "greeter";
+      };
+    };
+  };
+
+  # services.xserver.xrandrHeads = [
+  #   {
+  #     output = "DP-0";
+  #     monitorConfig = "Option \"Rotate\" \"left\"";
+  #   }
+  #   {
+  #     output = "DP-4";
+  #     primary = true;
+  #   }
+  # ];
 
   environment.systemPackages = with pkgs; [
     tree
-    nh # TODO: learn this properly
   ];
 
   # ...
