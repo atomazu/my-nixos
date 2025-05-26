@@ -21,9 +21,10 @@
   sys.time = "Europe/Berlin";
   sys.boot = {
     loader = "grub";
-    # resolution = "2560x1440";
+    resolution = "2560x1440";
     prober = true;
     silent = true;
+    plymouth = true;
   };
 
   # ...
