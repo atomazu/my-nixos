@@ -29,6 +29,13 @@ in
         default = "example@mail.com";
         description = "Git email";
       };
+      signing = {
+        format = lib.mkOption {
+          type = lib.types.str;
+          default = "ssh";
+          description = "Signing format";
+        };
+      };
     };
     chromium.enable = lib.mkEnableOption "Chromium web browser";
   };
