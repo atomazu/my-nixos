@@ -5,6 +5,7 @@
     ./../system/default.nix
     ./../profiles/default.nix
     ./../hosts/default.nix
+    ./desktop-hardware.nix
 
     inputs.home-manager.nixosModules.default
   ];

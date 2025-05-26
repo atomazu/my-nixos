@@ -8,7 +8,6 @@ in
     ./../system/default.nix
     ./../home/default.nix
     ./../profiles/default.nix
-    ./desktop-hardware.nix 
   ];
 
   ### Options ###
