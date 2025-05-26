@@ -52,5 +52,6 @@
     tree
     gh
     alacritty
+    xclip
   ];
 }

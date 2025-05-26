@@ -84,23 +84,17 @@ in
   systemd.user.services.albert = {
     Unit = {
       Description = "Albert Launcher";
-      # Documentation = "https://albertlauncher.github.io/"; # Optional documentation link
-      # Ensure the graphical session is available before starting
       After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ]; # Tie lifecycle to graphical session
+      PartOf = [ "graphical-session.target" ];
     };
 
     Service = {
-      # The command to start Albert
       ExecStart = "${pkgs.albert}/bin/albert";
-
-      # Optional: Restart Albert if it crashes
       Restart = "on-failure";
-      RestartSec = 5; # Wait 5 seconds before restarting
+      RestartSec = 5;
     };
 
     Install = {
-      # Tell systemd to start this service as part of the graphical user session
       WantedBy = [ "graphical-session.target" ];
     };
   };
