@@ -1,0 +1,10 @@
+Planned:
+- Stylix
+- Fix DM Hyprland not starting
+- Add all the Hyprland family applications
+  - Hyprlock
+  - Hypridle
+  - Hyprshot
+  - Hyprpaper
+  - Hyprsunset
+  - ...

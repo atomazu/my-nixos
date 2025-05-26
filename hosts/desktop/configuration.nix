@@ -68,23 +68,25 @@
   # For nix dev flakes
   programs.direnv.enable = true;
 
-  # services.xserver.enable = true;
-  # services.xserver.excludePackages = with pkgs; [ xterm ];
-  # services.xserver.xrandrHeads = [
-  #   {
-  #     output = "HDMI-0";
-  #     monitorConfig = "Option \"Rotate\" \"left\"";
-  #   }
-  #   {
-  #     output = "DP-2";
-  #     primary = true;
-  #   }
-  # ];
+  # Never hurts to be enabled
+  services.xserver.enable = true;
+  services.xserver.excludePackages = with pkgs; [ xterm ];
+  services.xserver.displayManager.lightdm.enable = false;
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.xrandrHeads = [
+    {
+      output = "HDMI-0";
+      monitorConfig = "Option \"Rotate\" \"left\"";
+    }
+    {
+      output = "DP-2";
+      primary = true;
+    }
+  ];
 
-  # environment.systemPackages = with pkgs; [
-  #   xclip
-  #   calibre
-  # ];
+  environment.systemPackages = with pkgs; [
+    wl-clipboard
+  ];
 
   home-manager.users.${config.sys.user} = {
     # ...
