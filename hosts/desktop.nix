@@ -16,6 +16,7 @@
   sys.host = "desktop";
   sys.user = "jonas";
   sys.locale = "en_US.UTF-8";
+  sys.extraLocale = "de_DE.UTF-8";
   sys.layout = "us";
   sys.time = "Europe/Berlin";
   sys.boot = {

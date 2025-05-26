@@ -43,6 +43,12 @@ in
       description = "The System locale";
     };
 
+    extraLocale = lib.mkOption {
+      type = lib.types.str;
+      default = "en_US.UTF-8";
+      description = "The System locale, but extra";
+    };
+
     layout = lib.mkOption {
       type = lib.types.str;
       default = "us";
@@ -60,6 +66,12 @@ in
         type = lib.types.str;
         default = "grub";
         description = "Specify boot loader (grub/systemd)"; 
+      };
+
+      plymouth = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Enable Plymouth boot splash screen.";
       };
 
       resolution = lib.mkOption {
@@ -121,7 +133,11 @@ in
           "rd.systemd.show_status=false"
           "rd.udev.log_level=3"
           "udev.log_priority=3"
+          "vt.global_cursor_default=0"
         ];
+      })
+      (lib.mkIf cfg.boot.plymouth {
+        plymouth.enable = true;
       })
     ];
 
@@ -131,6 +147,17 @@ in
     time.timeZone = "${cfg.time}";
     time.hardwareClockInLocalTime = true;
     i18n.defaultLocale = "${cfg.locale}";
+    i18n.extraLocaleSettings = {
+      LC_ADDRESS = "${cfg.extraLocale}";
+      LC_IDENTIFICATION = "${cfg.extraLocale}";
+      LC_MEASUREMENT = "${cfg.extraLocale}";
+      LC_MONETARY = "${cfg.extraLocale}";
+      LC_NAME = "${cfg.extraLocale}";
+      LC_NUMERIC = "${cfg.extraLocale}";
+      LC_PAPER = "${cfg.extraLocale}";
+      LC_TELEPHONE = "${cfg.extraLocale}";
+      LC_TIME = "${cfg.extraLocale}";
+    };
 
     fonts.enableDefaultPackages = true;
     fonts.packages = with pkgs; [
