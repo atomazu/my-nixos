@@ -45,8 +45,10 @@
 
   ### Custom Tweaks ###
 
+  users.users.${config.sys.user}.shell = pkgs.fish;
+
   environment.sessionVariables = {
-    FLAKE = "/home/jonas/.nixos";
+    FLAKE = "/home/${config.sys.user}/.nixos";
   };
 
   services.xserver.enable = true;
@@ -62,16 +64,59 @@
     }
   ];
 
-  environment.systemPackages = with pkgs; [
-    tree
-    gh
-    xclip
-  ];
+  # environment.systemPackages = with pkgs; [];
 
-  home-manager.users.${config.sys.user} = {
-    programs.kitty.enable = true;
-    programs.kitty.shellIntegration.enableFishIntegration = true;
-    programs.starship.enable = true;
-    programs.fish.enable = true;
-  };
+  programs.fish.enable = true;
+  home-manager.users.${config.sys.user} =
+    { pkgs, ... }:
+    {
+      home.packages = with pkgs; [
+        tree
+        gh
+        xclip
+        eza
+        bat
+        ripgrep
+        fd
+      ];
+
+      programs.kitty = {
+        enable = true;
+        shellIntegration.enableFishIntegration = true;
+        environment = {
+          "EDITOR" = "nvim";
+        };
+      };
+
+      programs.zoxide = {
+        enable = true;
+        enableFishIntegration = true;
+      };
+
+      programs.fzf = {
+        enable = true;
+        enableFishIntegration = true;
+        defaultCommand = "fd --type f --hidden --follow --exclude .git";
+        defaultOptions = [
+          "--height 40%"
+          "--layout=reverse"
+          "--border"
+        ];
+      };
+
+      programs.starship.enable = true;
+      programs.fish = {
+        enable = true;
+        shellAliases = {
+          ls = "eza";
+          l = "eza -l";
+          la = "eza -la";
+          ll = "eza -lghH --git";
+          cat = "bat";
+          grep = "rg";
+          find = "fd";
+          tree = "eza --tree";
+        };
+      };
+    };
 }
