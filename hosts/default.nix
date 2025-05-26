@@ -1,4 +1,10 @@
-{ inputs, config, pkgs, lib, ... }:
+{
+  inputs,
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   cfg = config.sys;
@@ -65,7 +71,7 @@ in
       loader = lib.mkOption {
         type = lib.types.str;
         default = "grub";
-        description = "Specify boot loader (grub/systemd)"; 
+        description = "Specify boot loader (grub/systemd)";
       };
 
       plymouth = lib.mkOption {
@@ -98,7 +104,10 @@ in
 
   config = {
     nixpkgs.config.allowUnfree = true;
-    nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    nix.settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
 
     boot = lib.mkMerge [
       (lib.mkIf (cfg.boot.loader == "systemd") {
@@ -114,7 +123,7 @@ in
           grub = {
             enable = true;
             efiSupport = true;
-            device = "nodev";  
+            device = "nodev";
             useOSProber = cfg.boot.prober;
           };
         };
@@ -141,7 +150,7 @@ in
       })
     ];
 
-    networking.hostName = "${cfg.host}"; 
+    networking.hostName = "${cfg.host}";
     networking.networkmanager.enable = true;
 
     time.timeZone = "${cfg.time}";
@@ -186,15 +195,11 @@ in
     users.users.${cfg.user} = {
       isNormalUser = true;
       description = "${cfg.user}";
-      extraGroups = [ "networkmanager" "wheel" "video" ];
-    };
-
-    ### Home Manager ###
-
-    home-manager = {
-      extraSpecialArgs = { inherit inputs; };
-      useGlobalPkgs = true;
-      useUserPackages = true;
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+        "video"
+      ];
     };
 
     programs.nh = {
@@ -202,6 +207,12 @@ in
       clean.enable = true;
       clean.extraArgs = "--keep-since 4d --keep 3";
       flake = "/home/${cfg.user}/.nixos";
+    };
+
+    home-manager = {
+      extraSpecialArgs = { inherit inputs; };
+      useGlobalPkgs = true;
+      useUserPackages = true;
     };
 
     system.stateVersion = "24.11";

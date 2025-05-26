@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config;
@@ -12,13 +17,14 @@ in
     };
   };
 
-  config = lib.mkIf(cfg.nvim.enabled) {
+  config = lib.mkIf (cfg.nvim.enabled) {
     programs.nixvim = {
       enable = true;
       extraPackages = with pkgs; [
         ripgrep
         lazygit
         fd
+        nixfmt-rfc-style
       ];
 
       opts = {
@@ -82,7 +88,12 @@ in
           servers = {
             bashls.enable = true;
             clangd.enable = true;
-            nixd.enable = true;
+            nixd = {
+              enable = true;
+              # formatting = {
+              #   command = [ "nixfmt" ];
+              # };
+            };
             pyright.enable = true;
             gopls.enable = true;
           };
@@ -132,7 +143,7 @@ in
           action = "<cmd>Telescope find_files<CR>";
           mode = "n";
           options = {
-            silent = true; 
+            silent = true;
           };
         }
       ];

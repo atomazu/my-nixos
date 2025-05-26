@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  imports = [ 
+  imports = [
     ./nvidia.nix
   ];
 }

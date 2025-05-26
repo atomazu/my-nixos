@@ -1,4 +1,4 @@
-{ inputs, pkgs, ...}:
+{ inputs, pkgs, ... }:
 
 {
   imports = [
@@ -38,8 +38,16 @@
   };
 
   services.xserver.enable = true;
-  services.xserver.excludePackages = with pkgs; [
-    xterm
+  services.xserver.excludePackages = with pkgs; [ xterm ];
+  services.xserver.xrandrHeads = [
+    {
+      output = "HDMI-0";
+      monitorConfig = "Option \"Rotate\" \"left\"";
+    }
+    {
+      output = "DP-2";
+      primary = true;
+    }
   ];
 
   environment.systemPackages = with pkgs; [
@@ -47,6 +55,4 @@
     gh
     alacritty
   ];
-
-  # ...
 }

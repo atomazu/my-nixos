@@ -1,6 +1,6 @@
 {
   description = "My Configuration";
- 
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
@@ -15,15 +15,17 @@
     };
   };
 
-  outputs = inputs@{ nixpkgs, ... }: {
-    nixosConfigurations = {
-      desktop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/desktop.nix
-        ];
+  outputs =
+    inputs@{ nixpkgs, ... }:
+    {
+      nixosConfigurations = {
+        desktop = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./hosts/desktop.nix
+          ];
+        };
       };
     };
-  }; 
 }

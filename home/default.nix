@@ -1,36 +1,66 @@
-{ config, lib, inputs, ... }:
-
 {
-  home-manager.users.${config.sys.user} = {
-    imports = [
+  config,
+  lib,
+  inputs,
+  ...
+}:
+
+let
+  cfg = config.home;
+in
+{
+  # Hybrid home/nix imports
+  imports = [
+    ./albert.nix
+  ];
+
+  options.home = {
+    git.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable git";
+    };
+
+    chromium.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable chromium";
+    };
+
+    albert.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable albert application launcher";
+    };
+  };
+
+  config = {
+    home-manager.users.${config.sys.user} = {
+      imports = [
         inputs.nixvim.homeManagerModules.nixvim
         ./nixvim.nix
         ./tmux.nix
         ./vim.nix
       ];
 
-    programs.git = {
-      enable = true;
-      userName = "atomazu";
-      userEmail = "contact@atomazu.org";
+      programs.git = {
+        enable = cfg.git.enable;
+        userName = "atomazu";
+        userEmail = "contact@atomazu.org";
+      };
+
+      programs.chromium = {
+        enable = cfg.chromium.enable;
+
+        extensions = [
+          { id = "nngceckbapebfimnlniiiahkandclblb"; } # Bitwarden Password Manager
+          { id = "ddkjiahejlhfcafbddmgiahcphecmpfh"; } # uBlock Origin Lite
+          { id = "eimadpbcbfnmbkopoojfekhnkhdbieeh"; } # Dark Reader
+          { id = "mnjggcdmjocbbbhaepdhchncahnbgone"; } # SponsorBlock
+        ];
+      };
+
+      home.stateVersion = "24.11";
     };
-
-    programs.chromium = {
-      enable = true;
-      # These make it lag for some reason.
-      # commandLineArgs = [
-      #   "--ignore-gpu-blocklist"
-      #   "--use-gl=egl"
-      #   "--ozone-platform-hint=auto"
-      # ];
-
-      extensions = [
-        { id = "nngceckbapebfimnlniiiahkandclblb"; } # Bitwarden
-        { id = "ddkjiahejlhfcafbddmgiahcphecmpfh"; } # uBlock Origin Lite
-        { id = "eimadpbcbfnmbkopoojfekhnkhdbieeh"; } # Dark-Reader
-      ];
-    };
-
-    home.stateVersion = "24.11";
   };
 }

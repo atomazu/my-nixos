@@ -3,42 +3,43 @@
 {
   home-manager.users.${config.sys.user}.programs.waybar = {
     style = ''
-        * {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 1.0);
-        }
+      * {
+          font-size: 12px;
+          color: rgba(255, 255, 255, 1.0);
+      }
 
-        window#waybar {
-          background: rgba(0, 0, 0, 0.5);
-        }
+      window#waybar {
+        background: rgba(0, 0, 0, 0.5);
+      }
 
-        #workspaces button {
-          padding: 0 6px;
-          margin: 0 2px;
+      #workspaces button {
+        padding: 0 6px;
+        margin: 0 2px;
+        background: none;
+        border: none;
+        border-radius: 4px;
+      }
+
+      #workspaces button.active {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      #workspaces button:hover {
+          background: rgba(255, 255, 255, 0.05);
+      }
+
+      #backlight,
+      #battery,
+      #clock,
+      #cpu,
+      #memory,
+      #tray,
+      #pulseaudio {
+          margin: 0 9px;
           background: none;
-          border: none;
-          border-radius: 4px;
-        }
-
-        #workspaces button.active {
-          background: rgba(255, 255, 255, 0.1);
-        }
-
-        #workspaces button:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        #backlight,
-        #battery,
-        #clock,
-        #cpu,
-        #memory,
-        #tray,
-        #pulseaudio {
-            margin: 0 9px;
-            background: none;
-        }
+      }
     '';
+
     settings = {
       mainBar = {
         height = 24;
@@ -65,7 +66,10 @@
         "sway/scratchpad" = {
           "format" = "{icon} {count}";
           "show-empty" = false;
-          "format-icons" = [ "" "" ];
+          "format-icons" = [
+            ""
+            ""
+          ];
           "tooltip" = true;
           "tooltip-format" = "{app}: {title}";
         };
@@ -93,7 +97,11 @@
             "phone" = "";
             "portable" = "";
             "car" = "";
-            "default" = [ "" "" "" ];
+            "default" = [
+              ""
+              ""
+              ""
+            ];
           };
           "on-click" = "pavucontrol";
         };
