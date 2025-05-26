@@ -17,13 +17,12 @@
 
     programs.chromium = {
       enable = true;
-      commandLineArgs = [
-        "--ignore-gpu-blocklist"
-        "--use-gl=egl"
-        "--ozone-platform-hint=auto"
-      ] ++ (lib.optional
-      (config.sys.gpu == "nvidia")
-      "--enable-features=VaapiIgnoreDriverChecks,VaapiOnNvidiaGPUs,AcceleratedVideoDecodeLinuxGL,AcceleratedVideoDecodeLinuxZeroCopyGL,AcceleratedVideoEncoder,Vulkan");
+      # These make it lag for some reason.
+      # commandLineArgs = [
+      #   "--ignore-gpu-blocklist"
+      #   "--use-gl=egl"
+      #   "--ozone-platform-hint=auto"
+      # ];
 
       extensions = [
         { id = "nngceckbapebfimnlniiiahkandclblb"; }
