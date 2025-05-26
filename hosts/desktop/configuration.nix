@@ -35,11 +35,14 @@
       name = "atomazu";
       email = "contact@atomazu.org";
     };
+    shell = {
+      enable = true;
+      font-size = 16;
+    };
     chromium.enable = true;
     albert.enable = true;
     nixvim.enable = true;
     tmux.enable = true;
-    shell.enable = true;
   };
 
   profiles.cinnamon.enable = true;
@@ -58,6 +61,12 @@
       primary = true;
     }
   ];
+  # Fish enables this, but it's too slow.. Overwritten!
+  documentation.man.generateCaches = false;
+
+  # For nix dev flakes
+  programs.direnv.enable = true;
+
 
   environment.systemPackages = with pkgs; [ xclip calibre ];
 

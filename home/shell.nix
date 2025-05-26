@@ -15,6 +15,11 @@ in
       default = false;
       description = "Shell module";
     };
+    font-size = lib.mkOption {
+      type = lib.types.int;
+      default = 16;
+      description = "Font Size for Kitty";
+    };
   };
 
   config = lib.mkIf (cfg.enable) {
@@ -36,6 +41,11 @@ in
         programs.kitty = {
           enable = true;
           shellIntegration.enableFishIntegration = true;
+          font = {
+            package = pkgs.nerd-fonts.fira-code;
+            name = "FiraCode Nerd Font";
+            size = cfg.font-size;
+          };
           environment = {
             "EDITOR" = "nvim";
           };

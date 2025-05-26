@@ -206,12 +206,12 @@ in
       enable = cfg.nh;
       clean.enable = true;
       clean.extraArgs = "--keep-since 4d --keep 3";
-      flake = ./..;
+      # flake = ./..;
     };
 
-    environment.sessionVariables = {
-      FLAKE = ./..;
-    };
+    # environment.sessionVariables = {
+    #   NH_FLAKE = ./..;
+    # };
 
     home-manager = {
       extraSpecialArgs = { inherit inputs; };
