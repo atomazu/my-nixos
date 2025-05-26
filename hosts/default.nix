@@ -6,6 +6,7 @@ in
 {
   imports = [
     ./../system/default.nix
+    ./../home/default.nix
     ./../profiles/default.nix
     ./desktop-hardware.nix 
   ];
@@ -195,11 +196,6 @@ in
       extraSpecialArgs = { inherit inputs; };
       useGlobalPkgs = true;
       useUserPackages = true;
-      users.${cfg.user} = {
-        imports = [
-          ./../home/default.nix
-        ];
-      };
     };
 
     # services.xserver.enable = true;
