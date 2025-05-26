@@ -46,6 +46,10 @@ in
               gtk-theme = "Mint-Y-Dark-Blue";
               icon-theme = "Mint-Y-Blue";
             };
+
+            "org/cinnamon/desktop/background" = {
+              picture-uri = "file://${../assets/binary.png}";
+            };
           };
         }
       ];

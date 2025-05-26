@@ -4,104 +4,73 @@
   config,
   ...
 }:
-let
-  albertConfigAttrs = {
-    General = {
-      telemetry = false;
-    };
 
-    applications = {
-      enabled = true;
-    };
-
-    calculator_qalculate = {
-      enabled = true;
-    };
-
-    chromium = {
-      enabled = true;
-    };
-
-    clipboard = {
-      enabled = true;
-    };
-
-    debug = {
-      enabled = false;
-    };
-
-    docs = {
-      enabled = false;
-    };
-
-    python = {
-      enabled = false;
-    };
-
-    system = {
-      enabled = true;
-    };
-
-    websearch = {
-      enabled = true;
-    };
-
-    widgetsboxmodel = {
-      alwaysOnTop = true;
-      clearOnHide = false;
-      clientShadow = true;
-      darkTheme = "CUSTOM";
-      displayScrollbar = false;
-      followCursor = true;
-      hideOnFocusLoss = true;
-      historySearch = true;
-      itemCount = 5;
-      lightTheme = "CUSTOM";
-      quitOnClose = false;
-      showCentered = true;
-      systemShadow = true;
-    };
-  };
-
-  iniText = lib.generators.toINI { } albertConfigAttrs;
-
-  themeTargetPath = "${config.xdg.dataHome}/albert/widgetsboxmodel/themes/CUSTOM.qss";
-  themeSourceFile = ./src/albert_style.qss;
-in
 {
   home.packages = [ pkgs.albert ];
-
   home.activation = {
     copyAlbertTheme = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      target="${themeTargetPath}"
-      source="${themeSourceFile}"
+      target="${config.xdg.dataHome}/albert/widgetsboxmodel/themes/CUSTOM.qss"
+      source="${./src/albert_style.qss}"
       targetDir="$(${pkgs.coreutils}/bin/dirname "$target")"
       ${pkgs.coreutils}/bin/mkdir -p "$targetDir"
       ${pkgs.coreutils}/bin/cp -f "$source" "$target"
     '';
   };
 
-  systemd.user.services.albert = {
-    Unit = {
-      Description = "Albert Launcher";
-      After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
+  xdg = {
+    configFile = {
+      "albert/config" = {
+        text = lib.generators.toINI { } {
+          General.telemetry = false;
+          applications.enabled = true;
+          calculator_qalculate.enabled = true;
+          chromium.enabled = true;
+          clipboard.enabled = true;
+          debug.enabled = false;
+          docs.enabled = false;
+          python.enabled = false;
+          system.enabled = true;
+          websearch.enabled = true;
+
+          widgetsboxmodel = {
+            alwaysOnTop = true;
+            clearOnHide = false;
+            clientShadow = true;
+            darkTheme = "CUSTOM";
+            displayScrollbar = false;
+            followCursor = true;
+            hideOnFocusLoss = true;
+            historySearch = true;
+            itemCount = 5;
+            lightTheme = "CUSTOM";
+            quitOnClose = false;
+            showCentered = true;
+            systemShadow = true;
+          };
+        };
+      };
     };
 
-    Service = {
-      ExecStart = "${pkgs.albert}/bin/albert";
-      Restart = "on-failure";
-      RestartSec = 5;
-    };
-
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
-  };
-
-  xdg.configFile = {
-    "albert/config" = {
-      text = iniText;
+    autostart.enable = true;
+    configFile."autostart/albert.desktop" = {
+      text = ''
+        [Desktop Entry]
+        Categories=Utility;
+        Comment=A desktop agnostic launcher
+        Exec=albert --platform xcb
+        GenericName=Launcher
+        Icon=albert
+        Name=Albert
+        StartupNotify=false
+        Type=Application
+        Version=1.0
+        X-GNOME-Autostart-Delay=3
+        X-GNOME-Autostart-enabled=true
+        NoDisplay=false
+        Hidden=false
+        Name[en_US]=Albert
+        Comment[en_US]=A desktop agnostic launcher
+      '';
     };
   };
 }
