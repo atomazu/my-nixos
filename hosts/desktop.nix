@@ -12,7 +12,7 @@
   ### System Settings ###
 
   sys.gpu = "nvidia";
-  sys.theme = "catppuccin";
+  # sys.theme = "catppuccin";
   sys.host = "desktop";
   sys.user = "jonas";
   sys.locale = "en_US.UTF-8";

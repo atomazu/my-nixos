@@ -25,15 +25,15 @@ in
       description = "The primary user of the system";
     };
 
-    theme = lib.mkOption {
-      type = lib.types.str;
-      default = "catppuccin";
-      description = "The overall system theme";
-    };
+    # theme = lib.mkOption {
+    #   type = lib.types.str;
+    #   default = "";
+    #   description = "The overall system theme";
+    # };
 
     gpu = lib.mkOption {
       type = lib.types.str;
-      default = "nvidia";
+      default = "";
       description = "Enable GPU specific tweaks";
     };
 
@@ -62,14 +62,9 @@ in
         description = "Specify boot loader (grub/systemd)"; 
       };
 
-      plymouth.enable = lib.mkOption {
-        type = lib.types.bool;
-        default = false;
-        description = "Enable Plymouth to make booting fancy";
-      };
-
       resolution = lib.mkOption {
         type = lib.types.str;
+        default = "none";
         description = "What screen resolution Grub uses";
       };
 
@@ -88,6 +83,7 @@ in
   };
 
   ### Configuration ###
+
   config = {
     nixpkgs.config.allowUnfree = true;
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -103,7 +99,6 @@ in
         loader = {
           efi.canTouchEfiVariables = true;
           efi.efiSysMountPoint = "/boot";
-          grub.gfxmodeEfi = cfg.boot.resolution;
           grub = {
             enable = true;
             efiSupport = true;
@@ -112,17 +107,8 @@ in
           };
         };
       })
-      (lib.mkIf cfg.boot.plymouth.enable {
-        loader.timeout = 0;
-        plymouth = {
-          enable = true;
-          theme = "rings";
-          themePackages = with pkgs; [
-            (adi1090x-plymouth-themes.override {
-              selected_themes = ["rings"];
-            })
-          ];
-        };
+      (lib.mkIf (cfg.boot.resolution != "none") {
+        loader.grub.gfxmodeEfi = cfg.boot.resolution;
       })
       (lib.mkIf cfg.boot.silent {
         consoleLogLevel = 0;
@@ -161,18 +147,18 @@ in
       jack.enable = true;
     };
 
-    security.pam.loginLimits = [
-      {
-        domain = "@users";
-        item = "rtprio";
-        type = "-";
-        value = 1;
-      }
-    ];
+    # security.pam.loginLimits = [
+    #   {
+    #     domain = "@users";
+    #     item = "rtprio";
+    #     type = "-";
+    #     value = 1;
+    #   }
+    # ];
 
     users.users.${cfg.user} = {
       isNormalUser = true;
-      description = "A user account.";
+      description = "${cfg.user}";
       extraGroups = [ "networkmanager" "wheel" "video" ];
     };
 
@@ -189,7 +175,7 @@ in
       };
     };
 
-    services.xserver.enable = true;
+    # services.xserver.enable = true;
 
     system.stateVersion = "24.11";
   };

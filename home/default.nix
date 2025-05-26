@@ -6,7 +6,6 @@
     ./nixvim.nix
     ./tmux.nix
     ./vim.nix
-
   ];
 
   programs.git = {
