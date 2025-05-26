@@ -2,50 +2,48 @@
   config,
   lib,
   pkgs,
+  libutils,
   ...
 }:
 
 let
   cfg = config.profiles.hyprland;
-  albertSettings = {
-    exec-once = [
-      "${pkgs.albert}/bin/albert"
-    ];
-
-    windowrule = [
-      "noborder, title:Albert"
-      "noblur, title:Albert"
-      "noshadow, title:Albert"
-    ];
-
-    bind = [
-      "$mod, SPACE, exec, ${pkgs.albert}/bin/albert toggle"
-    ];
-  };
-  # waybarSettings = {
-  #   exec-once = [
-  #     "${pkgs.waybar}/bin/waybar"
-  #   ];
-  # };
+  settings = import ./settings { inherit config pkgs lib; };
 in
 {
   ### Options ###
 
   options.profiles.hyprland = {
+    osd = libutils.mkDisableOption "Enable OSD for audio and brightness";
     enable = lib.mkEnableOption "Hyprland profile";
+    playerctl = libutils.mkDisableOption "Enable media playback controls";
+    polkit = libutils.mkDisableOption "Enable polkit auth agent";
     extraSettings = lib.mkOption {
       type = lib.types.attrs;
       default = { };
       description = "Extra settings, will be merged with defaults";
     };
+
+    mod = lib.mkOption {
+      type = lib.types.str;
+      default = "SUPER";
+      description = "Mod key used in binds";
+    };
+
+    # Integrations (external dependencies)
     albertIntegration = lib.mkEnableOption "Enable Albert integration";
+    makoIntegration = libutils.mkDisableOption "Enable mako notification daemon";
   };
 
   ### Configuration ###
 
   config = lib.mkIf (cfg.enable) {
-    # So apps can ask for permission
-    environment.systemPackages = [ pkgs.hyprpolkitagent ];
+    # Dependencies
+    environment.systemPackages =
+      [ pkgs.wl-clipboard ]
+      ++ lib.optionals cfg.polkit [ pkgs.hyprpolkitagent ]
+      ++ lib.optionals cfg.osd [ pkgs.swayosd ]
+      ++ lib.optionals cfg.playerctl [ pkgs.playerctl ];
 
     # For screensharing
     xdg.portal = {
@@ -71,57 +69,10 @@ in
         systemd.variables = [ "--all" ];
 
         # Hyprland settings
-        settings = lib.mkMerge (
-          [
-            {
-              decoration.blur.enabled = false;
-              "$mod" = "SUPER";
-
-              exec-once = [
-                "${pkgs.hyprpolkitagent}/bin/hyprpolkitagent"
-              ];
-
-              bind =
-                [
-                  # Window Control
-                  "$mod, Q, killactive"
-                  "$mod, F, fullscreen, 0"
-                  "$mod, T, togglefloating"
-
-                  # Window Focus
-                  "$mod, H, movefocus, l"
-                  "$mod, J, movefocus, d"
-                  "$mod, K, movefocus, u"
-                  "$mod, L, movefocus, r"
-
-                  # Window Movement
-                  "$mod SHIFT, H, movewindow, l"
-                  "$mod SHIFT, J, movewindow, d"
-                  "$mod SHIFT, K, movewindow, u"
-                  "$mod SHIFT, L, movewindow, r"
-                ] # Generates binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
-                ++ (builtins.concatLists (
-                  builtins.genList (
-                    i:
-                    let
-                      ws = i + 1;
-                    in
-                    [
-                      "$mod, code:1${toString i}, workspace, ${toString ws}"
-                      "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
-                    ]
-                  ) 9
-                ));
-
-              bindm = [
-                "$mod, mouse:272, movewindow"
-                "$mod, mouse:273, resizewindow"
-              ];
-            }
-            cfg.extraSettings
-          ]
-          ++ lib.optionals cfg.albertIntegration [ albertSettings ]
-        );
+        settings = lib.mkMerge [
+          settings
+          cfg.extraSettings
+        ];
       };
     };
   };
