@@ -1,8 +1,7 @@
-{ ... }:
+{ config, ... }:
 
 {
-  programs.waybar = {
-    enable = true;
+  home-manager.users.${config.sys.user}.programs.waybar = {
     style = ''
         * {
             font-size: 12px;

@@ -6,6 +6,7 @@ in
 {
   imports = [
     ./hyprland.nix
+    ./sway.nix
   ];
 
   ### Options ###
