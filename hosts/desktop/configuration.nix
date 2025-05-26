@@ -54,8 +54,8 @@
         "$mod, B, exec, ${pkgs.chromium}/bin/chromium"
       ];
       monitor = [
-        "DP-3, 2560x1440@240, 1440x560, 1"
-        "HDMI-A-3, 2560x1440@140, 0x0, 1, transform, 1"
+        "DP-2, 2560x1440@240, 1440x560, 1"
+        "HDMI-A-1, 2560x1440@140, 0x0, 1, transform, 1"
       ];
     };
   };
