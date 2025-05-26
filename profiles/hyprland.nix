@@ -5,7 +5,7 @@
 }:
 
 let
-  cfg = config.profiles;
+  cfg = config.profiles.hyprland;
 in
 {
   ### Options ###
@@ -16,9 +16,15 @@ in
 
   ### Configuration ###
 
-  config = {
-    home-manager.users.${config.sys.user} = lib.mkIf (cfg.hyprland.enable) {
-      # ...
+  config = lib.mkIf (cfg.enable) {
+    programs.hyprland = {
+      enable = true;
+      withUWSM = true;
+    };
+    home-manager.users.${config.sys.user} = {
+      wayland.windowManager.hyprland = {
+        enable = true;
+      };
     };
   };
 }
