@@ -15,6 +15,7 @@ in
     ./tmux.nix
     ./vim.nix
     ./albert.nix
+    ./shell.nix
   ];
 
   options.home = {
