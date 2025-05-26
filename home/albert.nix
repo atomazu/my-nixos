@@ -22,6 +22,8 @@ in
       }:
       {
         home.packages = [ pkgs.albert ];
+
+        # Custom Albert style
         home.activation = {
           copyAlbertTheme = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
             target="${config.xdg.dataHome}/albert/widgetsboxmodel/themes/CUSTOM.qss"
@@ -33,8 +35,7 @@ in
         };
 
         xdg = {
-          autostart.enable = true;
-
+          # Albert configuration
           configFile = {
             "albert/config" = {
               text = lib.generators.toINI { } {
@@ -67,6 +68,7 @@ in
               };
             };
 
+            # Add Albert to xdg autostart
             "autostart/albert.desktop" = {
               text = lib.generators.toINI { } {
                 "Desktop Entry" = {
