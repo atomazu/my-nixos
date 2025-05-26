@@ -53,6 +53,10 @@
         "$mod, RETURN, exec, ${pkgs.kitty}/bin/kitty"
         "$mod, B, exec, ${pkgs.chromium}/bin/chromium"
       ];
+      monitor = [
+        "DP-3, 2560x1440@240, 1440x560, 1"
+        "HDMI-A-3, 2560x1440@140, 0x0, 1, transform, 1"
+      ];
     };
   };
 

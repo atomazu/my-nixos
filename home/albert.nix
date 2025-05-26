@@ -47,8 +47,14 @@ in
                 debug.enabled = false;
                 docs.enabled = false;
                 python.enabled = false;
-                system.enabled = true;
                 websearch.enabled = true;
+
+                system = {
+                  enabled = true;
+                  command_poweroff = "systemctl poweroff";
+                  command_reboot = "systemctl reboot";
+                  command_logout = "systemctl --user exit";
+                };
 
                 widgetsboxmodel = {
                   alwaysOnTop = true;
