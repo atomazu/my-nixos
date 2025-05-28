@@ -1,6 +1,8 @@
 {
   config,
   lib,
+  pkgs,
+  inputs,
   ...
 }:
 
@@ -47,6 +49,7 @@ in
       };
     };
     chromium.enable = lib.mkEnableOption "Chromium web browser";
+    ashell.enable = lib.mkEnableOption "Ashell status bar";
   };
 
   config = {
@@ -75,6 +78,21 @@ in
           { id = "eimadpbcbfnmbkopoojfekhnkhdbieeh"; } # Dark Reader
           { id = "mnjggcdmjocbbbhaepdhchncahnbgone"; } # SponsorBlock
         ];
+      };
+
+      imports = [
+        ../modules/home/ashell.nix
+      ];
+
+      programs.ashell = {
+        enable = cfg.ashell;
+        package = inputs.ashell.defaultPackage.${pkgs.system};
+        settings = {
+          position = "Bottom";
+          appearance = {
+            style = "Solid";
+          };
+        };
       };
 
       qt.enable = true;

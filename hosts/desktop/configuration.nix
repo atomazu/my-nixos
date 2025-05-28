@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  inputs,
   ...
 }:
 
@@ -47,6 +48,7 @@
     albert.enable = true;
     nixvim.enable = true;
     tmux.enable = true;
+    ashell.enable = true;
   };
 
   profiles.hyprland = {
@@ -84,10 +86,18 @@
         "9, monitor:DP-2, defaultName:2-4"
         "10, monitorDP-2, defaultName:2-5"
       ];
+
+      exec-once = [
+        "${inputs.ashell.defaultPackage.${pkgs.system}}/bin/ashell"
+      ];
     };
   };
 
   ### Custom Tweaks ###
+
+  # Enable bluetooth
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
 
   # Fish enables this, but it's too slow.. Overwritten!
   documentation.man.generateCaches = false;
@@ -111,8 +121,18 @@
     }
   ];
 
+  # For ashell (doesn't make that much sense for a desktop)
+  services.upower.enable = true;
+
   environment.systemPackages = with pkgs; [
+    # Neovim needs this for unnamedplus
     wl-clipboard
+
+    # For ashell and hyprland binds
+    brightnessctl
+    nm-tray
+    blueman
+    inputs.ashell.defaultPackage.${pkgs.system}
   ];
 
   home-manager.users.${config.sys.user} = {

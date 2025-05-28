@@ -208,7 +208,7 @@ in
       };
 
       fonts = {
-        sizes.terminal = 18;
+        sizes.terminal = 14;
         monospace = {
           package = pkgs.nerd-fonts.fira-code;
           name = "FiraCode Nerd Font";
