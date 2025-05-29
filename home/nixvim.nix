@@ -213,6 +213,11 @@ in
             action = "<cmd>LazyGit<CR>";
             options.desc = "LazyGit";
           }
+          {
+            key = "<leader>oil";
+            action = "<cmd>Oil<CR>";
+            options.desc = "Oil";
+          }
         ];
       };
     };
