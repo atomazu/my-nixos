@@ -32,8 +32,6 @@ in
       {
         home.packages = with pkgs; [
           gh
-          eza
-          bat
           ripgrep
           fd
         ];
@@ -41,14 +39,6 @@ in
         programs.kitty = {
           enable = true;
           shellIntegration.enableFishIntegration = true;
-          font = {
-            # Now set by Stylix
-            # package = pkgs.nerd-fonts.fira-code;
-            # name = "FiraCode Nerd Font";
-
-            # Overwrite Stylix default
-            # size = lib.mkForce cfg.font-size;
-          };
           environment = {
             "EDITOR" = "nvim";
           };
@@ -70,14 +60,37 @@ in
           ];
         };
 
-        programs.starship.enable = true;
+        programs.eza = {
+          enable = true;
+          enableFishIntegration = true;
+          git = true;
+          icons = "auto";
+        };
+
+        programs.bat = {
+          enable = true;
+          config = {
+            pager = "less -FR";
+          };
+        };
+
+        programs.starship = {
+          enable = true;
+          enableFishIntegration = true;
+          enableTransience = true;
+
+          settings = {
+            add_newline = false;
+          };
+        };
+
         programs.fish = {
           enable = true;
           shellAliases = {
             ls = "eza";
             l = "eza -l";
             la = "eza -la";
-            ll = "eza -lghH --git";
+            ll = "eza -lghH";
             cat = "bat";
             grep = "rg";
             find = "fd";
