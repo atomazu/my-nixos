@@ -70,6 +70,15 @@ in
       description = "Default system time";
     };
 
+    stylix = {
+      enable = lib.mkEnableOption "Enable Stylix";
+      base16Scheme = lib.mkOption {
+        type = lib.types.str;
+        default = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+        description = "Base 16 scheme to use for stylix";
+      };
+    };
+
     boot = {
       loader = {
         grub.enable = libutils.mkDisableOption "Enable grub boot";
@@ -173,8 +182,8 @@ in
 
     # Style with Stylix
     stylix = {
-      enable = true;
-      base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+      enable = cfg.stylix.enable;
+      base16Scheme = cfg.stylix.base16Scheme;
       image = ../assets/binary.png;
       polarity = "dark";
       cursor = {

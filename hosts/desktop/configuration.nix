@@ -21,6 +21,9 @@
     extraLocale = "de_DE.UTF-8";
     layout = "us";
     time = "Europe/Berlin";
+    stylix = {
+      enable = true;
+    };
     boot = {
       loader.grub.enable = true;
       resolution = "2560x1440";
