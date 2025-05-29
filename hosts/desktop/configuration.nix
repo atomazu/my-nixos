@@ -23,6 +23,7 @@
     time = "Europe/Berlin";
     stylix = {
       enable = true;
+      base16Scheme = "${../../assets/atosaki.yaml}";
     };
     boot = {
       loader.grub.enable = true;
