@@ -31,6 +31,7 @@ in
           fd
           fzf
           gcc
+          lazygit
         ];
 
         opts = {
@@ -56,6 +57,7 @@ in
 
         plugins = {
           lazy.enable = true;
+          lazygit.enable = true;
 
           # CMP
           cmp = {
@@ -98,22 +100,49 @@ in
             };
           };
 
+          mini = {
+            enable = true;
+            mockDevIcons = true;
+            modules = {
+              move = {
+                mappings = {
+                  left = "<M-h>";
+                  right = "<M-l>";
+                  down = "<M-j>";
+                  up = "<M-k>";
+
+                  line_left = "<M-h>";
+                  line_right = "<M-l>";
+                  line_down = "<M-j>";
+                  line_up = "<M-k>";
+                };
+              };
+              icons = { };
+            };
+          };
+
           # Generates minimal diffs for formatting changes
           conform-nvim.enable = true;
 
           # Visual
           lualine.enable = true;
-          web-devicons.enable = true;
-          notify.enable = true;
-          dashboard.enable = true;
-          # dressing.enable = true;
           gitsigns.enable = true;
+          snacks = {
+            enable = true;
+            settings = {
+              notifier = {
+                enabled = true;
+              };
+              lazygit = {
+                enabled = true;
+              };
+            };
+          };
 
           # Utillity
-          # flash.enable = true;
           treesitter.enable = true;
+          dashboard.enable = true;
           comment.enable = true;
-          # fugitive.enable = true;
           nvim-autopairs.enable = true;
           nvim-surround.enable = true;
           which-key.enable = true;
@@ -148,6 +177,43 @@ in
 
           nix.enable = true;
         };
+        keymaps = [
+          {
+            key = "<leader>man";
+            action = "<cmd>Telescope man_pages<CR>";
+            options.desc = "Man pages";
+          }
+          {
+            key = "<leader>ff";
+            action = "<cmd>Telescope find_files<CR>";
+            options.desc = "Find files";
+          }
+          {
+            key = "<leader>fg";
+            action = "<cmd>Telescope live_grep<CR>";
+            options.desc = "Live grep";
+          }
+          {
+            key = "<leader>fb";
+            action = "<cmd>Telescope buffers<CR>";
+            options.desc = "Find buffers";
+          }
+          {
+            key = "<leader>fd";
+            action = "<cmd>Telescope diagnostics<CR>";
+            options.desc = "Diagnostics";
+          }
+          {
+            key = "<leader>qf";
+            action = "<cmd>Telescope quickfix<CR>";
+            options.desc = "Quickfix";
+          }
+          {
+            key = "<leader>git";
+            action = "<cmd>LazyGit<CR>";
+            options.desc = "LazyGit";
+          }
+        ];
       };
     };
   };
