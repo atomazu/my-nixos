@@ -85,7 +85,7 @@ in
       ];
 
       programs.ashell = {
-        enable = cfg.ashell;
+        enable = cfg.ashell.enable;
         package = inputs.ashell.defaultPackage.${pkgs.system};
         settings = {
           position = "Bottom";
