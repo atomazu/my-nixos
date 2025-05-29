@@ -103,8 +103,8 @@
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
 
-  # Fish enables this, but it's too slow.. Overwritten!
-  documentation.man.generateCaches = false;
+  # Fish enables this, but it's too slow..
+  # documentation.man.generateCaches = false;
 
   # For nix dev flakes
   programs.direnv.enable = true;
@@ -131,6 +131,9 @@
   environment.systemPackages = with pkgs; [
     # Neovim needs this for unnamedplus
     wl-clipboard
+
+    man-pages
+    man-pages-posix
 
     # For ashell and hyprland binds
     brightnessctl
