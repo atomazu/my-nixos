@@ -3,6 +3,7 @@
   config,
   pkgs,
   lib,
+  libutils,
   ...
 }:
 
@@ -70,35 +71,20 @@ in
     };
 
     boot = {
-      loader = lib.mkOption {
-        type = lib.types.str;
-        default = "grub";
-        description = "Specify boot loader (grub/systemd)";
-      };
-
-      plymouth = lib.mkOption {
-        type = lib.types.bool;
-        default = false;
-        description = "Enable Plymouth boot splash screen.";
+      loader = {
+        grub.enable = libutils.mkDisableOption "Enable grub boot";
+        systemd.enable = lib.mkEnableOption "Enable systemd boot";
       };
 
       resolution = lib.mkOption {
         type = lib.types.str;
-        default = "none";
+        default = "auto";
         description = "What screen resolution Grub uses";
       };
 
-      prober = lib.mkOption {
-        type = lib.types.bool;
-        default = false;
-        description = "If OSProber should be executed on rebuild";
-      };
-
-      silent = lib.mkOption {
-        type = lib.types.bool;
-        default = false;
-        description = "Enable silent boot";
-      };
+      plymouth = lib.mkEnableOption "Enable plymouth";
+      prober = lib.mkEnableOption "Enable OSProber";
+      silent = lib.mkEnableOption "Enable silent boot";
     };
   };
 
@@ -112,13 +98,13 @@ in
     ];
 
     boot = lib.mkMerge [
-      (lib.mkIf (cfg.boot.loader == "systemd") {
+      (lib.mkIf (cfg.boot.loader.systemd.enable) {
         loader = {
           systemd-boot.enable = true;
           efi.canTouchEfiVariables = true;
         };
       })
-      (lib.mkIf (cfg.boot.loader == "grub") {
+      (lib.mkIf (cfg.boot.loader.grub.enable) {
         loader = {
           efi.canTouchEfiVariables = true;
           efi.efiSysMountPoint = "/boot";
@@ -130,7 +116,7 @@ in
           };
         };
       })
-      (lib.mkIf (cfg.boot.resolution != "none") {
+      (lib.mkIf (cfg.boot.resolution != "auto") {
         loader.grub.gfxmodeEfi = cfg.boot.resolution;
       })
       (lib.mkIf cfg.boot.silent {
@@ -147,9 +133,9 @@ in
           "vt.global_cursor_default=0"
         ];
       })
-      (lib.mkIf cfg.boot.plymouth {
-        plymouth.enable = true;
-      })
+      {
+        plymouth.enable = cfg.boot.plymouth;
+      }
     ];
 
     networking.hostName = "${cfg.host}";
@@ -184,16 +170,6 @@ in
       pulse.enable = true;
       jack.enable = true;
     };
-
-    # Can be enabled for performance (or something)
-    # security.pam.loginLimits = [
-    #   {
-    #     domain = "@users";
-    #     item = "rtprio";
-    #     type = "-";
-    #     value = 1;
-    #   }
-    # ];
 
     # Style with Stylix
     stylix = {

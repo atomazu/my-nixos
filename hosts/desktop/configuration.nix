@@ -22,7 +22,7 @@
     layout = "us";
     time = "Europe/Berlin";
     boot = {
-      loader = "grub";
+      loader.grub.enable = true;
       resolution = "2560x1440";
       prober = true;
       silent = true;
