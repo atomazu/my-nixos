@@ -1,8 +1,6 @@
 {
   config,
   lib,
-  pkgs,
-  inputs,
   ...
 }:
 
@@ -16,6 +14,7 @@ in
     ./vim.nix
     ./albert.nix
     ./shell.nix
+    ./ashell.nix
   ];
 
   options.home = {
@@ -49,7 +48,6 @@ in
       };
     };
     chromium.enable = lib.mkEnableOption "Chromium web browser";
-    ashell.enable = lib.mkEnableOption "Ashell status bar";
   };
 
   config = {
@@ -78,21 +76,6 @@ in
           { id = "eimadpbcbfnmbkopoojfekhnkhdbieeh"; } # Dark Reader
           { id = "mnjggcdmjocbbbhaepdhchncahnbgone"; } # SponsorBlock
         ];
-      };
-
-      imports = [
-        ../modules/home/ashell.nix
-      ];
-
-      programs.ashell = {
-        enable = cfg.ashell.enable;
-        package = inputs.ashell.defaultPackage.${pkgs.system};
-        settings = {
-          position = "Bottom";
-          appearance = {
-            style = "Solid";
-          };
-        };
       };
 
       qt.enable = true;
