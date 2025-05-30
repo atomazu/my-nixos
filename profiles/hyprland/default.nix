@@ -14,10 +14,10 @@ in
   ### Options ###
 
   options.profiles.hyprland = {
-    osd = libutils.mkDisableOption "Enable OSD for audio and brightness";
+    osd = libutils.mkEnabledOption "Enable OSD for audio and brightness";
     enable = lib.mkEnableOption "Hyprland profile";
-    playerctl = libutils.mkDisableOption "Enable media playback controls";
-    polkit = libutils.mkDisableOption "Enable polkit auth agent";
+    playerctl = libutils.mkEnabledOption "Enable media playback controls";
+    polkit = libutils.mkEnabledOption "Enable polkit auth agent";
     extraSettings = lib.mkOption {
       type = lib.types.attrs;
       default = { };
@@ -32,7 +32,7 @@ in
 
     # Integrations (external dependencies)
     albertIntegration = lib.mkEnableOption "Enable Albert integration";
-    makoIntegration = libutils.mkDisableOption "Enable mako notification daemon";
+    makoIntegration = libutils.mkEnabledOption "Enable mako notification daemon";
   };
 
   ### Configuration ###

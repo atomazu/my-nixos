@@ -2,7 +2,7 @@
   lib,
 }:
 {
-  mkDisableOption =
+  mkEnabledOption =
     description:
     lib.mkOption {
       type = lib.types.bool;

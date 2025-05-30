@@ -80,7 +80,7 @@ in
 
     boot = {
       loader = {
-        grub.enable = libutils.mkDisableOption "Enable grub boot";
+        grub.enable = libutils.mkEnabledOption "Enable grub boot";
         systemd.enable = lib.mkEnableOption "Enable systemd boot";
       };
 
