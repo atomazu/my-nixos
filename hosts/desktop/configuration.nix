@@ -23,7 +23,8 @@
     time = "Europe/Berlin";
     stylix = {
       enable = true;
-      base16Scheme = "${../../assets/atosaki.yaml}";
+      # base16Scheme = "${../../assets/atosaki.yaml}";
+      base16Scheme = "${pkgs.base16-schemes}/share/themes/tomorrow-night.yaml";
     };
     boot = {
       loader.grub.enable = true;
