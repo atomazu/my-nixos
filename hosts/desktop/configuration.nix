@@ -89,7 +89,7 @@
         "7, monitor:DP-2, defaultName:2-2"
         "8, monitor:DP-2, defaultName:2-3"
         "9, monitor:DP-2, defaultName:2-4"
-        "10, monitorDP-2, defaultName:2-5"
+        "10, monitor:DP-2, defaultName:2-5"
       ];
 
       exec-once = [
@@ -140,7 +140,6 @@
     brightnessctl
     nm-tray
     blueman
-    inputs.ashell.defaultPackage.${pkgs.system}
   ];
 
   home-manager.users.${config.sys.user} = {
