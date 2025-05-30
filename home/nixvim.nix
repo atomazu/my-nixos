@@ -46,8 +46,6 @@ in
           ignorecase = true;
           smartcase = true;
           autoindent = true;
-          timeout = true;
-          timeoutlen = 50;
         };
 
         clipboard.register = "unnamedplus";
@@ -108,6 +106,7 @@ in
             mockDevIcons = true;
             modules = {
               move = {
+                # Alt+hjkl move selection
                 mappings = {
                   left = "<M-h>";
                   right = "<M-l>";
@@ -120,6 +119,7 @@ in
                   line_up = "<M-k>";
                 };
               };
+              # Needed for mockDevIcons
               icons = { };
             };
           };
@@ -148,7 +148,7 @@ in
           comment.enable = true;
           nvim-autopairs.enable = true;
           nvim-surround.enable = true;
-          # which-key.enable = true;
+          which-key.enable = true;
 
           toggleterm = {
             enable = true;
