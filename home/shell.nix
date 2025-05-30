@@ -24,10 +24,10 @@ in
 
   config = lib.mkIf (cfg.enable) {
     # Make fish the default shell
-    users.users.${config.sys.user}.shell = pkgs.fish;
+    users.users.${config.host.user}.shell = pkgs.fish;
     programs.fish.enable = true;
 
-    home-manager.users.${config.sys.user} =
+    home-manager.users.${config.host.user} =
       { pkgs, ... }:
       {
         home.packages = with pkgs; [

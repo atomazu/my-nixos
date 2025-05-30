@@ -60,7 +60,7 @@ in
       withUWSM = true;
     };
 
-    home-manager.users.${config.sys.user} = {
+    home-manager.users.${config.host.user} = {
       wayland.windowManager.hyprland = {
         enable = true;
 

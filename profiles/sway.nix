@@ -18,7 +18,7 @@ in
   };
 
   config = lib.mkIf (cfg.enable == true) {
-    home-manager.users.${config.sys.user} = {
+    home-manager.users.${config.host.user} = {
       wayland.windowmanager.sway = {
         enable = true;
 

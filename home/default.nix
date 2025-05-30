@@ -11,7 +11,6 @@ in
 {
   imports = [
     inputs.home-manager.nixosModules.default
-    ./nixvim.nix
     ./tmux.nix
     ./vim.nix
     ./albert.nix
@@ -50,6 +49,7 @@ in
       };
     };
     chromium.enable = lib.mkEnableOption "Chromium web browser";
+    nixvim.enable = lib.mkEnableOption "Enable Nixvim";
   };
 
   config = {
@@ -59,7 +59,13 @@ in
       useUserPackages = true;
     };
 
-    home-manager.users.${config.sys.user} = {
+    home-manager.users.${config.host.user} = {
+      imports = [
+        ../modules/home
+      ];
+
+      atomazu.nixvim.enable = cfg.nixvim.enable;
+
       programs.git = {
         enable = cfg.git.enable;
         userName = "${cfg.git.name}";

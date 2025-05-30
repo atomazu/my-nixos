@@ -27,7 +27,7 @@ in
       services.xserver.desktopManager.gnome.enable = true;
       services.gnome.core-utilities.enable = false;
 
-      home-manager.users.${config.sys.user} = lib.mkMerge [
+      home-manager.users.${config.host.user} = lib.mkMerge [
         {
           dconf.settings = {
             "org/gnome/settings-daemon/plugins/color" = {

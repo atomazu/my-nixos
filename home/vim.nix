@@ -14,7 +14,7 @@ in
   };
 
   config = lib.mkIf (cfg.enable) {
-    home-manager.users.${config.sys.user}.programs.vim = {
+    home-manager.users.${config.host.user}.programs.vim = {
       enable = true;
       plugins = with pkgs.vimPlugins; [
         vim-airline

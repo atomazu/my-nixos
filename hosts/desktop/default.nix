@@ -13,18 +13,22 @@
 
   ### Settings ###
 
-  sys = {
-    gpu = "nvidia";
-    host = "desktop";
+  host = {
+    name = "desktop";
     user = "jonas";
-    locale = "en_US.UTF-8";
-    extraLocale = "de_DE.UTF-8";
-    layout = "us";
-    time = "Europe/Berlin";
     stylix = {
       enable = true;
       base16Scheme = "${pkgs.base16-schemes}/share/themes/tomorrow-night.yaml";
     };
+  };
+
+  sys = {
+    gpu = "nvidia";
+    locale = "en_US.UTF-8";
+    extraLocale = "de_DE.UTF-8";
+    layout = "us";
+    time = "Europe/Berlin";
+
     boot = {
       loader.grub.enable = true;
       resolution = "2560x1440";
@@ -99,10 +103,6 @@
 
   ### Custom Tweaks ###
 
-  # Enable bluetooth
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
-
   # Fish enables this, but it's too slow..
   # documentation.man.generateCaches = false;
 
@@ -141,7 +141,7 @@
     blueman
   ];
 
-  home-manager.users.${config.sys.user} = {
+  home-manager.users.${config.host.user} = {
     # ...
   };
 }

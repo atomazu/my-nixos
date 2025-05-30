@@ -31,7 +31,7 @@
     # ...
   ];
 
-  home-manager.users.${config.sys.user} = {
+  home-manager.users.${config.host.user} = {
     # ...
   };
 

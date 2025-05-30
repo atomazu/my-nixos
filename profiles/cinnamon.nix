@@ -22,7 +22,7 @@ in
       services.xserver.desktopManager.cinnamon.enable = true;
       services.cinnamon.apps.enable = false;
 
-      home-manager.users.${config.sys.user} = {
+      home-manager.users.${config.host.user} = {
         dconf.settings = {
           "org/cinnamon" = {
             panels-height = [ "1:40" ];

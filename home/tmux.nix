@@ -14,7 +14,7 @@ in
   };
 
   config = lib.mkIf (cfg.enable) {
-    home-manager.users.${config.sys.user}.programs.tmux = {
+    home-manager.users.${config.host.user}.programs.tmux = {
       enable = true;
       clock24 = true;
       escapeTime = 10;

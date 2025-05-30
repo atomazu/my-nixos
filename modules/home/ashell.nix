@@ -7,10 +7,10 @@
 }:
 
 let
-  cfg = config.programs.ashell;
+  cfg = config.atomazu.ashell;
 in
 {
-  options.programs.ashell = {
+  options.atomazu.ashell = {
     enable = lib.mkEnableOption "ashell - a shell a la Material You";
 
     package = lib.mkOption {

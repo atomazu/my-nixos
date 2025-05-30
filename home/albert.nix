@@ -15,7 +15,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users.${config.sys.user} =
+    home-manager.users.${config.host.user} =
       {
         lib,
         config,
