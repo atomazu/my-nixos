@@ -7,8 +7,8 @@
 
 {
   imports = [
-    ./../default.nix
-    ./hardware-configuration.nix
+    ./..
+    ./hardware.nix
   ];
 
   ### Settings ###
@@ -23,7 +23,6 @@
     time = "Europe/Berlin";
     stylix = {
       enable = true;
-      # base16Scheme = "${../../assets/atosaki.yaml}";
       base16Scheme = "${pkgs.base16-schemes}/share/themes/tomorrow-night.yaml";
     };
     boot = {

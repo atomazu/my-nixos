@@ -28,7 +28,7 @@
   outputs =
     inputs@{ nixpkgs, ... }:
     let
-      libutils = import ./utils { lib = nixpkgs.lib; };
+      libutils = import ./lib { lib = nixpkgs.lib; };
     in
     {
       nixosConfigurations = {
@@ -38,7 +38,7 @@
             inherit inputs libutils;
           };
           modules = [
-            ./hosts/desktop/configuration.nix
+            ./hosts/desktop
           ];
         };
       };

@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  inputs,
   ...
 }:
 
@@ -9,6 +10,7 @@ let
 in
 {
   imports = [
+    inputs.home-manager.nixosModules.default
     ./nixvim.nix
     ./tmux.nix
     ./vim.nix
@@ -51,6 +53,12 @@ in
   };
 
   config = {
+    home-manager = {
+      extraSpecialArgs = { inherit inputs; };
+      useGlobalPkgs = true;
+      useUserPackages = true;
+    };
+
     home-manager.users.${config.sys.user} = {
       programs.git = {
         enable = cfg.git.enable;

@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./hyprland/default.nix
+    ./hyprland
     ./sway.nix
     ./gnome.nix
     ./cinnamon.nix

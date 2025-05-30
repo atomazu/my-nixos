@@ -37,7 +37,7 @@ in
 
   ### Configuration ###
 
-  config = lib.mkIf (cfg.enable) {
+  config = lib.mkIf cfg.enable {
     # Dependencies
     environment.systemPackages =
       [ pkgs.wl-clipboard ]

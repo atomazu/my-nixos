@@ -12,11 +12,10 @@ let
 in
 {
   imports = [
-    inputs.home-manager.nixosModules.default
     inputs.stylix.nixosModules.stylix
-    ./../system/default.nix
-    ./../home/default.nix
-    ./../profiles/default.nix
+    ./../system
+    ./../home
+    ./../profiles
   ];
 
   ### Options ###
@@ -216,12 +215,6 @@ in
       enable = cfg.nh;
       clean.enable = true;
       clean.extraArgs = "--keep-since 4d --keep 3";
-    };
-
-    home-manager = {
-      extraSpecialArgs = { inherit inputs; };
-      useGlobalPkgs = true;
-      useUserPackages = true;
     };
 
     system.stateVersion = "25.05";
