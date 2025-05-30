@@ -97,6 +97,9 @@ in
               pyright.enable = true;
               gopls.enable = true;
               asm_lsp.enable = true;
+              ts_ls.enable = true;
+              eslint.enable = true;
+              jsonls.enable = true;
             };
           };
 
@@ -145,7 +148,7 @@ in
           comment.enable = true;
           nvim-autopairs.enable = true;
           nvim-surround.enable = true;
-          which-key.enable = true;
+          # which-key.enable = true;
 
           toggleterm = {
             enable = true;
