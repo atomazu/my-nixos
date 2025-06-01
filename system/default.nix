@@ -68,7 +68,7 @@ in
         message = "Both systemd and grub enabled, choose either but not both";
       }
       {
-        assertion = !cfg.boot.loader.grub.enable && !cfg.boot.loader.systemd.enable;
+        assertion = cfg.boot.loader.grub.enable || cfg.boot.loader.systemd.enable;
         message = "No bootloader configured, enable sys.boot.loader.grub.enable or sys.boot.loader.systemd.enable";
       }
     ];
@@ -82,7 +82,7 @@ in
             efiSupport = true;
             device = "nodev";
             useOSProber = cfg.boot.prober;
-            gfxmodeEfi = lib.mkIf (cfg.boot.loader.grub.res != "auto") cfg.boot.resolution;
+            gfxmodeEfi = lib.mkIf (cfg.boot.loader.grub.res != "auto") cfg.boot.loader.grub.res;
           };
         };
       })
@@ -103,7 +103,7 @@ in
       })
 
       {
-        efi.canTouchEfiVariables = true;
+        loader.efi.canTouchEfiVariables = true;
         loader.systemd-boot.enable = cfg.boot.loader.systemd.enable;
         plymouth.enable = cfg.boot.plymouth;
       }
