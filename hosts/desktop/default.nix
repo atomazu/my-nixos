@@ -29,8 +29,10 @@
     time = "Europe/Berlin";
 
     boot = {
-      loader.grub.enable = true;
-      resolution = "2560x1440";
+      loader.grub = {
+        enable = true;
+        res = "2560x1440";
+      };
       prober = true;
       silent = true;
       plymouth = true;
@@ -103,10 +105,11 @@
   ### Custom Tweaks ###
 
   # Fish enables this, but it's slow..
-  # documentation.man.generateCaches = false;
+  documentation.man.generateCaches = false;
 
   programs.direnv.enable = true;
-  services.displayManager.gdm.enable = true;
+  # services.displayManager.ly.enable = true;
+  services.displayManager.cosmic-greeter.enable = true;
 
   environment.systemPackages = with pkgs; [
     man-pages

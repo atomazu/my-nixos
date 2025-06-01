@@ -1,5 +1,4 @@
 {
-  libutils,
   lib,
   config,
   ...
@@ -45,15 +44,15 @@ in
 
     boot = {
       loader = {
-        # Grub is enabled by default
-        grub.enable = libutils.mkEnabledOption "Enable grub boot";
+        grub = {
+          res = lib.mkOption {
+            type = lib.types.str;
+            default = "auto";
+            description = "What screen resolution Grub uses";
+          };
+          enable = lib.mkEnableOption "Enable grub boot";
+        };
         systemd.enable = lib.mkEnableOption "Enable systemd boot";
-      };
-
-      resolution = lib.mkOption {
-        type = lib.types.str;
-        default = "auto";
-        description = "What screen resolution Grub uses";
       };
 
       plymouth = lib.mkEnableOption "Enable plymouth";
@@ -63,28 +62,28 @@ in
   };
 
   config = {
-    boot = lib.mkMerge [
-      (lib.mkIf cfg.boot.loader.systemd.enable {
-        loader = {
-          systemd-boot.enable = true;
-          efi.canTouchEfiVariables = true;
-        };
-      })
+    assertions = [
+      {
+        assertion = !(cfg.boot.loader.grub.enable && cfg.boot.loader.systemd.enable);
+        message = "Both systemd and grub enabled, choose either but not both";
+      }
+      {
+        assertion = !cfg.boot.loader.grub.enable && !cfg.boot.loader.systemd.enable;
+        message = "No bootloader configured, enable sys.boot.loader.grub.enable or sys.boot.loader.systemd.enable";
+      }
+    ];
 
+    boot = lib.mkMerge [
       (lib.mkIf cfg.boot.loader.grub.enable {
         loader = {
-          efi.canTouchEfiVariables = true;
           efi.efiSysMountPoint = "/boot";
-          grub =
-            {
-              enable = true;
-              efiSupport = true;
-              device = "nodev";
-              useOSProber = cfg.boot.prober;
-            }
-            // lib.mkIf (cfg.boot.resolution != "auto") {
-              gfxmodeEfi = cfg.boot.resolution;
-            };
+          grub = {
+            enable = true;
+            efiSupport = true;
+            device = "nodev";
+            useOSProber = cfg.boot.prober;
+            gfxmodeEfi = lib.mkIf (cfg.boot.loader.grub.res != "auto") cfg.boot.resolution;
+          };
         };
       })
 
@@ -104,6 +103,8 @@ in
       })
 
       {
+        efi.canTouchEfiVariables = true;
+        loader.systemd-boot.enable = cfg.boot.loader.systemd.enable;
         plymouth.enable = cfg.boot.plymouth;
       }
     ];
