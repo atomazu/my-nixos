@@ -127,6 +127,8 @@ in
       LC_TIME = "${cfg.extraLocale}";
     };
 
+    services.gnome.gnome-keyring.enable = true;
+
     services.pipewire = {
       enable = true;
       alsa.enable = true;

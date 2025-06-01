@@ -107,9 +107,8 @@
   # Fish enables this, but it's slow..
   documentation.man.generateCaches = false;
 
-  programs.direnv.enable = true;
-  # services.displayManager.ly.enable = true;
-  services.displayManager.cosmic-greeter.enable = true;
+  services.displayManager.gdm.autoSuspend = false;
+  services.displayManager.gdm.enable = true;
 
   environment.systemPackages = with pkgs; [
     man-pages
