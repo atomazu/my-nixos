@@ -32,7 +32,7 @@ in
 
     # Integrations (external dependencies)
     albertIntegration = lib.mkEnableOption "Enable Albert integration";
-    makoIntegration = libutils.mkEnabledOption "Enable mako notification daemon";
+    regreet = lib.mkEnableOption "Enable regreet with greetd";
   };
 
   ### Configuration ###
@@ -59,6 +59,25 @@ in
       enable = true;
       withUWSM = true;
     };
+
+    services.greetd = lib.mkIf cfg.regreet {
+      enable = true;
+
+      settings = {
+        default_session = {
+          command = "${pkgs.hyprland}/bin/Hyprland --config ${pkgs.writeText "hypr.conf" ''
+            exec-once = ${pkgs.greetd.regreet}/bin/regreet; hyprctl dispatch exit
+            misc {
+              disable_hyprland_logo = true
+              disable_splash_rendering = true
+              disable_hyprland_qtutils_check = true
+            }
+          ''}";
+        };
+      };
+    };
+
+    programs.regreet.enable = cfg.regreet;
 
     home-manager.users.${config.host.user} = {
       wayland.windowManager.hyprland = {
