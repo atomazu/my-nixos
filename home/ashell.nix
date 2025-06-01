@@ -14,6 +14,7 @@ in
 {
   options.home.ashell = {
     enable = lib.mkEnableOption "Enable Ashell status bar";
+    swayncIntegration = lib.mkEnableOption "Integrates swaync";
   };
 
   config = lib.mkIf (cfg.enable) {
@@ -22,20 +23,33 @@ in
         enable = cfg.enable;
         package = inputs.ashell.defaultPackage.${pkgs.system};
 
+        extraConfig = lib.mkIf cfg.swayncIntegration ''
+          [[CustomModule]]
+          name = "CustomNotifications"
+          icon = ""
+          command = "swaync-client -t -sw"
+          listen_cmd = "swaync-client -swb"
+          icons.'dnd.*' = ""
+          alert = ".*notification"
+        '';
+
         settings = {
           log_level = "warn";
           outputs = "All";
           position = "Bottom";
-          truncate_title_after_length = 150;
 
           modules = {
-            left = [ "Workspaces" ];
-            center = [ "WindowTitle" ];
+            left = [
+              "workspaces"
+              "systemInfo"
+            ];
+            center = [ "windowTitle" ];
             right = [
-              [
-                "Clock"
-                "Settings"
-              ]
+              "tray"
+              "clock"
+              "mediaPlayer"
+              "settings"
+              "CustomNotifications"
             ];
           };
 

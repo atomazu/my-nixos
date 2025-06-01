@@ -40,12 +40,31 @@ in
         }
       '';
     };
+
+    extraConfig = lib.mkOption {
+      type = lib.types.lines;
+      default = "";
+      description = ''
+        Extra configuration to append to the ashell config.toml file.
+        This raw string will be appended after the generated TOML configuration.
+      '';
+      example = ''
+        # Custom raw TOML configuration
+        [custom_section]
+        some_option = "value"
+        
+        [another_section]
+        enabled = true
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
     home.packages = [ cfg.package ];
-    xdg.configFile."ashell/config.toml".source =
-      (pkgs.formats.toml { }).generate "ashell-config.toml"
-        cfg.settings;
+    xdg.configFile."ashell/config.toml".text =
+      let
+        generatedConfig = (pkgs.formats.toml { }).generate "ashell-config.toml" cfg.settings;
+      in
+      builtins.readFile generatedConfig + lib.optionalString (cfg.extraConfig != "") ("\n" + cfg.extraConfig);
   };
 }

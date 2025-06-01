@@ -48,15 +48,15 @@
         format = "ssh";
       };
     };
-    shell = {
-      enable = true;
-      font-size = 16;
-    };
+    shell.enable = true;
     chromium.enable = true;
     albert.enable = true;
     nixvim.enable = true;
     tmux.enable = true;
-    ashell.enable = true;
+    ashell = {
+      enable = true;
+      swayncIntegration = true;
+    };
   };
 
   profiles.hyprland = {
@@ -103,45 +103,22 @@
 
   ### Custom Tweaks ###
 
-  # Fish enables this, but it's too slow..
+  # Fish enables this, but it's slow..
   # documentation.man.generateCaches = false;
 
-  # For nix dev flakes
   programs.direnv.enable = true;
-
-  # Never hurts to be enabled
-  services.xserver.enable = true;
-  services.xserver.excludePackages = with pkgs; [ xterm ];
-  services.xserver.displayManager.lightdm.enable = false;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.xrandrHeads = [
-    {
-      output = "HDMI-0";
-      monitorConfig = "Option \"Rotate\" \"left\"";
-    }
-    {
-      output = "DP-2";
-      primary = true;
-    }
-  ];
-
-  # For ashell (doesn't make that much sense for a desktop)
-  services.upower.enable = true;
+  services.displayManager.gdm.enable = true;
 
   environment.systemPackages = with pkgs; [
-    # Neovim needs this for unnamedplus
-    wl-clipboard
-
     man-pages
     man-pages-posix
-
-    # For ashell and hyprland binds
-    brightnessctl
-    nm-tray
-    blueman
   ];
 
   home-manager.users.${config.host.user} = {
-    # ...
+    services.swaync.enable = true;
+    services.swaync.settings = {
+      positionX = "right";
+      positionY = "bottom";
+    };
   };
 }

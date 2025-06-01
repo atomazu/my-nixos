@@ -63,58 +63,50 @@ in
   };
 
   config = {
-    boot =
-      let
-        systemdBootCfg = lib.mkIf cfg.boot.loader.systemd.enable {
-          loader = {
-            systemd-boot.enable = true;
-            efi.canTouchEfiVariables = true;
-          };
+    boot = lib.mkMerge [
+      (lib.mkIf cfg.boot.loader.systemd.enable {
+        loader = {
+          systemd-boot.enable = true;
+          efi.canTouchEfiVariables = true;
         };
+      })
 
-        grubCfg = lib.mkIf cfg.boot.loader.grub.enable {
-          loader = {
-            efi.canTouchEfiVariables = true;
-            efi.efiSysMountPoint = "/boot";
-            grub =
-              {
-                enable = true;
-                efiSupport = true;
-                device = "nodev";
-                useOSProber = cfg.boot.prober;
-              }
-              // lib.mkIf (cfg.boot.resolution != "auto") {
-                gfxmodeEfi = cfg.boot.resolution;
-              };
-          };
+      (lib.mkIf cfg.boot.loader.grub.enable {
+        loader = {
+          efi.canTouchEfiVariables = true;
+          efi.efiSysMountPoint = "/boot";
+          grub =
+            {
+              enable = true;
+              efiSupport = true;
+              device = "nodev";
+              useOSProber = cfg.boot.prober;
+            }
+            // lib.mkIf (cfg.boot.resolution != "auto") {
+              gfxmodeEfi = cfg.boot.resolution;
+            };
         };
+      })
 
-        silentBootCfg = lib.mkIf cfg.boot.silent {
-          consoleLogLevel = 0;
-          initrd.verbose = false;
-          kernelParams = [
-            "quiet"
-            "splash"
-            "boot.shell_on_fail"
-            "loglevel=3"
-            "rd.systemd.show_status=false"
-            "rd.udev.log_level=3"
-            "udev.log_priority=3"
-            "vt.global_cursor_default=0"
-          ];
-        };
+      (lib.mkIf cfg.boot.silent {
+        consoleLogLevel = 0;
+        initrd.verbose = false;
+        kernelParams = [
+          "quiet"
+          "splash"
+          "boot.shell_on_fail"
+          "loglevel=3"
+          "rd.systemd.show_status=false"
+          "rd.udev.log_level=3"
+          "udev.log_priority=3"
+          "vt.global_cursor_default=0"
+        ];
+      })
 
-        plymouthCfg = {
-          plymouth.enable = cfg.boot.plymouth;
-        };
-
-      in
-      lib.mkMerge [
-        systemdBootCfg
-        grubCfg
-        silentBootCfg
-        plymouthCfg
-      ];
+      {
+        plymouth.enable = cfg.boot.plymouth;
+      }
+    ];
 
     networking.hostName = "${config.host.name}";
     networking.networkmanager.enable = true;

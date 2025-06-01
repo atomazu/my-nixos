@@ -23,8 +23,8 @@ in
         gnome-tour
       ];
 
-      services.xserver.displayManager.gdm.enable = true;
-      services.xserver.desktopManager.gnome.enable = true;
+      services.displayManager.gdm.enable = true;
+      services.desktopManager.gnome.enable = true;
       services.gnome.core-utilities.enable = false;
 
       home-manager.users.${config.host.user} = lib.mkMerge [
@@ -53,7 +53,7 @@ in
 
             "org/gnome/desktop/peripherals/mouse" = {
               accel-profile = "flat";
-              speed = 0.33834586466165417;
+              speed = 0.333;
             };
 
             "org/gnome/desktop/background" = {
