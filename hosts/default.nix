@@ -32,7 +32,7 @@ in
     };
 
     stylix = {
-      enable = lib.mkEnableOption "Enable Stylix";
+      enable = libutils.mkEnabledOption "Enable Stylix";
       base16Scheme = lib.mkOption {
         type = lib.types.str;
         default = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
@@ -60,6 +60,12 @@ in
   ### Configuration ###
 
   config = {
+    assertions = [
+      {
+        assertion = cfg.stylix.enable;
+        message = "Disabling stylix is currently unsupported";
+      }
+    ];
     nixpkgs.config.allowUnfree = true;
     nix.settings.experimental-features = [
       "nix-command"
