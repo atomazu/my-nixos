@@ -31,6 +31,7 @@ in
         fzf
         gcc
         lazygit
+        wl-clipboard
       ];
 
       opts = {
