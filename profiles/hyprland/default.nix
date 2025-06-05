@@ -38,13 +38,7 @@ in
   ### Configuration ###
 
   config = lib.mkIf cfg.enable {
-    # Dependencies
-    environment.systemPackages =
-      [ pkgs.wl-clipboard ]
-      ++ lib.optionals cfg.polkit [ pkgs.hyprpolkitagent ]
-      ++ lib.optionals cfg.osd [ pkgs.swayosd ]
-      ++ lib.optionals cfg.playerctl [ pkgs.playerctl ]
-      ++ lib.optionals cfg.albertIntegration [ pkgs.albert ];
+    environment.systemPackages = [ ] ++ lib.optionals cfg.albertIntegration [ pkgs.albert ];
 
     # For screensharing
     xdg.portal = {

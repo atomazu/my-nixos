@@ -55,6 +55,12 @@ let
     ];
   };
 
+  screenshotSettings = {
+    bind = [
+      "$mod SHIFT, S, exec, ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.wl-clipboard}/bin/wl-copy"
+    ];
+  };
+
   globalSettings = {
     "$mod" = cfg.mod;
   };
@@ -79,6 +85,7 @@ lib.recursiveUpdate { } (
     globalSettings
     visualSettings
     bindingSettings
+    screenshotSettings
     (lib.mkIf cfg.albertIntegration albertSettings)
     (lib.mkIf cfg.playerctl playerctlSettings)
     (lib.mkIf cfg.polkit polkitSettings)
