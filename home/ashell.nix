@@ -40,16 +40,16 @@ in
 
           modules = {
             left = [
-              "workspaces"
-              "systemInfo"
+              "Workspaces"
+              "SystemInfo"
             ];
-            center = [ "windowTitle" ];
+            center = [ "WindowTitle" ];
             right = [
-              "mediaPlayer"
-              "tray"
-              "clock"
+              "MediaPlayer"
+              "Tray"
+              "Clock"
               "CustomNotifications"
-              "settings"
+              "Settings"
             ];
           };
 
