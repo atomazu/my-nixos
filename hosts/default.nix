@@ -31,9 +31,33 @@ in
       description = "The primary user of the system";
     };
 
+    locale = lib.mkOption {
+      type = lib.types.str;
+      default = "en_US.UTF-8";
+      description = "The System locale";
+    };
+
+    extraLocale = lib.mkOption {
+      type = lib.types.str;
+      default = "en_US.UTF-8";
+      description = "The System locale, but extra";
+    };
+
+    layout = lib.mkOption {
+      type = lib.types.str;
+      default = "us";
+      description = "Default keyboard layout";
+    };
+
+    time = lib.mkOption {
+      type = lib.types.str;
+      default = "Europe/Berlin";
+      description = "Default system time";
+    };
+
     stylix = {
       enable = libutils.mkEnabledOption "Enable Stylix";
-      base16Scheme = lib.mkOption {
+      scheme = lib.mkOption {
         type = lib.types.str;
         default = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
         description = "Base 16 scheme to use for stylix";
@@ -48,7 +72,7 @@ in
         default = {
           package = pkgs.bibata-cursors;
           name = "Bibata-Modern-Classic";
-          size = 16;
+          size = 24;
         };
         description = "Cursor for stylix";
       };
@@ -74,18 +98,34 @@ in
 
     stylix = {
       enable = cfg.stylix.enable;
-      base16Scheme = cfg.stylix.base16Scheme;
+      base16Scheme = "${pkgs.base16-schemes}/share/themes/${cfg.stylix.scheme}.yaml";
       image = cfg.stylix.image;
-      polarity = "dark";
       cursor = cfg.stylix.cursor;
+      polarity = "dark";
+      targets.grub.enable = false;
+      targets.plymouth.enable = false;
 
       fonts = {
         sizes.terminal = 14;
+        serif = {
+          package = pkgs.noto-fonts-cjk-serif;
+          name = "Noto Serif CJK JP";
+        };
+
+        sansSerif = {
+          package = pkgs.noto-fonts-cjk-sans;
+          name = "Noto Sans CJK JP";
+        };
+
         monospace = {
           package = pkgs.nerd-fonts.fira-code;
           name = "FiraCode Nerd Font";
         };
-        serif = config.stylix.fonts.sansSerif;
+
+        emoji = {
+          package = pkgs.noto-fonts-emoji;
+          name = "Noto Color Emoji";
+        };
       };
     };
 
@@ -103,6 +143,34 @@ in
       enable = cfg.nh;
       clean.enable = true;
       clean.extraArgs = "--keep-since 4d --keep 3";
+    };
+
+    time.hardwareClockInLocalTime = true;
+    time.timeZone = "${cfg.time}";
+    services.xserver.xkb.layout = cfg.layout;
+    i18n = {
+      defaultLocale = "${cfg.locale}";
+      inputMethod = {
+        enable = true;
+        type = "fcitx5";
+        fcitx5.addons = with pkgs; [
+          fcitx5-mozc
+          fcitx5-gtk
+          fcitx5-configtool
+        ];
+      };
+
+      extraLocaleSettings = {
+        LC_ADDRESS = "${cfg.extraLocale}";
+        LC_IDENTIFICATION = "${cfg.extraLocale}";
+        LC_MEASUREMENT = "${cfg.extraLocale}";
+        LC_MONETARY = "${cfg.extraLocale}";
+        LC_NAME = "${cfg.extraLocale}";
+        LC_NUMERIC = "${cfg.extraLocale}";
+        LC_PAPER = "${cfg.extraLocale}";
+        LC_TELEPHONE = "${cfg.extraLocale}";
+        LC_TIME = "${cfg.extraLocale}";
+      };
     };
 
     system.stateVersion = "25.05";

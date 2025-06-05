@@ -16,18 +16,17 @@
   host = {
     name = "desktop";
     user = "jonas";
+    locale = "en_US.UTF-8";
+    extraLocale = "de_DE.UTF-8";
+    layout = "us";
+
     stylix = {
-      base16Scheme = "${pkgs.base16-schemes}/share/themes/tomorrow-night.yaml";
+      scheme = "tomorrow-night";
     };
   };
 
   sys = {
     gpu = "nvidia";
-    locale = "en_US.UTF-8";
-    extraLocale = "de_DE.UTF-8";
-    layout = "us";
-    time = "Europe/Berlin";
-
     boot = {
       loader.grub = {
         enable = true;
@@ -100,6 +99,7 @@
 
       exec-once = [
         "${inputs.ashell.defaultPackage.${pkgs.system}}/bin/ashell"
+        "/run/current-system/sw/bin/fcitx5" # Not pkg path, needs to be in current environment
       ];
     };
   };

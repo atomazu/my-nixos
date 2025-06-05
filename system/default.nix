@@ -18,30 +18,6 @@ in
       description = "Enable GPU specific tweaks";
     };
 
-    locale = lib.mkOption {
-      type = lib.types.str;
-      default = "en_US.UTF-8";
-      description = "The System locale";
-    };
-
-    extraLocale = lib.mkOption {
-      type = lib.types.str;
-      default = "en_US.UTF-8";
-      description = "The System locale, but extra";
-    };
-
-    layout = lib.mkOption {
-      type = lib.types.str;
-      default = "us";
-      description = "Default keyboard layout";
-    };
-
-    time = lib.mkOption {
-      type = lib.types.str;
-      default = "Europe/Berlin";
-      description = "Default system time";
-    };
-
     boot = {
       loader = {
         grub = {
@@ -108,26 +84,6 @@ in
       }
     ];
 
-    networking.hostName = "${config.host.name}";
-    networking.networkmanager.enable = true;
-
-    time.timeZone = "${cfg.time}";
-    time.hardwareClockInLocalTime = true;
-    i18n.defaultLocale = "${cfg.locale}";
-    i18n.extraLocaleSettings = {
-      LC_ADDRESS = "${cfg.extraLocale}";
-      LC_IDENTIFICATION = "${cfg.extraLocale}";
-      LC_MEASUREMENT = "${cfg.extraLocale}";
-      LC_MONETARY = "${cfg.extraLocale}";
-      LC_NAME = "${cfg.extraLocale}";
-      LC_NUMERIC = "${cfg.extraLocale}";
-      LC_PAPER = "${cfg.extraLocale}";
-      LC_TELEPHONE = "${cfg.extraLocale}";
-      LC_TIME = "${cfg.extraLocale}";
-    };
-
-    services.gnome.gnome-keyring.enable = true;
-
     services.pipewire = {
       enable = true;
       alsa.enable = true;
@@ -136,9 +92,14 @@ in
       jack.enable = true;
     };
 
+    networking.hostName = "${config.host.name}";
+    networking.networkmanager.enable = true;
+
+    services.gnome.gnome-keyring.enable = true;
+
     hardware.bluetooth.enable = true;
     hardware.bluetooth.powerOnBoot = true;
-    services.xserver.xkb.layout = cfg.layout;
+
     services.openssh.enable = true;
   };
 }

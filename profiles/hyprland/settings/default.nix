@@ -14,7 +14,7 @@ let
 
   albertSettings = {
     exec-once = [
-      "${pkgs.albert}/bin/albert"
+      "/run/current-system/sw/bin/albert"
     ];
 
     windowrule = [
@@ -24,7 +24,7 @@ let
     ];
 
     bind = [
-      "$mod, SPACE, exec, ${pkgs.albert}/bin/albert toggle"
+      "$mod, SPACE, exec, /run/current-system/sw/bin/albert toggle"
     ];
   };
 
