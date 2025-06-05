@@ -16,6 +16,7 @@ in
     ./albert.nix
     ./shell.nix
     ./ashell.nix
+    ./yazi.nix
   ];
 
   options.home = {

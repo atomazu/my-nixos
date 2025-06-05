@@ -54,6 +54,7 @@
     albert.enable = true;
     nixvim.enable = true;
     tmux.enable = true;
+    yazi.enable = true;
     ashell = {
       enable = true;
       swayncIntegration = true;
@@ -67,6 +68,7 @@
       bind = [
         "$mod, RETURN, exec, ${pkgs.kitty}/bin/kitty"
         "$mod, B, exec, ${pkgs.chromium}/bin/chromium"
+        "$mod, E, exec, ${pkgs.yazi}/bin/yazi"
 
         # Monitor-column traversal
         "$mod CTRL, E, workspace, +1"
