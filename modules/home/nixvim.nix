@@ -83,6 +83,10 @@ in
         # For hover doc and breadcrumbs...
         lspsaga.enable = true;
 
+        # Web dev
+        luasnip.enable = true;
+        emmet.enable = true;
+
         lsp = {
           enable = true;
           servers = {
@@ -95,6 +99,8 @@ in
             ts_ls.enable = true;
             eslint.enable = true;
             jsonls.enable = true;
+            html.enable = true;
+            cssls.enable = true;
           };
         };
 
