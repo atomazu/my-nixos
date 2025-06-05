@@ -1,2 +1,4 @@
 # Ignore Vim's swap files
 *.swp 
+todo.md
+result/
