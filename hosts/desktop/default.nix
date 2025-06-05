@@ -113,13 +113,24 @@
   services.displayManager.gdm.enable = true;
 
   environment.systemPackages = with pkgs; [
-    man-pages
-    man-pages-posix
+    anki-bin
+    mpv
+    libnotify
   ];
+
+  environment.sessionVariables = {
+    "ANKI_WAYLAND" = "1";
+  };
 
   home-manager.users.${config.host.user} = {
     services.swaync.enable = true;
     services.swaync.settings = {
+      control-center-margin-top = 8;
+      control-center-margin-bottom = 8;
+      control-center-margin-right = 8;
+      control-center-margin-left = 8;
+      control-center-width = 500;
+      control-center-height = 600;
       positionX = "right";
       positionY = "bottom";
     };
