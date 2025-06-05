@@ -45,11 +45,11 @@ in
             ];
             center = [ "windowTitle" ];
             right = [
+              "mediaPlayer"
               "tray"
               "clock"
-              "mediaPlayer"
-              "settings"
               "CustomNotifications"
+              "settings"
             ];
           };
 
@@ -62,7 +62,7 @@ in
           };
 
           media_player = {
-            max_title_length = 100;
+            max_title_length = 50;
           };
 
           appearance = {
