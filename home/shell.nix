@@ -67,6 +67,10 @@ in
           icons = "auto";
         };
 
+        programs.direnv = {
+          enable = true;
+        };
+
         programs.bat = {
           enable = true;
           config = {
@@ -84,8 +88,14 @@ in
           };
         };
 
+        programs.fastfetch.enable = true;
+
         programs.fish = {
           enable = true;
+          interactiveShellInit = ''
+            set fish_greeting
+            fastfetch --load-config examples/8.jsonc
+          '';
           shellAliases = {
             ls = "eza";
             l = "eza -l";
