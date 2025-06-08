@@ -100,6 +100,7 @@
       exec-once = [
         "${inputs.ashell.defaultPackage.${pkgs.system}}/bin/ashell"
         "/run/current-system/sw/bin/fcitx5" # Not pkg path, needs to be in current environment
+        "hyprctl dispatch workspace 6" # Put mouse on main monitor at startup
       ];
     };
   };
@@ -112,6 +113,15 @@
   services.displayManager.gdm.autoSuspend = false;
   services.displayManager.gdm.enable = true;
 
+  # # Steam
+  # programs.steam.enable = true;
+  # hardware.steam-hardware.enable = true;
+  # programs.steam.extest.enable = true;
+  # programs.steam.remotePlay.openFirewall = true;
+  # programs.steam.localNetworkGameTransfers.openFirewall = true;
+  # programs.gamescope.enable = true;
+  # programs.steam.dedicatedServer.openFirewall = true;
+
   environment.systemPackages = with pkgs; [
     anki-bin
     mpv
@@ -123,6 +133,8 @@
   };
 
   home-manager.users.${config.host.user} = {
+    # programs.vesktop.enable = true;
+
     services.swaync.enable = true;
     services.swaync.settings = {
       control-center-margin-top = 8;

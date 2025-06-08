@@ -42,8 +42,8 @@ in
             left = [
               "Workspaces"
               "SystemInfo"
+              "WindowTitle"
             ];
-            center = [ "WindowTitle" ];
             right = [
               "MediaPlayer"
               "Tray"
