@@ -60,54 +60,61 @@
     };
   };
 
-  profiles.hyprland = {
-    enable = true;
-    albertIntegration = true;
-    extraSettings = {
-      bind = [
-        "$mod, RETURN, exec, ${pkgs.kitty}/bin/kitty"
-        "$mod, B, exec, ${pkgs.chromium}/bin/chromium"
-        "$mod, E, exec, ${pkgs.yazi}/bin/yazi"
-
-        # Monitor-column traversal
-        "$mod CTRL, E, workspace, +1"
-        "$mod CTRL, Q, workspace, -1"
-        "$mod SHIFT, E, movetoworkspace, +1"
-        "$mod SHIFT, Q, movetoworkspace, -1"
-      ];
-
-      monitor = [
+  profiles.hyprland =
+    let
+      displays = [
         "DP-2, 2560x1440@240, 1440x560, 1"
         "HDMI-A-1, 2560x1440@140, 0x0, 1, transform, 1"
       ];
+    in
+    {
+      enable = true;
+      albert = {
+        enable = true;
+        keybind = "$mod, R";
+      };
+      settings = {
+        monitor = displays;
 
-      workspace = [
-        # DP-1: Vertical Monitor
-        "1, monitor:HDMI-A-1, default:true, defaultName:1-1"
-        "2, monitor:HDMI-A-1, defaultName:1-2"
-        "3, monitor:HDMI-A-1, defaultName:1-3"
-        "4, monitor:HDMI-A-1, defaultName:1-4"
-        "5, monitor:HDMI-A-1, defaultName:1-5"
+        bind = [
+          "$mod, RETURN, exec, ${pkgs.kitty}/bin/kitty"
+          "$mod, B, exec, ${pkgs.chromium}/bin/chromium"
 
-        # DP-3: Main Monitor (240Hz)
-        "6, monitor:DP-2, default:true, defaultName:2-1"
-        "7, monitor:DP-2, defaultName:2-2"
-        "8, monitor:DP-2, defaultName:2-3"
-        "9, monitor:DP-2, defaultName:2-4"
-        "10, monitor:DP-2, defaultName:2-5"
-      ];
+          # Monitor-column traversal
+          "$mod CTRL, E, workspace, +1"
+          "$mod CTRL, Q, workspace, -1"
+          "$mod SHIFT, E, movetoworkspace, +1"
+          "$mod SHIFT, Q, movetoworkspace, -1"
+        ];
 
-      exec-once = [
-        "${inputs.ashell.defaultPackage.${pkgs.system}}/bin/ashell"
-        "/run/current-system/sw/bin/fcitx5" # Not pkg path, needs to be in current environment
-        "hyprctl dispatch workspace 6" # Put mouse on main monitor at startup
-      ];
+        workspace = [
+          # DP-1: Vertical Monitor
+          "1, monitor:HDMI-A-1, default:true, defaultName:1-1"
+          "2, monitor:HDMI-A-1, defaultName:1-2"
+          "3, monitor:HDMI-A-1, defaultName:1-3"
+          "4, monitor:HDMI-A-1, defaultName:1-4"
+          "5, monitor:HDMI-A-1, defaultName:1-5"
+
+          # DP-3: Main Monitor (240Hz)
+          "6, monitor:DP-2, default:true, defaultName:2-1"
+          "7, monitor:DP-2, defaultName:2-2"
+          "8, monitor:DP-2, defaultName:2-3"
+          "9, monitor:DP-2, defaultName:2-4"
+          "10, monitor:DP-2, defaultName:2-5"
+        ];
+
+        exec-once = [
+          "${inputs.ashell.defaultPackage.${pkgs.system}}/bin/ashell"
+          "/run/current-system/sw/bin/fcitx5" # Not pkg path, needs to be in current environment
+          "${pkgs.hyprland}/bin/hyprctl dispatch workspace 6" # Put mouse on main monitor at startup
+        ];
+      };
     };
-  };
 
   ### Custom Tweaks ###
 
   # Fish enables this, but it's slow..
+  # Investigate: There seems to be an option in fish's home manager module to disable this
   documentation.man.generateCaches = false;
 
   services.displayManager.gdm.autoSuspend = false;

@@ -6,13 +6,13 @@
 }:
 let
   cfg = config.profiles.hyprland;
-  polkitSettings = {
+  polkit = {
     exec-once = [
       "${pkgs.hyprpolkitagent}/bin/hyprpolkitagent"
     ];
   };
 
-  albertSettings = {
+  albert = {
     exec-once = [
       "/run/current-system/sw/bin/albert"
     ];
@@ -24,11 +24,11 @@ let
     ];
 
     bind = [
-      "$mod, SPACE, exec, /run/current-system/sw/bin/albert toggle"
+      "${cfg.albert.keybind}, exec, /run/current-system/sw/bin/albert toggle"
     ];
   };
 
-  osdSettings = {
+  osd = {
     exec-once = [
       "${pkgs.swayosd}/bin/swayosd-server"
     ];
@@ -44,9 +44,9 @@ let
     ];
   };
 
-  bindingSettings = import ./bindings.nix;
+  binding = import ./bindings.nix;
 
-  playerctlSettings = {
+  playerctl = {
     bindl = [
       ", XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next"
       ", XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous"
@@ -55,17 +55,17 @@ let
     ];
   };
 
-  screenshotSettings = {
+  screenshot = {
     bind = [
       "$mod SHIFT, S, exec, ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.wl-clipboard}/bin/wl-copy"
     ];
   };
 
-  globalSettings = {
+  global = {
     "$mod" = cfg.mod;
   };
 
-  visualSettings = {
+  visual = {
     general = {
       gaps_in = 2;
       gaps_out = "3, 3, 3, 3";
@@ -96,13 +96,13 @@ let
 in
 lib.recursiveUpdate { } (
   lib.mkMerge [
-    globalSettings
-    visualSettings
-    bindingSettings
-    screenshotSettings
-    (lib.mkIf cfg.albertIntegration albertSettings)
-    (lib.mkIf cfg.playerctl playerctlSettings)
-    (lib.mkIf cfg.polkit polkitSettings)
-    (lib.mkIf cfg.osd osdSettings)
+    global
+    visual
+    binding
+    screenshot
+    (lib.mkIf cfg.albert.enable albert)
+    (lib.mkIf cfg.playerctl playerctl)
+    (lib.mkIf cfg.polkit polkit)
+    (lib.mkIf cfg.osd osd)
   ]
 )
