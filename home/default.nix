@@ -91,6 +91,7 @@ in
           { id = "eimadpbcbfnmbkopoojfekhnkhdbieeh"; } # Dark Reader
           { id = "mnjggcdmjocbbbhaepdhchncahnbgone"; } # SponsorBlock
           { id = "likgccmbimhjbgkjambclfkhldnlhbnn"; } # YomiTan Popup Dictionary
+          { id = "kekjfbackdeiabghhcdklcdoekaanoel"; } # MAL-Sync
         ];
       };
 
