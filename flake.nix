@@ -41,6 +41,15 @@
             ./hosts/desktop
           ];
         };
+        server = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            inherit inputs libutils;
+          };
+          modules = [
+            ./hosts/server
+          ];
+        };
       };
     };
 }
