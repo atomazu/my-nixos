@@ -19,11 +19,11 @@ in
 
   config = lib.mkIf (cfg.enable == true) {
     home-manager.users.${config.host.user} = {
-      wayland.windowmanager.sway = {
+      wayland.windowManager.sway = {
         enable = true;
 
-        wrapperfeatures.gtk = true;
-        wrapperfeatures.base = true;
+        wrapperFeatures.gtk = true;
+        wrapperFeatures.base = true;
         xwayland = true;
 
         config = {
