@@ -19,6 +19,9 @@
     locale = "en_US.UTF-8";
     extraLocale = "de_DE.UTF-8";
     layout = "us";
+    extras = {
+      jp.enable = true;
+    };
 
     stylix = {
       scheme = "tomorrow-night";

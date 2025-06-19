@@ -9,6 +9,7 @@
 
 let
   cfg = config.host;
+  jp-cfg = cfg.extras.japanese;
 in
 {
   imports = [
@@ -62,11 +63,13 @@ in
         default = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
         description = "Base 16 scheme to use for stylix";
       };
+
       image = lib.mkOption {
         type = lib.types.path;
         default = ../assets/binary.png;
         description = "Background image";
       };
+
       cursor = lib.mkOption {
         type = lib.types.attrs;
         default = {
@@ -74,7 +77,30 @@ in
           name = "Bibata-Modern-Classic";
           size = 24;
         };
+
         description = "Cursor for stylix";
+      };
+    };
+
+    extras.jp = {
+      enable = lib.mkEnableOption "Enable Japanese extras";
+
+      fonts = {
+        serif = lib.mkOption {
+          type = lib.types.attrs;
+          default = {
+            package = pkgs.noto-fonts-cjk-serif;
+            name = "Noto Serif CJK JP";
+          };
+        };
+
+        sansSerif = lib.mkOption {
+          type = lib.types.attrs;
+          default = {
+            package = pkgs.noto-fonts-cjk-sans;
+            name = "Noto Sans CJK JP";
+          };
+        };
       };
     };
 
@@ -90,6 +116,7 @@ in
         message = "Disabling stylix is currently unsupported";
       }
     ];
+
     nixpkgs.config.allowUnfree = true;
     nix.settings.experimental-features = [
       "nix-command"
@@ -107,15 +134,23 @@ in
 
       fonts = {
         sizes.terminal = 14;
-        serif = {
-          package = pkgs.noto-fonts-cjk-serif;
-          name = "Noto Serif CJK JP";
-        };
+        serif =
+          if cfg.extras.jp.enable then
+            cfg.extras.jp.fonts.serif
+          else
+            {
+              package = pkgs.noto-fonts;
+              name = "Noto Serif";
+            };
 
-        sansSerif = {
-          package = pkgs.noto-fonts-cjk-sans;
-          name = "Noto Sans CJK JP";
-        };
+        sansSerif =
+          if cfg.extras.jp.enable then
+            cfg.extras.jp.fonts.sansSerif
+          else
+            {
+              package = pkgs.noto-fonts;
+              name = "Noto Sans";
+            };
 
         monospace = {
           package = pkgs.nerd-fonts.fira-code;
@@ -148,9 +183,10 @@ in
     time.hardwareClockInLocalTime = true;
     time.timeZone = "${cfg.time}";
     services.xserver.xkb.layout = cfg.layout;
+
     i18n = {
       defaultLocale = "${cfg.locale}";
-      inputMethod = {
+      inputMethod = lib.mkIf cfg.extras.jp.enable {
         enable = true;
         type = "fcitx5";
         fcitx5.addons = with pkgs; [
