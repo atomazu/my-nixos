@@ -13,9 +13,11 @@ in
   ];
 
   options.sys = {
-    gpu = lib.mkOption {
-      type = lib.types.str;
-      description = "Enable GPU specific tweaks";
+    gpu = {
+      nvidia = {
+        enable = lib.mkEnableOption "Enable Nvidia tweaks";
+        beta = lib.mkEnableOption "Enable the beta drivers";
+      };
     };
 
     boot = {
@@ -27,12 +29,11 @@ in
             description = "What screen resolution Grub uses";
           };
           enable = lib.mkEnableOption "Enable grub boot";
+          prober = lib.mkEnableOption "Enable OSProber";
         };
         systemd.enable = lib.mkEnableOption "Enable systemd boot";
       };
-
       plymouth = lib.mkEnableOption "Enable plymouth";
-      prober = lib.mkEnableOption "Enable OSProber";
       silent = lib.mkEnableOption "Enable silent boot";
     };
   };
@@ -57,7 +58,7 @@ in
             enable = true;
             efiSupport = true;
             device = "nodev";
-            useOSProber = cfg.boot.prober;
+            useOSProber = cfg.boot.loader.grub.prober;
             gfxmodeEfi = lib.mkIf (cfg.boot.loader.grub.res != "auto") cfg.boot.loader.grub.res;
           };
         };

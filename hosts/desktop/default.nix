@@ -26,13 +26,13 @@
   };
 
   sys = {
-    gpu = "nvidia";
+    gpu.nvidia.enable = true;
     boot = {
       loader.grub = {
         enable = true;
         res = "2560x1440";
+        prober = true;
       };
-      prober = true;
       silent = true;
       plymouth = true;
     };

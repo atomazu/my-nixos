@@ -1,6 +1,8 @@
 { config, lib, ... }:
-
-lib.mkIf (config.sys.gpu == "nvidia") {
+let
+  cfg = config.sys.gpu.nvidia;
+in
+lib.mkIf (cfg.enable) {
   boot.initrd.kernelModules = [
     "nvidia"
     "nvidia_modeset"
@@ -13,6 +15,7 @@ lib.mkIf (config.sys.gpu == "nvidia") {
   hardware = {
     graphics = {
       enable = true;
+      enable32Bit = true;
     };
 
     nvidia = {
@@ -22,7 +25,7 @@ lib.mkIf (config.sys.gpu == "nvidia") {
 
       open = false;
       nvidiaSettings = false;
-      # package = config.boot.kernelPackages.nvidiaPackages.beta;
+      package = lib.mkIf cfg.beta config.boot.kernelPackages.nvidiaPackages.beta;
     };
   };
 
