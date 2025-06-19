@@ -44,7 +44,7 @@ in
         };
       };
 
-      programs.wpaperd = {
+      services.wpaperd = {
         enable = true;
         settings = {
           default = {
@@ -60,9 +60,7 @@ in
           width = "100%";
           height = 24;
           horizontal = true;
-          font-size = 12;
           prompt-text = " run: ";
-          font = "monospace";
           outline-width = 0;
           border-width = 0;
           min-input-width = 120;
