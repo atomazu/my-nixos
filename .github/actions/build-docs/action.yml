@@ -1,0 +1,9 @@
+name: Build Documentation
+description: Build the project's documentation using Nix.
+runs:
+  using: "composite"
+  steps:
+    - name: Build docs with Nix
+      shell: bash
+      run: |
+        nix build .#docs

@@ -92,6 +92,7 @@ in
             package = pkgs.noto-fonts-cjk-serif;
             name = "Noto Serif CJK JP";
           };
+          description = "Japanese serif font";
         };
 
         sansSerif = lib.mkOption {
@@ -100,6 +101,7 @@ in
             package = pkgs.noto-fonts-cjk-sans;
             name = "Noto Sans CJK JP";
           };
+          description = "Japanese sans serif font";
         };
       };
     };

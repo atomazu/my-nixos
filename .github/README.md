@@ -2,6 +2,8 @@
 
 This repository contains my personal NixOS configuration, built using Nix Flakes. It's an ongoing effort to learn Nix and create a setup that's organized and reusable.
 
+Documenation is available at https://atomazu.org/my-nixos
+
 ## Conceptual Structure
 
 Think of the configuration as layers that come together to define a complete system for a specific machine:
