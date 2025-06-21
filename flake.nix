@@ -31,25 +31,32 @@
       pkgs = nixpkgs.legacyPackages.${system};
       system = "x86_64-linux";
       libutils = import ./lib { lib = nixpkgs.lib; };
+      specialArgs = {
+        atmzInputs = inputs;
+        inherit libutils;
+      };
     in
     {
       nixosConfigurations = {
         desktop = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            inherit inputs libutils;
-          };
+          inherit system specialArgs;
           modules = [
             ./hosts/desktop
           ];
         };
         server = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            inherit inputs libutils;
-          };
+          inherit system specialArgs;
           modules = [
             ./hosts/server
+          ];
+        };
+      };
+
+      nixosModules = {
+        default = {
+          _module.specialArgs = specialArgs;
+          imports = [
+            ./hosts/default.nix
           ];
         };
       };

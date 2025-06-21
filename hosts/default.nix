@@ -1,5 +1,5 @@
 {
-  inputs,
+  atmzInputs,
   config,
   pkgs,
   lib,
@@ -9,11 +9,10 @@
 
 let
   cfg = config.host;
-  jp-cfg = cfg.extras.japanese;
 in
 {
   imports = [
-    inputs.stylix.nixosModules.stylix
+    atmzInputs.stylix.nixosModules.stylix
     ./../system
     ./../home
     ./../profiles

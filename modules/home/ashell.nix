@@ -1,6 +1,6 @@
 {
   config,
-  inputs,
+  atmzInputs,
   pkgs,
   lib,
   ...
@@ -15,7 +15,7 @@ in
 
     package = lib.mkOption {
       type = lib.types.package;
-      default = inputs.ashell.defaultPackage.${pkgs.system};
+      default = atmzInputs.ashell.defaultPackage.${pkgs.system};
       description = "The ashell package to use.";
     };
 
@@ -52,7 +52,7 @@ in
         # Custom raw TOML configuration
         [custom_section]
         some_option = "value"
-        
+
         [another_section]
         enabled = true
       '';
@@ -65,6 +65,7 @@ in
       let
         generatedConfig = (pkgs.formats.toml { }).generate "ashell-config.toml" cfg.settings;
       in
-      builtins.readFile generatedConfig + lib.optionalString (cfg.extraConfig != "") ("\n" + cfg.extraConfig);
+      builtins.readFile generatedConfig
+      + lib.optionalString (cfg.extraConfig != "") ("\n" + cfg.extraConfig);
   };
 }

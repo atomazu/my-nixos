@@ -2,7 +2,7 @@
   config,
   lib,
   pkgs,
-  inputs,
+  atmzInputs,
   ...
 }:
 let
@@ -14,7 +14,7 @@ in
   };
 
   imports = [
-    inputs.nixvim.homeManagerModules.nixvim
+    atmzInputs.nixvim.homeManagerModules.nixvim
   ];
 
   config = lib.mkIf cfg.enable {

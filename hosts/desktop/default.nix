@@ -1,7 +1,7 @@
 {
   config,
   pkgs,
-  inputs,
+  atmzInputs,
   ...
 }:
 
@@ -107,7 +107,7 @@
         ];
 
         exec-once = [
-          "${inputs.ashell.defaultPackage.${pkgs.system}}/bin/ashell"
+          "${atmzInputs.ashell.defaultPackage.${pkgs.system}}/bin/ashell"
           "/run/current-system/sw/bin/fcitx5" # Not pkg path, needs to be in current environment
           "${pkgs.hyprland}/bin/hyprctl dispatch workspace 6" # Put mouse on main monitor at startup
         ];

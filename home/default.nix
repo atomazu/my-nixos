@@ -1,7 +1,7 @@
 {
   config,
   lib,
-  inputs,
+  atmzInputs,
   ...
 }:
 
@@ -10,7 +10,7 @@ let
 in
 {
   imports = [
-    inputs.home-manager.nixosModules.default
+    atmzInputs.home-manager.nixosModules.default
     ./tmux.nix
     ./vim.nix
     ./albert.nix
@@ -55,7 +55,7 @@ in
 
   config = {
     home-manager = {
-      extraSpecialArgs = { inherit inputs; };
+      extraSpecialArgs = { inherit atmzInputs; };
       useGlobalPkgs = true;
       useUserPackages = true;
     };

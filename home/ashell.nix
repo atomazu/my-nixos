@@ -1,5 +1,5 @@
 {
-  inputs,
+  atmzInputs,
   pkgs,
   config,
   lib,
@@ -21,7 +21,7 @@ in
     home-manager.users.${config.host.user} = {
       atomazu.ashell = {
         enable = cfg.enable;
-        package = inputs.ashell.defaultPackage.${pkgs.system};
+        package = atmzInputs.ashell.defaultPackage.${pkgs.system};
 
         extraConfig = lib.mkIf cfg.swayncIntegration ''
           [[CustomModule]]
