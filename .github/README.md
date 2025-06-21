@@ -1,42 +1,97 @@
-# My NixOS Configuration
+## Welcome to my NixOS configuration
 
-This repository contains my personal NixOS configuration, built using Nix Flakes. It's an ongoing effort to learn Nix and create a setup that's organized and reusable.
+Documentation is available at [atomazu.org/my-nixos](https://atomazu.org/my-nixos) (updated automatically).
 
-Documenation is available at https://atomazu.org/my-nixos
+To use this configuration, you can either fork the repo and add your host to `hosts/` or import the exposed `nixosModule` into your own flake.
 
-## Conceptual Structure
+**Note:** This configuration currently doesn't support enabling just 1 or 2 modules while leaving the rest disabled—although this is planned. Right now it configures the bootloader, stylix, locale, and more, with no way to disable this behavior.
 
-Think of the configuration as layers that come together to define a complete system for a specific machine:
+### Usage Example
 
+Add this as an input in your flake:
+
+```nix
+# flake.nix
+{
+  description = "My personal NixOS configuration";
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    atmz = {
+      url = "github:atomazu/my-nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+  outputs = { self, nixpkgs, atmz, ... }@inputs: {
+    nixosConfigurations.my-laptop = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        atmz.nixosModules.default
+        ./configuration.nix
+      ];
+    };
+  };
+}
 ```
-System Build (Flake Entry Point)
-│
-└─── Host Configuration (`hosts/`)
-     Defines a specific machine (e.g., my desktop).
-     This is the main configuration point. It:
-     │
-     ├── Pulls in Hardware Settings (`hosts/hardware-*.nix`)
-     │   └── Machine-specific details, often auto-detected.
-     │
-     ├── Activates System-Wide Modules (`system/`)
-     │   └── Low-level settings like graphics drivers (e.g., NVIDIA).
-     │
-     ├── Selects Environment Profiles (`profiles/`)
-     │   └── Defines the main user experience (e.g., Cinnamon, Sway, GNOME).
-     │       └── Profiles might use their own modules (e.g., Waybar for Sway).
-     │
-     └─── Configures the User Environment (`home/`)
-         └── Manages user-specific settings via Home Manager:
-             ├── Applications (e.g., Albert, Chromium)
-             ├── Development tools (e.g., Git, NixVim, Tmux)
-             ├── Dotfiles & Themes (e.g., Albert QSS style)
+
+Then use the options in your configuration:
+
+```nix
+# configuration.nix
+{ config, pkgs, ... }:
+{
+  # --- Basic Host Configuration ---
+  # Use the `host` options to set up the system's identity.
+  host = {
+    name = "my-laptop";
+    user = "alice";
+    locale = "en_US.UTF-8";
+    time = "America/New_York";
+    stylix.scheme = "catppuccin-mocha";
+  };
+
+  # --- System-level Tweaks ---
+  # Use the `sys` options for bootloader, GPU, etc.
+  sys = {
+    boot.loader.grub.enable = true;
+    # If you have an NVIDIA GPU:
+    # gpu.nvidia.enable = true;
+  };
+
+  # --- Home Manager Programs ---
+  # Use the `home` options to configure user applications.
+  home = {
+    git = {
+      enable = true;
+      name = "Alice";
+      email = "alice@example.com";
+    };
+    shell.enable = true;
+    nixvim.enable = true;
+    tmux.enable = true;
+  };
+
+  # --- Desktop Environment / Window Manager ---
+  # Enable one of the available profiles.
+  profiles.sway.enable = true;
+
+  # The rest is your normal configuration
+  environment.systemPackages = with pkgs; [
+    firefox
+  ];
+
+  system.stateVersion = "25.05";
+}
 ```
+For more examples you may look at the existing configurations in `hosts/`.
 
-## How it Works
+## Support & Contributing
 
-1.  The `flake.nix` file defines the inputs (like `nixpkgs`, `home-manager`) and outputs. The main outputs are the `nixosConfigurations` (e.g., `desktop`).
-2.  Building a specific configuration (like `nixos-rebuild switch --flake .#desktop`) starts with the corresponding file in `hosts/` (e.g., `hosts/desktop.nix`).
-3.  This host file imports common settings (`hosts/default.nix`), its specific hardware configuration (`hosts/hardware-desktop.nix`), and then activates the desired profiles, system modules, and home-manager configurations by setting options.
-4.  Modules in `system/`, `profiles/`, and `home/` contain the actual Nix code that configures packages, services, settings, and dotfiles based on the options enabled in the host file.
+### Getting Help
+If you encounter issues or have questions about this configuration:
 
-This setup aims for modularity, allowing different machines (`hosts/`) to reuse common settings (`system/`, `profiles/`, `home/`) while having their own specific configurations.
+- **Discord:** @atomazu (fastest response)
+- **Email:** contact@atomazu.org
+- **GitHub Issues:** [Open an issue](https://github.com/atomazu/my-nixos/issues) for bugs or feature requests
+
+### Contributing
+Contributions are welcome! Please feel free to submit pull requests or open issues for discussion.
