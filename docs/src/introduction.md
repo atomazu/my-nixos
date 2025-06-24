@@ -1,5 +1,4 @@
 # Atomazu's NixOS Configuration
 
-Welcome to the documentation for my personal NixOS and Home Manager configuration!
+Welcome to the documentation to [atomazu/my-nixos](https://github.com/atomazu/my-nixos)
 
-This documentation is a work and progress.
