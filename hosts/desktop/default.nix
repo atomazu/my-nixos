@@ -51,8 +51,21 @@
         format = "ssh";
       };
     };
+
+    chromium = {
+      enable = true;
+      extensions = {
+        bitwarden = true;
+        ublock = true;
+        darkReader = true;
+        sponsorBlock = true;
+        yomiTan = true;
+        malSync = true;
+        vimium = true;
+      };
+    };
+
     shell.enable = true;
-    chromium.enable = true;
     albert.enable = true;
     nixvim.enable = true;
     tmux.enable = true;

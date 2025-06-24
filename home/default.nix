@@ -49,7 +49,18 @@ in
         };
       };
     };
-    chromium.enable = lib.mkEnableOption "Chromium web browser";
+    chromium = {
+      enable = lib.mkEnableOption "Chromium web browser";
+      extensions = {
+        bitwarden = lib.mkEnableOption "Bitwarden Password Manager";
+        ublock = lib.mkEnableOption "uBlock Origin Lite";
+        darkReader = lib.mkEnableOption "Dark Reader";
+        sponsorBlock = lib.mkEnableOption "SponsorBlock";
+        yomiTan = lib.mkEnableOption "YomiTan Popup Dictionary";
+        malSync = lib.mkEnableOption "MAL-Sync";
+        vimium = lib.mkEnableOption "Vimium";
+      };
+    };
     nixvim.enable = lib.mkEnableOption "Enable Nixvim";
   };
 
@@ -82,17 +93,20 @@ in
         };
       };
 
-      programs.chromium = {
-        enable = cfg.chromium.enable;
+      programs.chromium = lib.mkIf cfg.chromium.enable {
+        enable = true;
 
-        extensions = [
-          { id = "nngceckbapebfimnlniiiahkandclblb"; } # Bitwarden Password Manager
-          { id = "ddkjiahejlhfcafbddmgiahcphecmpfh"; } # uBlock Origin Lite
-          { id = "eimadpbcbfnmbkopoojfekhnkhdbieeh"; } # Dark Reader
-          { id = "mnjggcdmjocbbbhaepdhchncahnbgone"; } # SponsorBlock
-          { id = "likgccmbimhjbgkjambclfkhldnlhbnn"; } # YomiTan Popup Dictionary
-          { id = "kekjfbackdeiabghhcdklcdoekaanoel"; } # MAL-Sync
-        ];
+        extensions = lib.mapAttrsToList (name: id: { inherit id; }) (
+          lib.filterAttrs (name: id: cfg.chromium.extensions.${name}) {
+            bitwarden = "nngceckbapebfimnlniiiahkandclblb";
+            ublock = "ddkjiahejlhfcafbddmgiahcphecmpfh";
+            darkReader = "eimadpbcbfnmbkopoojfekhnkhdbieeh";
+            sponsorBlock = "mnjggcdmjocbbbhaepdhchncahnbgone";
+            yomiTan = "likgccmbimhjbgkjambclfkhldnlhbnn";
+            malSync = "kekjfbackdeiabghhcdklcdoekaanoel";
+            vimium = "dbepggeogbaibhgnhhndojpepiihcmeb";
+          }
+        );
       };
 
       home.stateVersion = "25.05";
