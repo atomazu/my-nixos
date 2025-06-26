@@ -32,6 +32,7 @@ in
         gcc
         lazygit
         wl-clipboard
+        qt6.qttools
       ];
 
       opts = {
@@ -84,24 +85,18 @@ in
         # For hover doc and breadcrumbs...
         lspsaga.enable = true;
 
-        # Web dev
-        luasnip.enable = true;
-        emmet.enable = true;
-
         lsp = {
           enable = true;
           servers = {
-            bashls.enable = true;
             clangd.enable = true;
             nixd.enable = true;
-            pyright.enable = true;
-            gopls.enable = true;
-            asm_lsp.enable = true;
-            ts_ls.enable = true;
-            eslint.enable = true;
-            jsonls.enable = true;
-            html.enable = true;
-            cssls.enable = true;
+            qmlls = {
+              enable = true;
+              cmd = [
+                "qmlls"
+                "-E"
+              ];
+            };
           };
         };
 
@@ -184,6 +179,7 @@ in
 
         nix.enable = true;
       };
+
       keymaps = [
         {
           key = "<leader>man";
