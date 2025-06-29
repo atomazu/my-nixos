@@ -84,6 +84,7 @@ in
 
         # For hover doc and breadcrumbs...
         lspsaga.enable = true;
+        luasnip.enable = true;
 
         lsp = {
           enable = true;
