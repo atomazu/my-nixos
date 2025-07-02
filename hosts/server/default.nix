@@ -27,7 +27,6 @@
   sys = {
     boot = {
       loader.systemd.enable = true;
-      plymouth = true;
     };
   };
 
@@ -42,25 +41,28 @@
       };
     };
     shell.enable = true;
-    chromium.enable = true;
     nixvim.enable = true;
     tmux.enable = true;
-    yazi.enable = true;
   };
 
   profiles.sway.enable = true;
 
   ### Custom Tweaks ###
-  documentation.man.generateCaches = false;
+  services.nginx = {
+    enable = true;
+    virtualHosts."api.atomazu.org" = {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:3000";
+        proxyWebsockets = true;
+      };
+    };
+  };
 
-  services.displayManager.gdm.autoSuspend = false;
-  services.displayManager.gdm.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    libnotify
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+    3000
   ];
 
-  home-manager.users.${config.host.user} = {
-    # ...
-  };
+  documentation.man.generateCaches = false;
 }
