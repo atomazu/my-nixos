@@ -213,12 +213,12 @@ in
           options.desc = "Quickfix";
         }
         {
-          key = "<leader>git";
+          key = "<leader>g";
           action = "<cmd>LazyGit<CR>";
           options.desc = "LazyGit";
         }
         {
-          key = "<leader>oil";
+          key = "<leader>o";
           action = "<cmd>Oil<CR>";
           options.desc = "Oil";
         }
