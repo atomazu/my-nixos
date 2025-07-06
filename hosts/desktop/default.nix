@@ -239,22 +239,36 @@ in
   services.displayManager.gdm.enable = true;
 
   # # Steam
-  # programs.steam.enable = true;
-  # hardware.steam-hardware.enable = true;
-  # programs.steam.extest.enable = true;
-  # programs.steam.remotePlay.openFirewall = true;
-  # programs.steam.localNetworkGameTransfers.openFirewall = true;
-  # programs.gamescope.enable = true;
-  # programs.steam.dedicatedServer.openFirewall = true;
+  programs.steam.enable = true;
+  hardware.steam-hardware.enable = true;
+  programs.steam.extest.enable = true;
+  programs.steam.remotePlay.openFirewall = true;
+  programs.steam.localNetworkGameTransfers.openFirewall = true;
+  programs.gamescope.enable = true;
+  programs.steam.dedicatedServer.openFirewall = true;
+
+  programs.thunar.enable = true;
+
+  fileSystems."mnt/drive" = {
+    device = "/dev/disk/by-uuid/E07EC6D47EC6A320";
+    fsType = "ntfs";
+    options = [
+      "defaults"
+      "uid=1000"
+      "gid=100"
+      "umask=0022"
+    ];
+  };
 
   environment.systemPackages = with pkgs; [
     anki-bin
     mpv
-    libnotify
   ];
 
   environment.sessionVariables = {
     "ANKI_WAYLAND" = "1";
+    "SDL_VIDEODRIVER" = "wayland";
+    "ELECTRON_OZONE_PLATFORM_HINT" = "wayland";
   };
 
   home-manager.users.${config.host.user} = {
