@@ -39,9 +39,10 @@ in
         programs.kitty = {
           enable = true;
           shellIntegration.enableFishIntegration = true;
-          environment = {
-            "EDITOR" = "nvim";
-          };
+        };
+
+        home.sessionVariables = {
+          EDITOR = "nvim";
         };
 
         programs.zoxide = {
