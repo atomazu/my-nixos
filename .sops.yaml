@@ -1,0 +1,10 @@
+keys:
+  - &jonas age1wh2n9l8ek7dhlylqpqs6xyzq22ns74qd5h6ssawquq8ex7v5052q5mdyz2
+  - &machine_desktop age10gyskay5cp2mjw2ztpwzrlmrdklgr2dq6fh60ry4p4lwep6as44qjpzqhe
+
+creation_rules:
+  - path_regex: secrets/.*
+    key_groups:
+      - age:
+          - *jonas
+          - *machine_desktop

@@ -14,6 +14,7 @@
         inherit system specialArgs;
         modules = [
           ../hosts/desktop
+          inputs.sops-nix.nixosModules.sops
         ];
       };
 
