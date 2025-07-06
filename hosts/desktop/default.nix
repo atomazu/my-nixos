@@ -13,8 +13,8 @@ let
     src = pkgs.fetchFromGitHub {
       owner = "atomazu";
       repo = "atomazu.org";
-      rev = "6fc4bc60f79ee9efff169fd3fb84d76cb1d9d8ea";
-      sha256 = "sha256-p3p8pDDzJBgASUl/mS87J4e5MhSy1PMLNqDV9EmG6dU=";
+      rev = "b8b1030ee36292e9585c3aa058359d4dbe1877e7";
+      sha256 = "sha256-hyC2uqvWihGDKOoZB1q7pdxTBJEDWyTgmEe1wWoFofQ=";
     };
 
     dontNpmBuild = true;
