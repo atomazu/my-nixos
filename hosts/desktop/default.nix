@@ -160,7 +160,7 @@ in
         group = "atmz";
         content = ''
           TOKEN=${config.sops.placeholder.TOKEN}
-          POSTS=/var/lib/api-atomazu-org/posts
+          POSTS=/var/lib/atmz-blog
         '';
       };
     };
@@ -204,6 +204,10 @@ in
     isSystemUser = true;
     group = "atmz";
   };
+
+  systemd.tmpfiles.rules = [
+    "d /var/lib/atmz-blog 0775 ${config.host.user} atmz - -"
+  ];
 
   systemd.services.atmz = {
     description = "API backend for atomazu.org";
