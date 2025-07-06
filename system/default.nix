@@ -15,8 +15,8 @@ in
   options.sys = {
     gpu = {
       nvidia = {
-        enable = lib.mkEnableOption "Enable Nvidia tweaks";
-        beta = lib.mkEnableOption "Enable the beta drivers";
+        enable = lib.mkEnableOption "Nvidia GPU support and optimizations";
+        beta = lib.mkEnableOption "Beta Nvidia drivers with latest features";
       };
     };
 
@@ -28,13 +28,13 @@ in
             default = "auto";
             description = "What screen resolution Grub uses";
           };
-          enable = lib.mkEnableOption "Enable grub boot";
-          prober = lib.mkEnableOption "Enable OSProber";
+          enable = lib.mkEnableOption "GRUB bootloader for system startup";
+          prober = lib.mkEnableOption "OS detection and multi-boot menu generation";
         };
-        systemd.enable = lib.mkEnableOption "Enable systemd boot";
+        systemd.enable = lib.mkEnableOption "Systemd-boot as the system bootloader";
       };
-      plymouth = lib.mkEnableOption "Enable plymouth";
-      silent = lib.mkEnableOption "Enable silent boot";
+      plymouth = lib.mkEnableOption "Plymouth boot splash screen manager";
+      silent = lib.mkEnableOption "Silent boot with suppressed kernel messages";
     };
   };
 
