@@ -1,6 +1,5 @@
-## Welcome to my NixOS configuration
-
-Documentation is available at [atomazu.org/my-nixos](https://atomazu.org/my-nixos) (updated automatically).
+## my-nixos
+Documentation is available at [docs.atomazu.org](https://docs.atomazu.org).
 
 To use this configuration, you can clone/fork the repo and add your host to `hosts/`.
 
@@ -13,9 +12,9 @@ For more examples you may look at the existing configurations in `hosts/`.
 ### Getting Help
 If you encounter issues or have questions about this configuration:
 
-- **Discord:** @atomazu (fastest response)
+- **Discord:** @atomazu 
 - **Email:** contact@atomazu.org
-- **GitHub Issues:** [Open an issue](https://github.com/atomazu/my-nixos/issues) for bugs or feature requests
+- **GitHub Issues:** [Open an issue](https://github.com/atomazu/my-nixos/issues) 
 
 ### Contributing
 Contributions are welcome! Please feel free to submit pull requests or open issues for discussion.
