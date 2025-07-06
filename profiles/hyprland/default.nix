@@ -14,38 +14,38 @@ in
   ### Options ###
 
   options.profiles.hyprland = {
-    osd = libutils.mkEnabledOption "Enable OSD for audio and brightness";
-    enable = lib.mkEnableOption "Hyprland profile";
-    playerctl = libutils.mkEnabledOption "Enable media playback controls";
-    polkit = libutils.mkEnabledOption "Enable polkit auth agent";
+    osd = libutils.mkEnabledOption "On-screen display for volume and brightness notifications";
+    enable = lib.mkEnableOption "Hyprland Wayland compositor";
+    playerctl = libutils.mkEnabledOption "Media playback controls (play, pause, next, previous)";
+    polkit = libutils.mkEnabledOption "Polkit authentication agent for elevated privileges";
 
     settings = lib.mkOption {
       type = lib.types.attrs;
       default = { };
-      description = "Extra settings, will be merged with defaults";
+      description = "Custom settings to override Hyprland defaults";
     };
 
     mod = lib.mkOption {
       type = lib.types.str;
       default = "SUPER";
-      description = "Mod key used in binds";
+      description = "Modifier key for keybindings (e.g., SUPER, ALT)";
     };
 
     regreet = {
-      enable = lib.mkEnableOption "Enable regreet with greetd";
+      enable = lib.mkEnableOption "Regreet login manager with greetd";
       settings = lib.mkOption {
         type = lib.types.str;
         default = "";
-        description = "Appended to regreet hyprland settings";
+        description = "Additional settings for the Regreet login manager";
       };
     };
 
     albert = {
-      enable = lib.mkEnableOption "Enable Albert integration";
+      enable = lib.mkEnableOption "Albert keyboard launcher integration";
       keybind = lib.mkOption {
         type = lib.types.str;
         default = "$mod, SPACE";
-        description = "Keybind for toggling Albert";
+        description = "Keybinding to open the Albert launcher";
       };
     };
   };

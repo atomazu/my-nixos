@@ -22,47 +22,47 @@ in
 
   options.home = {
     git = {
-      enable = lib.mkEnableOption "Git version control";
+      enable = lib.mkEnableOption "Git source control integration";
       name = lib.mkOption {
         type = lib.types.str;
         example = "John Doe";
-        description = "Git name";
+        description = "Full name for Git commits";
       };
       email = lib.mkOption {
         type = lib.types.str;
         example = "example@mail.com";
-        description = "Git email";
+        description = "Email address for Git commits";
       };
       signing = {
-        enable = lib.mkEnableOption "Git commit signing";
+        enable = lib.mkEnableOption "Git commit signing with a GPG or SSH key";
         format = lib.mkOption {
           type = lib.types.enum [
             "ssh"
             "gpg"
           ];
           example = "ssh";
-          description = "Signing format (ssh or gpg)";
+          description = "Key format for commit signing (ssh or gpg)";
         };
         key = lib.mkOption {
           type = lib.types.str;
           default = "~/.ssh/id_ed25519.pub";
-          description = "Path to signing key";
+          description = "Public key or key ID for commit signing";
         };
       };
     };
     chromium = {
-      enable = lib.mkEnableOption "Chromium web browser";
+      enable = lib.mkEnableOption "Chromium web browser with pre-configured extensions";
       extensions = {
-        bitwarden = lib.mkEnableOption "Bitwarden Password Manager";
-        ublock = lib.mkEnableOption "uBlock Origin Lite";
-        darkReader = lib.mkEnableOption "Dark Reader";
-        sponsorBlock = lib.mkEnableOption "SponsorBlock";
-        yomiTan = lib.mkEnableOption "YomiTan Popup Dictionary";
-        malSync = lib.mkEnableOption "MAL-Sync";
-        vimium = lib.mkEnableOption "Vimium";
+        bitwarden = lib.mkEnableOption "Bitwarden password manager extension";
+        ublock = lib.mkEnableOption "uBlock Origin ad-blocker extension";
+        darkReader = lib.mkEnableOption "Dark Reader for dark mode on all websites";
+        sponsorBlock = lib.mkEnableOption "SponsorBlock for skipping YouTube sponsors";
+        yomiTan = lib.mkEnableOption "YomiTan Japanese popup dictionary";
+        malSync = lib.mkEnableOption "MAL-Sync for syncing anime/manga watch history";
+        vimium = lib.mkEnableOption "Vimium for Vim-like keybindings in Chromium";
       };
     };
-    nixvim.enable = lib.mkEnableOption "Enable Nixvim";
+    nixvim.enable = lib.mkEnableOption "Nix-managed Neovim configuration";
   };
 
   config = {

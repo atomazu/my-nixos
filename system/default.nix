@@ -36,6 +36,8 @@ in
       plymouth = lib.mkEnableOption "Plymouth boot splash screen manager";
       silent = lib.mkEnableOption "Silent boot with suppressed kernel messages";
     };
+
+    sops.enable = lib.mkEnableOption "Atomic secret provisioning for NixOS based on sops";
   };
 
   config = {

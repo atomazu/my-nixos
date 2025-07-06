@@ -23,50 +23,50 @@ in
   options.host = {
     name = lib.mkOption {
       type = lib.types.str;
-      description = "The hostname of the system";
+      description = "Hostname for the system";
     };
 
     user = lib.mkOption {
       type = lib.types.str;
-      description = "The primary user of the system";
+      description = "Primary user account name";
     };
 
     locale = lib.mkOption {
       type = lib.types.str;
       default = "en_US.UTF-8";
-      description = "The System locale";
+      description = "System-wide locale and language settings";
     };
 
     extraLocale = lib.mkOption {
       type = lib.types.str;
       default = "en_US.UTF-8";
-      description = "The System locale, but extra";
+      description = "Additional locale for specific settings (e.g., currency, measurements)";
     };
 
     layout = lib.mkOption {
       type = lib.types.str;
       default = "us";
-      description = "Default keyboard layout";
+      description = "Default keyboard layout (e.g., 'us', 'de')";
     };
 
     time = lib.mkOption {
       type = lib.types.str;
       default = "Europe/Berlin";
-      description = "Default system time";
+      description = "System time zone (e.g., 'Europe/Berlin', 'America/New_York')";
     };
 
     stylix = {
-      enable = libutils.mkEnabledOption "Enable Stylix";
+      enable = libutils.mkEnabledOption "Stylix theming and customization";
       scheme = lib.mkOption {
         type = lib.types.str;
         default = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
-        description = "Base 16 scheme to use for stylix";
+        description = "Base16 color scheme for system-wide theming";
       };
 
       image = lib.mkOption {
         type = lib.types.path;
         default = ../assets/binary.png;
-        description = "Background image";
+        description = "Path to the desktop wallpaper image";
       };
 
       cursor = lib.mkOption {
@@ -77,12 +77,12 @@ in
           size = 24;
         };
 
-        description = "Cursor for stylix";
+        description = "Cursor theme, package, and size";
       };
     };
 
     extras.jp = {
-      enable = lib.mkEnableOption "Enable Japanese extras";
+      enable = lib.mkEnableOption "Japanese language support and input methods";
 
       fonts = {
         serif = lib.mkOption {
@@ -91,7 +91,7 @@ in
             package = pkgs.noto-fonts-cjk-serif;
             name = "Noto Serif CJK JP";
           };
-          description = "Japanese serif font";
+          description = "Default Japanese serif font";
         };
 
         sansSerif = lib.mkOption {
@@ -100,12 +100,12 @@ in
             package = pkgs.noto-fonts-cjk-sans;
             name = "Noto Sans CJK JP";
           };
-          description = "Japanese sans serif font";
+          description = "Default Japanese sans-serif font";
         };
       };
     };
 
-    nh = libutils.mkEnabledOption "If nh should be enabled";
+    nh = libutils.mkEnabledOption "nh tool for managing NixOS generations";
   };
 
   ### Configuration ###
