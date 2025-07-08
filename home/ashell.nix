@@ -19,6 +19,18 @@ in
 
   config = lib.mkIf (cfg.enable) {
     home-manager.users.${config.host.user} = {
+      services.swaync.enable = cfg.swayncIntegration;
+      services.swaync.settings = {
+        control-center-margin-top = 8;
+        control-center-margin-bottom = 8;
+        control-center-margin-right = 8;
+        control-center-margin-left = 8;
+        control-center-width = 500;
+        control-center-height = 600;
+        positionX = "right";
+        positionY = "bottom";
+      };
+
       atomazu.ashell = {
         enable = cfg.enable;
         package = atmzInputs.ashell.defaultPackage.${pkgs.system};
@@ -48,9 +60,9 @@ in
               "MediaPlayer"
               "Tray"
               "Clock"
-              "CustomNotifications"
               "Settings"
-            ];
+            ] ++ lib.optionals cfg.swayncIntegration [ "CustomNotifications" ];
+
           };
 
           workspaces = {

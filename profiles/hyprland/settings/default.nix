@@ -24,7 +24,7 @@ let
     ];
 
     bind = [
-      "${cfg.albert.keybind}, exec, /run/current-system/sw/bin/albert toggle"
+      "${cfg.albertIntegration.keybind}, exec, /run/current-system/sw/bin/albert toggle"
     ];
   };
 
@@ -100,7 +100,7 @@ lib.recursiveUpdate { } (
     visual
     binding
     screenshot
-    (lib.mkIf cfg.albert.enable albert)
+    (lib.mkIf cfg.albertIntegration.enable albert)
     (lib.mkIf cfg.playerctl playerctl)
     (lib.mkIf cfg.polkit polkit)
     (lib.mkIf cfg.osd osd)

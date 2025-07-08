@@ -1,4 +1,5 @@
 {
+  pkgs,
   lib,
   config,
   ...
@@ -37,20 +38,27 @@ in
       silent = lib.mkEnableOption "Silent boot with suppressed kernel messages";
     };
 
-    sops.enable = lib.mkEnableOption "Atomic secret provisioning for NixOS based on sops";
+    displayManager = {
+      gdm.enable = lib.mkEnableOption "GNOME Display Manager";
+      regreet = {
+        enable = lib.mkEnableOption "A clean and customizable GTK-based greetd greeter written in Rust";
+      };
+    };
   };
 
   config = {
-    assertions = [
-      {
-        assertion = !(cfg.boot.loader.grub.enable && cfg.boot.loader.systemd.enable);
-        message = "Both systemd and grub enabled, choose either but not both";
-      }
-      {
-        assertion = cfg.boot.loader.grub.enable || cfg.boot.loader.systemd.enable;
-        message = "No bootloader configured, enable sys.boot.loader.grub.enable or sys.boot.loader.systemd.enable";
-      }
-    ];
+    programs.regreet.enable = cfg.displayManager.regreet.enable;
+    services.greetd = lib.mkIf cfg.displayManager.regreet.enable {
+      enable = true;
+      settings = {
+        default_session = {
+          command = "${pkgs.cage}/bin/cage -s -mlast -- ${pkgs.greetd.regreet}/bin/regreet";
+        };
+      };
+    };
+
+    services.displayManager.gdm.enable = cfg.displayManager.gdm.enable;
+    services.displayManager.gdm.autoSuspend = false;
 
     boot = lib.mkMerge [
       (lib.mkIf cfg.boot.loader.grub.enable {
@@ -100,11 +108,10 @@ in
     networking.hostName = "${config.host.name}";
     networking.networkmanager.enable = true;
 
-    services.gnome.gnome-keyring.enable = true;
-
     hardware.bluetooth.enable = true;
     hardware.bluetooth.powerOnBoot = true;
 
     services.openssh.enable = true;
+    services.gnome.gnome-keyring.enable = true;
   };
 }

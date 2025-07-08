@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  libutils,
   ...
 }:
 
@@ -14,10 +13,19 @@ in
   ### Options ###
 
   options.profiles.hyprland = {
-    osd = libutils.mkEnabledOption "On-screen display for volume and brightness notifications";
     enable = lib.mkEnableOption "Hyprland Wayland compositor";
-    playerctl = libutils.mkEnabledOption "Media playback controls (play, pause, next, previous)";
-    polkit = libutils.mkEnabledOption "Polkit authentication agent for elevated privileges";
+
+    playerctl = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Media playback controls (play, pause, next, previous)";
+    };
+
+    polkit = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Polkit authentication agent for elevated privileges";
+    };
 
     settings = lib.mkOption {
       type = lib.types.attrs;
@@ -31,16 +39,8 @@ in
       description = "Modifier key for keybindings (e.g., SUPER, ALT)";
     };
 
-    regreet = {
-      enable = lib.mkEnableOption "Regreet login manager with greetd";
-      settings = lib.mkOption {
-        type = lib.types.str;
-        default = "";
-        description = "Additional settings for the Regreet login manager";
-      };
-    };
-
-    albert = {
+    osd = lib.mkEnableOption "On-screen display for volume and brightness notifications";
+    albertIntegration = {
       enable = lib.mkEnableOption "Albert keyboard launcher integration";
       keybind = lib.mkOption {
         type = lib.types.str;
@@ -53,7 +53,7 @@ in
   ### Configuration ###
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [ ] ++ lib.optionals cfg.albert.enable [ pkgs.albert ];
+    environment.systemPackages = [ ] ++ lib.optionals cfg.albertIntegration.enable [ pkgs.albert ];
 
     # For screensharing
     xdg.portal = {
@@ -62,23 +62,20 @@ in
     };
 
     # To prevent Electron applications defaulting to X11
-    environment.sessionVariables.NIXOS_OZONE_WL = "1";
+    environment.sessionVariables = {
+      ANKI_WAYLAND = "1";
+      SDL_VIDEODRIVER = "wayland";
+      NIXOS_OZONE_WL = "1";
+      ELECTRON_OZONE_PLATFORM_HINT = "wayland";
+      MOZ_ENABLE_WAYLAND = "1";
+      CLUTTER_BACKEND = "wayland";
+      _JAVA_AWT_WM_NONREPARENTING = "1";
+    };
 
     # Enable Hyprland with UWSM
     programs.hyprland = {
       enable = true;
       withUWSM = true;
-    };
-
-    programs.regreet.enable = cfg.regreet.enable;
-    services.greetd = lib.mkIf cfg.regreet.enable {
-      enable = true;
-
-      settings = {
-        default_session = {
-          command = ''${pkgs.cage}/bin/cage -s -mlast -- ${pkgs.greetd.regreet}/bin/regreet'';
-        };
-      };
     };
 
     home-manager.users.${config.host.user} = {
