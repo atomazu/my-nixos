@@ -1,4 +1,6 @@
 {
+  atmzInputs,
+  lib,
   config,
   pkgs,
   ...
@@ -31,7 +33,7 @@
 
   sys = {
     gpu.nvidia.enable = true;
-    displayManager.regreet.enable = true;
+    displayManager.gdm.enable = true;
     boot = {
       loader.grub = {
         enable = true;
@@ -65,6 +67,20 @@
         malSync = true;
         vimium = true;
         websiteBlocker = true;
+      };
+    };
+
+    firefox = {
+      enable = true;
+      extensions = {
+        bitwarden = true;
+        uBlockOrigin = true;
+        darkReader = true;
+        sponsorBlock = true;
+        yomitan = true;
+        malSync = true;
+        vimium = true;
+        impulseBlocker = true;
       };
     };
 
