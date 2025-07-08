@@ -21,6 +21,8 @@ in
   ];
 
   options.home = {
+    nixvim.enable = lib.mkEnableOption "Nix-managed Neovim configuration";
+
     git = {
       enable = lib.mkEnableOption "Git source control integration";
       name = lib.mkOption {
@@ -33,6 +35,7 @@ in
         example = "example@mail.com";
         description = "Email address for Git commits";
       };
+
       signing = {
         enable = lib.mkEnableOption "Git commit signing with a GPG or SSH key";
         format = lib.mkOption {
@@ -50,6 +53,7 @@ in
         };
       };
     };
+
     chromium = {
       enable = lib.mkEnableOption "Chromium web browser with pre-configured extensions";
       extensions = {
@@ -63,6 +67,7 @@ in
         websiteBlocker = lib.mkEnableOption "Website blocker for productivity";
       };
     };
+
     firefox = {
       enable = lib.mkEnableOption "Firefox web browser with pre-configured extensions";
       extensions = {
@@ -76,7 +81,6 @@ in
         impulseBlocker = lib.mkEnableOption "Impulse Blocker for productivity";
       };
     };
-    nixvim.enable = lib.mkEnableOption "Nix-managed Neovim configuration";
   };
 
   config = {
