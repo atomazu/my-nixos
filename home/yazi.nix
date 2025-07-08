@@ -10,7 +10,7 @@ let
 in
 {
   options.home.yazi = {
-    enable = lib.mkEnableOption "Enable yazi file manager";
+    enable = lib.mkEnableOption "Blazing Fast Terminal File Manager";
   };
 
   config = lib.mkIf (cfg.enable) {

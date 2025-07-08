@@ -13,8 +13,8 @@ let
 in
 {
   options.home.ashell = {
-    enable = lib.mkEnableOption "Enable Ashell status bar";
-    swayncIntegration = lib.mkEnableOption "Integrates swaync";
+    enable = lib.mkEnableOption "ashell - a shell a la Material You";
+    swayncIntegration = lib.mkEnableOption "Sway Notification Center Integration";
   };
 
   config = lib.mkIf (cfg.enable) {

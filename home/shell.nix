@@ -13,12 +13,7 @@ in
     enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
-      description = "Shell module";
-    };
-    font-size = lib.mkOption {
-      type = lib.types.int;
-      default = 16;
-      description = "Font Size for Kitty";
+      description = "Opinionated Shell Configuration";
     };
   };
 

@@ -10,7 +10,7 @@ let
 in
 {
   options.home.vim = {
-    enable = lib.mkEnableOption "Enable legacy Vim.";
+    enable = lib.mkEnableOption "Vi Improved";
   };
 
   config = lib.mkIf (cfg.enable) {
