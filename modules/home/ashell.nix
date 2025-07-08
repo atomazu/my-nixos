@@ -37,7 +37,7 @@ in
     };
 
     extraConfig = lib.mkOption {
-      type = lib.types.string;
+      type = lib.types.lines;
       default = "";
       description = "Extra configuration to append to the ashell config.toml file";
       example = ''
