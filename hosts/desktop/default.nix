@@ -58,12 +58,13 @@
       enable = true;
       extensions = {
         bitwarden = true;
-        ublock = true;
+        uBlockLite = true;
         darkReader = true;
         sponsorBlock = true;
-        yomiTan = true;
+        yomitan = true;
         malSync = true;
         vimium = true;
+        websiteBlocker = true;
       };
     };
 

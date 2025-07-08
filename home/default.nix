@@ -54,12 +54,13 @@ in
       enable = lib.mkEnableOption "Chromium web browser with pre-configured extensions";
       extensions = {
         bitwarden = lib.mkEnableOption "Bitwarden password manager extension";
-        ublock = lib.mkEnableOption "uBlock Origin ad-blocker extension";
+        uBlockLite = lib.mkEnableOption "uBlock Origin ad-blocker extension";
         darkReader = lib.mkEnableOption "Dark Reader for dark mode on all websites";
         sponsorBlock = lib.mkEnableOption "SponsorBlock for skipping YouTube sponsors";
-        yomiTan = lib.mkEnableOption "YomiTan Japanese popup dictionary";
+        yomitan = lib.mkEnableOption "YomiTan Japanese popup dictionary";
         malSync = lib.mkEnableOption "MAL-Sync for syncing anime/manga watch history";
         vimium = lib.mkEnableOption "Vimium for Vim-like keybindings in Chromium";
+        websiteBlocker = lib.mkEnableOption "Website blocker for productivity";
       };
     };
     nixvim.enable = lib.mkEnableOption "Nix-managed Neovim configuration";
@@ -100,12 +101,13 @@ in
         extensions = lib.mapAttrsToList (name: id: { inherit id; }) (
           lib.filterAttrs (name: id: cfg.chromium.extensions.${name}) {
             bitwarden = "nngceckbapebfimnlniiiahkandclblb";
-            ublock = "ddkjiahejlhfcafbddmgiahcphecmpfh";
+            uBlockLite = "ddkjiahejlhfcafbddmgiahcphecmpfh";
             darkReader = "eimadpbcbfnmbkopoojfekhnkhdbieeh";
             sponsorBlock = "mnjggcdmjocbbbhaepdhchncahnbgone";
-            yomiTan = "likgccmbimhjbgkjambclfkhldnlhbnn";
+            yomitan = "likgccmbimhjbgkjambclfkhldnlhbnn";
             malSync = "kekjfbackdeiabghhcdklcdoekaanoel";
             vimium = "dbepggeogbaibhgnhhndojpepiihcmeb";
+            websiteBlocker = "aoabjfoanlljmgnohepbkimcekolejjn";
           }
         );
       };
