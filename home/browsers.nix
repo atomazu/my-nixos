@@ -77,8 +77,8 @@ in
         bookmarks = { };
         extensions.packages =
           with atmzInputs.firefox-addons.packages.${pkgs.system};
-          lib.filter (pkg: pkg != null) (
-            lib.mapAttrsToList (name: pkg: if cfg.firefox.extensions.${name} then pkg else null) {
+          lib.mapAttrsToList (name: pkg: pkg) (
+            lib.filterAttrs (name: pkg: cfg.firefox.extensions.${name}) {
               bitwarden = bitwarden;
               uBlockOrigin = ublock-origin;
               darkReader = darkreader;
