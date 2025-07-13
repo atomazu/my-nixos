@@ -56,6 +56,7 @@
 
     chromium = {
       enable = true;
+      widevine = true;
       extensions = {
         bitwarden = true;
         uBlockLite = true;

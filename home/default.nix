@@ -17,8 +17,9 @@ in
     ./shell.nix
     ./ashell.nix
     ./yazi.nix
-    ./browsers.nix
     ./git.nix
+    ./chromium.nix
+    ./firefox.nix
   ];
 
   options.home = {

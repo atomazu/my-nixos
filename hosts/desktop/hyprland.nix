@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   atmzInputs,
   ...
@@ -20,7 +21,7 @@
 
       bind = [
         "$mod, RETURN, exec, ${pkgs.kitty}/bin/kitty"
-        "$mod, B, exec, ${pkgs.chromium}/bin/chromium"
+        "$mod, B, exec, ${config.home.chromium.package}/bin/chromium"
 
         # Monitor-column traversal
         "$mod CTRL, E, workspace, +1"
