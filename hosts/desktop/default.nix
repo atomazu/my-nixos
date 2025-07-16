@@ -1,4 +1,5 @@
 {
+  atmzInputs,
   config,
   pkgs,
   ...
@@ -73,25 +74,29 @@
       enable = true;
     };
 
+    yazi.enable = true;
     albert.enable = true;
     nixvim.enable = true;
     tmux.enable = true;
-
-    ashell = {
-      enable = true;
-      swayncIntegration = true;
-    };
   };
 
   ### Additional Tweaks ###
-
   home-manager.users.${config.host.user} = {
+    imports = [
+      ../../modules/home/quickshell
+    ];
+
     home.packages = with pkgs; [
       anki-bin
       youtube-music
+      calibre
     ];
 
     programs.vesktop.enable = true;
     programs.mpv.enable = true;
+
+    atomazu.quickshell.enable = true;
+    atomazu.quickshell.configDir = ./quickshell;
+    atomazu.quickshell.autoStart = true;
   };
 }

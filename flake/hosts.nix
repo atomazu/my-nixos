@@ -7,6 +7,7 @@
       specialArgs = {
         atmzInputs = inputs;
         inherit libutils;
+        inherit (inputs) quickshell;
       };
     in
     {
