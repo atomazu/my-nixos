@@ -2,11 +2,11 @@
   lib,
 }:
 {
-  mkEnabledOption =
-    description:
+  mkEnableOption =
+    description: default:
     lib.mkOption {
       type = lib.types.bool;
-      default = true;
+      default = default;
       inherit description;
     };
 }

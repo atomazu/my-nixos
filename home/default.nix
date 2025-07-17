@@ -1,7 +1,7 @@
 {
+  atomazu,
   config,
   lib,
-  atmzInputs,
   ...
 }:
 
@@ -10,7 +10,7 @@ let
 in
 {
   imports = [
-    atmzInputs.home-manager.nixosModules.default
+    atomazu.inputs.home-manager.nixosModules.default
     ./tmux.nix
     ./vim.nix
     ./albert.nix
@@ -26,14 +26,12 @@ in
     nixvim.enable = lib.mkEnableOption "Nix-managed Neovim configuration";
   };
 
-  config = {
-    home-manager = {
-      extraSpecialArgs = { inherit atmzInputs; };
-      useGlobalPkgs = true;
-      useUserPackages = true;
-    };
+  config.home-manager = {
+    extraSpecialArgs = { inherit atomazu; };
+    useGlobalPkgs = true;
+    useUserPackages = true;
 
-    home-manager.users.${config.host.user} = {
+    users.${config.host.user} = {
       imports = [
         ../modules/home
       ];

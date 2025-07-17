@@ -1,9 +1,8 @@
 {
-  atmzInputs,
+  atomazu,
   config,
   pkgs,
   lib,
-  libutils,
   ...
 }:
 
@@ -12,7 +11,7 @@ let
 in
 {
   imports = [
-    atmzInputs.stylix.nixosModules.stylix
+    atomazu.inputs.stylix.nixosModules.stylix
     ./../system
     ./../home
     ./../profiles
@@ -56,7 +55,7 @@ in
     };
 
     stylix = {
-      enable = libutils.mkEnabledOption "Stylix theming and customization";
+      enable = atomazu.lib.mkEnableOption "Stylix theming and customization" true;
       scheme = lib.mkOption {
         type = lib.types.str;
         default = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
@@ -105,7 +104,7 @@ in
       };
     };
 
-    nh = libutils.mkEnabledOption "nh tool for managing NixOS generations";
+    nh = atomazu.lib.mkEnableOption "nh tool for managing NixOS generations" true;
   };
 
   ### Configuration ###

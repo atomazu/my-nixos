@@ -2,7 +2,7 @@
   pkgs,
   config,
   lib,
-  atmzInputs,
+  atomazu,
   ...
 }:
 let
@@ -28,7 +28,7 @@ in
 
     package = lib.mkOption {
       type = lib.types.package;
-      default = atmzInputs.quickshell.packages.${pkgs.system}.default;
+      default = atomazu.inputs.quickshell.packages.${pkgs.system}.default;
       description = "Quickshell package to use";
     };
 

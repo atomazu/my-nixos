@@ -1,6 +1,6 @@
 {
+  atomazu,
   config,
-  atmzInputs,
   pkgs,
   lib,
   ...
@@ -14,7 +14,7 @@ in
     enable = lib.mkEnableOption "ashell - a shell a la Material You";
     package = lib.mkOption {
       type = lib.types.package;
-      default = atmzInputs.ashell.defaultPackage.${pkgs.system};
+      default = atomazu.inputs.ashell.defaultPackage.${pkgs.system};
       description = "The package to use";
     };
 

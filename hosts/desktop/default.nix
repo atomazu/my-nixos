@@ -1,5 +1,4 @@
 {
-  atmzInputs,
   config,
   pkgs,
   ...

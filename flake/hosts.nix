@@ -2,17 +2,28 @@
 {
   flake.nixosConfigurations =
     let
-      system = "x86_64-linux";
-      libutils = import ../lib { lib = inputs.nixpkgs.lib; };
+      lib = import ../lib { lib = inputs.nixpkgs.lib; };
       specialArgs = {
-        atmzInputs = inputs;
-        inherit libutils;
-        inherit (inputs) quickshell;
+        system = "x86_64-linux";
+        atomazu = {
+          inputs = {
+            inherit (inputs)
+              quickshell
+              nixvim
+              sops-nix
+              home-manager
+              stylix
+              ashell
+              firefox-addons
+              ;
+          };
+          inherit lib;
+        };
       };
     in
     {
       desktop = inputs.nixpkgs.lib.nixosSystem {
-        inherit system specialArgs;
+        inherit specialArgs;
         modules = [
           ../hosts/desktop
           inputs.sops-nix.nixosModules.sops
@@ -20,7 +31,7 @@
       };
 
       server = inputs.nixpkgs.lib.nixosSystem {
-        inherit system specialArgs;
+        inherit specialArgs;
         modules = [
           ../hosts/server
         ];

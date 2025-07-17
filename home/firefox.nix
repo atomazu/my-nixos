@@ -2,7 +2,7 @@
   pkgs,
   config,
   lib,
-  atmzInputs,
+  atomazu,
   ...
 }:
 
@@ -39,7 +39,7 @@ in
       };
       bookmarks = { };
       extensions.packages =
-        with atmzInputs.firefox-addons.packages.${pkgs.system};
+        with atomazu.inputs.firefox-addons.packages.${pkgs.system};
         lib.mapAttrsToList (name: pkg: pkg) (
           lib.filterAttrs (name: pkg: cfg.extensions.${name}) {
             bitwarden = bitwarden;

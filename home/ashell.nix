@@ -1,8 +1,8 @@
 {
-  atmzInputs,
   pkgs,
   config,
   lib,
+  atomazu,
   ...
 }:
 
@@ -33,7 +33,7 @@ in
 
       atomazu.ashell = {
         enable = cfg.enable;
-        package = atmzInputs.ashell.defaultPackage.${pkgs.system};
+        package = atomazu.inputs.ashell.defaultPackage.${pkgs.system};
 
         extraConfig = lib.mkIf cfg.swayncIntegration ''
           [[CustomModule]]

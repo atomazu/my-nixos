@@ -1,8 +1,8 @@
 {
+  atomazu,
   config,
   lib,
   pkgs,
-  atmzInputs,
   ...
 }:
 let
@@ -14,7 +14,7 @@ in
   };
 
   imports = [
-    atmzInputs.nixvim.homeManagerModules.nixvim
+    atomazu.inputs.nixvim.homeManagerModules.nixvim
   ];
 
   config = lib.mkIf cfg.enable {
