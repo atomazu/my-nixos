@@ -12,10 +12,7 @@
           let
             eval = inputs.self.nixosConfigurations.desktop;
             customPrefixes = [
-              "sys"
-              "host"
-              "home"
-              "profiles"
+              "atomazu"
             ];
 
             # Recursively collect options for a specific prefix
