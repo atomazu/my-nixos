@@ -12,9 +12,6 @@ in
 {
   imports = [
     atomazu.inputs.stylix.nixosModules.stylix
-    ./../system
-    ./../home
-    ./../profiles
   ];
 
   ### Options ###

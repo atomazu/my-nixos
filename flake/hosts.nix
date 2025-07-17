@@ -6,17 +6,7 @@
       specialArgs = {
         system = "x86_64-linux";
         atomazu = {
-          inputs = {
-            inherit (inputs)
-              quickshell
-              nixvim
-              sops-nix
-              home-manager
-              stylix
-              ashell
-              firefox-addons
-              ;
-          };
+          inherit inputs;
           inherit lib;
         };
       };
@@ -25,8 +15,11 @@
       desktop = inputs.nixpkgs.lib.nixosSystem {
         inherit specialArgs;
         modules = [
+          ../hosts
+          ../home
+          ../system
+          ../profiles
           ../hosts/desktop
-          inputs.sops-nix.nixosModules.sops
         ];
       };
 
