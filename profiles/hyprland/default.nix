@@ -6,13 +6,13 @@
 }:
 
 let
-  cfg = config.profiles.hyprland;
+  cfg = config.atomazu.my-nixos.profiles.hyprland;
   settings = import ./settings { inherit config pkgs lib; };
 in
 {
   ### Options ###
 
-  options.profiles.hyprland = {
+  options.atomazu.my-nixos.profiles.hyprland = {
     enable = lib.mkEnableOption "Hyprland Wayland compositor";
 
     playerctl = lib.mkOption {
@@ -78,7 +78,7 @@ in
       withUWSM = true;
     };
 
-    home-manager.users.${config.host.user} = {
+    home-manager.users.${config.atomazu.my-nixos.host.user} = {
       wayland.windowManager.hyprland = {
         enable = true;
 

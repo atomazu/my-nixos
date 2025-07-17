@@ -5,7 +5,7 @@
   ...
 }:
 let
-  cfg = config.profiles.hyprland;
+  cfg = config.atomazu.my-nixos.profiles.hyprland;
   polkit = {
     exec-once = [
       "${pkgs.hyprpolkitagent}/bin/hyprpolkitagent"

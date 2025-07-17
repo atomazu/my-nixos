@@ -6,19 +6,19 @@
 }:
 
 let
-  cfg = config.profiles.sway;
+  cfg = config.atomazu.my-nixos.profiles.sway;
 in
 {
   imports = [
     ./modules/waybar.nix
   ];
 
-  options.profiles.sway = {
+  options.atomazu.my-nixos.profiles.sway = {
     enable = lib.mkEnableOption "Sway profile";
   };
 
   config = lib.mkIf (cfg.enable == true) {
-    home-manager.users.${config.host.user} = {
+    home-manager.users.${config.atomazu.my-nixos.host.user} = {
       wayland.windowManager.sway = {
         enable = true;
 

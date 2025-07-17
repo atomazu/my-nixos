@@ -7,18 +7,18 @@
 }:
 
 let
-  cfg = config.home.ashell;
+  cfg = config.atomazu.my-nixos.home.ashell;
   stylixColors = config.lib.stylix.colors.withHashtag;
   stylixFonts = config.stylix.fonts;
 in
 {
-  options.home.ashell = {
+  options.atomazu.my-nixos.home.ashell = {
     enable = lib.mkEnableOption "ashell - a shell a la Material You";
     swayncIntegration = lib.mkEnableOption "Sway Notification Center Integration";
   };
 
   config = lib.mkIf (cfg.enable) {
-    home-manager.users.${config.host.user} = {
+    home-manager.users.${config.atomazu.my-nixos.host.user} = {
       services.swaync.enable = cfg.swayncIntegration;
       services.swaync.settings = {
         control-center-margin-top = 8;

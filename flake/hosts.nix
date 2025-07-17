@@ -15,10 +15,7 @@
       desktop = inputs.nixpkgs.lib.nixosSystem {
         inherit specialArgs;
         modules = [
-          ../hosts
-          ../home
-          ../system
-          ../profiles
+          ../modules/nixos
           ../hosts/desktop
         ];
       };

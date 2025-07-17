@@ -6,7 +6,7 @@
 }:
 
 let
-  cfg = config.home;
+  cfg = config.atomazu.my-nixos.home;
 in
 {
   imports = [
@@ -22,16 +22,16 @@ in
     ./firefox.nix
   ];
 
-  options.home = {
+  options.atomazu.my-nixos.home = {
     nixvim.enable = lib.mkEnableOption "Nix-managed Neovim configuration";
   };
 
-  config.home-manager = {
+  config.home-manager = lib.mkIf config.atomazu.my-nixos.enable {
     extraSpecialArgs = { inherit atomazu; };
     useGlobalPkgs = true;
     useUserPackages = true;
 
-    users.${config.host.user} = {
+    users.${config.atomazu.my-nixos.host.user} = {
       imports = [
         ../modules/home
       ];

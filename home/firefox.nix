@@ -7,10 +7,10 @@
 }:
 
 let
-  cfg = config.home.firefox;
+  cfg = config.atomazu.my-nixos.home.firefox;
 in
 {
-  options.home.firefox = {
+  options.atomazu.my-nixos.home.firefox = {
     enable = lib.mkEnableOption "Firefox web browser";
     extensions = {
       bitwarden = lib.mkEnableOption "Bitwarden password manager extension";
@@ -25,9 +25,9 @@ in
   };
 
   # Based on: https://github.com/Misterio77/nix-config
-  config.home-manager.users.${config.host.user}.programs.firefox = lib.mkIf cfg.enable {
+  config.home-manager.users.${config.atomazu.my-nixos.host.user}.programs.firefox = lib.mkIf cfg.enable {
     enable = true;
-    profiles.${config.host.user} = {
+    profiles.${config.atomazu.my-nixos.host.user} = {
       search = {
         force = true;
         default = "ddg";

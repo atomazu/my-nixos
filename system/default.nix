@@ -6,14 +6,14 @@
 }:
 
 let
-  cfg = config.sys;
+  cfg = config.atomazu.my-nixos.sys;
 in
 {
   imports = [
     ./nvidia.nix
   ];
 
-  options.sys = {
+  options.atomazu.my-nixos.sys = {
     gpu = {
       nvidia = {
         enable = lib.mkEnableOption "Nvidia GPU support and optimizations";
@@ -46,7 +46,7 @@ in
     };
   };
 
-  config = {
+  config = lib.mkIf config.atomazu.my-nixos.enable {
     programs.regreet.enable = cfg.displayManager.regreet.enable;
     services.greetd = lib.mkIf cfg.displayManager.regreet.enable {
       enable = true;
@@ -105,7 +105,7 @@ in
       jack.enable = true;
     };
 
-    networking.hostName = "${config.host.name}";
+    networking.hostName = "${config.atomazu.my-nixos.host.name}";
     networking.networkmanager.enable = true;
 
     hardware.bluetooth.enable = true;

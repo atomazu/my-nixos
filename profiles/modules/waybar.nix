@@ -1,7 +1,7 @@
 { config, ... }:
 
 {
-  home-manager.users.${config.host.user}.programs.waybar = {
+  home-manager.users.${config.atomazu.my-nixos.host.user}.programs.waybar = {
     style = ''
       *{
         font-size: 12px;

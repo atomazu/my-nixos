@@ -6,10 +6,10 @@
 }:
 
 let
-  cfg = config.home.shell;
+  cfg = config.atomazu.my-nixos.home.shell;
 in
 {
-  options.home.shell = {
+  options.atomazu.my-nixos.home.shell = {
     enable = lib.mkEnableOption "Opinionated Shell Configuration";
 
     editor = lib.mkOption {
@@ -167,10 +167,10 @@ in
   };
 
   config = lib.mkIf (cfg.enable) {
-    users.users.${config.host.user}.shell = lib.mkIf cfg.fish.enable pkgs.fish;
+    users.users.${config.atomazu.my-nixos.host.user}.shell = lib.mkIf cfg.fish.enable pkgs.fish;
     programs.fish.enable = cfg.fish.enable;
 
-    home-manager.users.${config.host.user} = {
+    home-manager.users.${config.atomazu.my-nixos.host.user} = {
       home.packages = cfg.extraPackages;
 
       programs.kitty = lib.mkIf cfg.kitty.enable {

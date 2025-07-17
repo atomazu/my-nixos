@@ -45,6 +45,7 @@
       imports = [
         ./flake/hosts.nix
         ./flake/docs.nix
+        ./flake/modules.nix
       ];
     };
 }

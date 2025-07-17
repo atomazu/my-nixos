@@ -6,15 +6,15 @@
 }:
 
 let
-  cfg = config.home.vim;
+  cfg = config.atomazu.my-nixos.home.vim;
 in
 {
-  options.home.vim = {
+  options.atomazu.my-nixos.home.vim = {
     enable = lib.mkEnableOption "Vi Improved";
   };
 
   config = lib.mkIf (cfg.enable) {
-    home-manager.users.${config.host.user}.programs.vim = {
+    home-manager.users.${config.atomazu.my-nixos.host.user}.programs.vim = {
       enable = true;
       plugins = with pkgs.vimPlugins; [
         vim-airline

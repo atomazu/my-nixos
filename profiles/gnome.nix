@@ -6,12 +6,12 @@
 }:
 
 let
-  cfg = config.profiles;
+  cfg = config.atomazu.my-nixos.profiles;
 in
 {
   ### Options ###
 
-  options.profiles.gnome = {
+  options.atomazu.my-nixos.profiles.gnome = {
     enable = lib.mkEnableOption "GNOME profile";
   };
 
@@ -27,7 +27,7 @@ in
       services.desktopManager.gnome.enable = true;
       services.gnome.core-utilities.enable = false;
 
-      home-manager.users.${config.host.user} = lib.mkMerge [
+      home-manager.users.${config.atomazu.my-nixos.host.user} = lib.mkMerge [
         {
           dconf.settings = {
             "org/gnome/settings-daemon/plugins/color" = {

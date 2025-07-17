@@ -5,17 +5,17 @@
 }:
 
 let
-  cfg = config.home.albert;
+  cfg = config.atomazu.my-nixos.home.albert;
   nixConfig = config;
 in
 {
-  options.home.albert = {
+  options.atomazu.my-nixos.home.albert = {
     enable = lib.mkEnableOption "Albert application launcher";
     xdg-autostart = lib.mkEnableOption "Add Albert to xdg-Autostart";
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users.${config.host.user} =
+    home-manager.users.${config.atomazu.my-nixos.host.user} =
       {
         lib,
         config,

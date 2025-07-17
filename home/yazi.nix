@@ -6,15 +6,15 @@
 }:
 
 let
-  cfg = config.home.yazi;
+  cfg = config.atomazu.my-nixos.home.yazi;
 in
 {
-  options.home.yazi = {
+  options.atomazu.my-nixos.home.yazi = {
     enable = lib.mkEnableOption "Blazing Fast Terminal File Manager";
   };
 
   config = lib.mkIf (cfg.enable) {
-    home-manager.users.${config.host.user} = {
+    home-manager.users.${config.atomazu.my-nixos.host.user} = {
       programs.yazi = {
         enable = true;
         enableFishIntegration = true;

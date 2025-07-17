@@ -5,10 +5,10 @@
 }:
 
 let
-  cfg = config.home;
+  cfg = config.atomazu.my-nixos.home;
 in
 {
-  options.home = {
+  options.atomazu.my-nixos.home = {
     git = {
       enable = lib.mkEnableOption "Git source control integration";
       name = lib.mkOption {
@@ -41,7 +41,7 @@ in
     };
   };
 
-  config.home-manager.users.${config.host.user} = {
+  config.home-manager.users.${config.atomazu.my-nixos.host.user} = {
     programs.git = {
       enable = cfg.git.enable;
       userName = "${cfg.git.name}";

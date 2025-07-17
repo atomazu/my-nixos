@@ -5,7 +5,7 @@
 }:
 
 {
-  profiles.hyprland = {
+  atomazu.my-nixos.profiles.hyprland = {
     enable = true;
     osd = true;
     albertIntegration = {
@@ -20,7 +20,7 @@
 
       bind = [
         "$mod, RETURN, exec, ${pkgs.kitty}/bin/kitty"
-        "$mod, B, exec, ${config.home.chromium.package}/bin/chromium"
+        "$mod, B, exec, ${config.atomazu.my-nixos.home.chromium.package}/bin/chromium"
 
         # Monitor-column traversal
         "$mod CTRL, E, workspace, +1"

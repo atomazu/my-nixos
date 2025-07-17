@@ -5,12 +5,12 @@
 }:
 
 let
-  cfg = config.profiles;
+  cfg = config.atomazu.my-nixos.profiles;
 in
 {
   ### Options ###
 
-  options.profiles.cinnamon = {
+  options.atomazu.my-nixos.profiles.cinnamon = {
     enable = lib.mkEnableOption "Cinnamon profile";
   };
 
@@ -21,7 +21,7 @@ in
       services.xserver.desktopManager.cinnamon.enable = true;
       services.cinnamon.apps.enable = false;
 
-      home-manager.users.${config.host.user} = {
+      home-manager.users.${config.atomazu.my-nixos.host.user} = {
         dconf.settings = {
           "org/cinnamon" = {
             panels-height = [ "1:40" ];

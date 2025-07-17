@@ -1,6 +1,6 @@
 { config, lib, ... }:
 let
-  cfg = config.sys.gpu.nvidia;
+  cfg = config.atomazu.my-nixos.sys.gpu.nvidia;
 in
 lib.mkIf (cfg.enable) {
   boot.initrd.kernelModules = [

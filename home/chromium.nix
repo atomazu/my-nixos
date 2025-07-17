@@ -6,10 +6,10 @@
 }:
 
 let
-  cfg = config.home.chromium;
+  cfg = config.atomazu.my-nixos.home.chromium;
 in
 {
-  options.home.chromium = {
+  options.atomazu.my-nixos.home.chromium = {
     enable = lib.mkEnableOption "Chromium web browser";
     extensions = {
       bitwarden = lib.mkEnableOption "Bitwarden password manager extension";
@@ -31,7 +31,7 @@ in
     };
   };
 
-  config.home-manager.users.${config.host.user}.programs.chromium = lib.mkIf cfg.enable {
+  config.home-manager.users.${config.atomazu.my-nixos.host.user}.programs.chromium = lib.mkIf cfg.enable {
     enable = true;
     package = cfg.package;
     extensions = lib.mapAttrsToList (name: id: { inherit id; }) (

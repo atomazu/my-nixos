@@ -7,7 +7,7 @@
 }:
 
 let
-  cfg = config.host;
+  cfg = config.atomazu.my-nixos.host;
 in
 {
   imports = [
@@ -16,7 +16,7 @@ in
 
   ### Options ###
 
-  options.host = {
+  options.atomazu.my-nixos.host = {
     name = lib.mkOption {
       type = lib.types.str;
       description = "Hostname for the system";
@@ -106,7 +106,7 @@ in
 
   ### Configuration ###
 
-  config = {
+  config = lib.mkIf config.atomazu.my-nixos.enable {
     assertions = [
       {
         assertion = cfg.stylix.enable;
