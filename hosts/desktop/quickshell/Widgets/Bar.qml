@@ -3,7 +3,6 @@ pragma ComponentBehavior: Bound
 import Quickshell
 import QtQuick
 import QtQuick.Layouts
-import Quickshell.Services.Notifications
 import "../Components"
 import "../Singletons"
 
@@ -17,7 +16,7 @@ PanelWindow { //qmllint disable
 
     anchors {
         top: Settings.bar.position === "top"
-        bottom: Settings.general.bar.position === "bottom"
+        bottom: Settings.bar.position === "bottom"
         left: true
         right: true
     }

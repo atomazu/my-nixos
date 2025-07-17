@@ -61,29 +61,18 @@ in
       default = with pkgs; [ papirus-icon-theme ];
       description = "Runtime dependencies for Quickshell";
     };
-
-    # settings = lib.mkOption {
-    #   type = lib.types.attrs;
-    #   default = { };
-    #   description = "Will be put into configDir as settings.json";
-    #   example = {
-    #     barPosition = "top";
-    #     base16Theme = "tomorrow-night";
-    #   };
-    # };
   };
 
   config = lib.mkIf cfg.enable {
     home.packages = [ cfg.package ] ++ cfg.runtimeDependencies;
 
-    home.file = lib.mkIf (cfg.configDir != null) {
-      ".config/quickshell" = {
-        source = cfg.configDir;
-        recursive = true;
-      };
-    };
-
-    home.sessionVariables = env;
+    home.activation.quickshellConfig = (
+      lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        $DRY_RUN_CMD mkdir -p "$HOME/.config/quickshell"
+        $DRY_RUN_CMD cp -rf ${cfg.configDir}/* "$HOME/.config/quickshell/"
+        $DRY_RUN_CMD chmod -R u+w "$HOME/.config/quickshell"
+      ''
+    );
 
     systemd.user.services.quickshell = lib.mkIf cfg.autoStart {
       Unit = {
@@ -106,16 +95,6 @@ in
       Install = {
         WantedBy = [ "graphical-session.target" ];
       };
-    };
-
-    xdg.desktopEntries.quickshell = {
-      name = "Quickshell";
-      comment = "QtQuick based desktop shell";
-      exec = "${cfg.package}/bin/quickshell";
-      icon = "quickshell";
-      terminal = false;
-      type = "Application";
-      categories = [ "System" ];
     };
   };
 }

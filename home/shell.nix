@@ -38,6 +38,7 @@ in
         gh
         ripgrep
         fd
+        jq
       ];
       description = "Additional packages to install";
     };
