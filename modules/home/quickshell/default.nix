@@ -61,6 +61,16 @@ in
       default = with pkgs; [ papirus-icon-theme ];
       description = "Runtime dependencies for Quickshell";
     };
+
+    # settings = lib.mkOption {
+    #   type = lib.types.attrs;
+    #   default = { };
+    #   description = "Will be put into configDir as settings.json";
+    #   example = {
+    #     barPosition = "top";
+    #     base16Theme = "tomorrow-night";
+    #   };
+    # };
   };
 
   config = lib.mkIf cfg.enable {

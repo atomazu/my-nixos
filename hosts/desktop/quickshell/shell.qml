@@ -2,6 +2,7 @@
 
 import Quickshell
 import QtQuick
+import "./Widgets"
 
 Scope {
     id: root
