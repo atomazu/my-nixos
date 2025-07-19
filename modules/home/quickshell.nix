@@ -44,11 +44,13 @@ in
       description = "Icon theme to use for Quickshell";
     };
 
-    autoStart = lib.mkOption {
+    service = lib.mkOption {
       type = lib.types.bool;
       default = false;
-      description = "Whether to auto-start Quickshell on login";
+      description = "Auto start Quickshell using a Systemd service";
     };
+
+    withholdEnv = lib.mkEnableOption "Withholding of Quickshell environment from the user session";
 
     extraQmlPaths = lib.mkOption {
       type = lib.types.listOf lib.types.package;
@@ -74,7 +76,9 @@ in
       ''
     );
 
-    systemd.user.services.quickshell = lib.mkIf cfg.autoStart {
+    home.sessionVariables = lib.mkIf (!cfg.withholdEnv) env;
+
+    systemd.user.services.quickshell = lib.mkIf cfg.service {
       Unit = {
         Description = "Quickshell";
         After = [ "graphical-session-pre.target" ];

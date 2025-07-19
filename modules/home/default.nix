@@ -3,6 +3,6 @@
   imports = [
     ./ashell.nix
     ./nixvim.nix
-    ./quickshell
+    ./quickshell.nix
   ];
 }

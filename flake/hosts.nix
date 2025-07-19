@@ -23,6 +23,7 @@
       server = inputs.nixpkgs.lib.nixosSystem {
         inherit specialArgs;
         modules = [
+          ../modules/nixos
           ../hosts/server
         ];
       };

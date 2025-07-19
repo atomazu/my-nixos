@@ -11,7 +11,7 @@
     ./blog.nix
   ];
 
-  ### Settings ###
+  # --- Settings ---
 
   atomazu.my-nixos = {
     enable = true;
@@ -82,7 +82,8 @@
     };
   };
 
-  ### Additional Tweaks ###
+  # --- Additional Tweaks ---
+
   home-manager.users.${config.atomazu.my-nixos.host.user} =
     { lib, ... }:
     let
@@ -91,10 +92,6 @@
       qsPath = ".config/quickshell/settings.json";
     in
     {
-      imports = [
-        ../../modules/home/quickshell
-      ];
-
       home.packages = with pkgs; [
         anki-bin
         youtube-music
@@ -105,15 +102,16 @@
       programs.vesktop.enable = true;
       programs.mpv.enable = true;
 
+      # --- Quickshell Begin ---
+
       atomazu.quickshell = {
         enable = true;
         configDir = ./quickshell;
-        autoStart = true;
+        service = true;
       };
 
       home.file = {
         "${qsPath}" = {
-          force = true;
           text = pkgs.lib.generators.toJSON { } {
             theme = {
               font = {
@@ -121,6 +119,7 @@
                 family = fonts.serif.name;
               };
 
+              # Idea: Make it accept a base16 file instead
               color00 = colors.base00;
               color01 = colors.base01;
               color02 = colors.base02;
@@ -142,16 +141,23 @@
             bar = {
               position = "top";
             };
+
+            stylix = config.lib.stylix.colors;
           };
         };
       };
 
       home.activation.quickshellSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        QS_PATH="$HOME/${qsPath}"
-        if [ -L "$QS_PATH" ]; then
-          $DRY_RUN_CMD cp -f "$(readlink -f "$QS_PATH")" "$QS_PATH.tmp"
-          $DRY_RUN_CMD mv "$QS_PATH.tmp" "$QS_PATH"
+        $DRY_RUN_CMD mkdir -p "$HOME/.config/quickshell"
+        CONFIG_PATH="$HOME/${qsPath}"
+        if [ -L "$CONFIG_PATH" ]; then
+          $DRY_RUN_CMD cp -f "$(readlink -f "$CONFIG_PATH")" "$CONFIG_PATH.tmp"
+          $DRY_RUN_CMD mv "$CONFIG_PATH.tmp" "$CONFIG_PATH"
         fi
+        $DRY_RUN_CMD chmod -R u+w "$HOME/${qsPath}"
       '';
+
+      # --- Quickshell End ---
     };
+
 }
