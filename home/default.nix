@@ -20,6 +20,7 @@ in
     ./git.nix
     ./chromium.nix
     ./firefox.nix
+    ./youtube-music.nix
   ];
 
   options.atomazu.my-nixos.home = {

@@ -75,6 +75,8 @@
         enable = true;
       };
 
+      youtube-music.enable = true;
+
       yazi.enable = true;
       albert.enable = true;
       nixvim.enable = true;
@@ -94,7 +96,6 @@
     {
       home.packages = with pkgs; [
         anki-bin
-        youtube-music
         calibre
         wl-clipboard
       ];
