@@ -2,7 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import Quickshell.Hyprland
-import "../Singletons"
+import "../../Services"
 
 Row {
     id: root

@@ -4,7 +4,7 @@ import Quickshell
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
 import QtQuick
-import "../Singletons"
+import "../../Services"
 
 Row {
     spacing: Settings.bar.tray.spacing

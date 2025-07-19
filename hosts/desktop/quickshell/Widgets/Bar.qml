@@ -3,8 +3,8 @@ pragma ComponentBehavior: Bound
 import Quickshell
 import QtQuick
 import QtQuick.Layouts
-import "../Components"
-import "../Singletons"
+import "./Bar"
+import "../Services"
 
 PanelWindow { //qmllint disable
     id: root
@@ -34,7 +34,6 @@ PanelWindow { //qmllint disable
         }
 
         Item {
-            id: filler
             Layout.fillWidth: true
         }
 

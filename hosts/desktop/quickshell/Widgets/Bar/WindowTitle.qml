@@ -2,7 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import Quickshell.Wayland
-import "../Singletons"
+import "../../Services"
 
 Item {
     id: root

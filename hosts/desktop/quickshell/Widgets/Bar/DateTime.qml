@@ -2,7 +2,7 @@ pragma ComponentBehavior: Bound
 
 import Quickshell
 import QtQuick
-import "../Singletons"
+import "../../Services"
 
 Text {
     text: Qt.formatDateTime(clock.date, "ddd d MMM HH:mm")
