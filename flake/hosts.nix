@@ -2,7 +2,10 @@
 {
   flake.nixosConfigurations =
     let
-      lib = import ../lib { lib = inputs.nixpkgs.lib; };
+      lib = import ../lib {
+        nix = inputs.nixpkgs;
+        home = inputs.home-manager;
+      };
       specialArgs = {
         system = "x86_64-linux";
         atomazu = {

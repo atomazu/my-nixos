@@ -79,6 +79,7 @@ in
 
     extras.jp = {
       enable = lib.mkEnableOption "Japanese language support and input methods";
+      wayland = atomazu.lib.mkEnableOption "Suppress warning messages when using a Wayland frontend" true;
 
       fonts = {
         serif = lib.mkOption {
@@ -102,6 +103,7 @@ in
     };
 
     nh = atomazu.lib.mkEnableOption "nh tool for managing NixOS generations" true;
+    wayland = atomazu.lib.mkEnableOption "Wayland tweaks" true;
   };
 
   ### Configuration ###
@@ -186,11 +188,14 @@ in
       inputMethod = lib.mkIf cfg.extras.jp.enable {
         enable = true;
         type = "fcitx5";
-        fcitx5.addons = with pkgs; [
-          fcitx5-mozc
-          fcitx5-gtk
-          fcitx5-configtool
-        ];
+        fcitx5 = {
+          waylandFrontend = cfg.extras.jp.wayland;
+          addons = with pkgs; [
+            fcitx5-mozc
+            fcitx5-gtk
+            fcitx5-configtool
+          ];
+        };
       };
 
       extraLocaleSettings = {

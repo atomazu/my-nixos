@@ -7,20 +7,23 @@
 }:
 let
   cfg = config.atomazu.quickshell;
-  env = {
-    QS_ICON_THEME = cfg.iconTheme;
-    QT_PLUGIN_PATH = "${pkgs.qt6.qtbase}/${pkgs.qt6.qtbase.qtPluginPrefix}";
-    QML2_IMPORT_PATH = lib.makeSearchPath "lib/qt-6/qml" (
-      [
-        pkgs.qt6.qtdeclarative
-        pkgs.qt6.qtbase.qtQmlPrefix
-        pkgs.kdePackages.qt5compat
-        pkgs.kdePackages.qtsvg
-        cfg.package
-      ]
-      ++ cfg.extraQmlPaths
-    );
-  };
+  env =
+    {
+      QT_PLUGIN_PATH = "${pkgs.qt6.qtbase}/${pkgs.qt6.qtbase.qtPluginPrefix}";
+      QML2_IMPORT_PATH = lib.makeSearchPath "lib/qt-6/qml" (
+        [
+          pkgs.qt6.qtdeclarative
+          pkgs.qt6.qtbase.qtQmlPrefix
+          pkgs.kdePackages.qt5compat
+          pkgs.kdePackages.qtsvg
+          cfg.package
+        ]
+        ++ cfg.extraQmlPaths
+      );
+    }
+    // lib.optionalAttrs (cfg.iconTheme.name != null) {
+      QS_ICON_THEME = cfg.iconTheme.name;
+    };
 in
 {
   options.atomazu.quickshell = {
@@ -32,16 +35,23 @@ in
       description = "Quickshell package to use";
     };
 
-    configDir = lib.mkOption {
+    source = lib.mkOption {
       type = lib.types.nullOr lib.types.path;
       default = null;
       description = "Path to Quickshell configuration directory";
     };
 
-    iconTheme = lib.mkOption {
-      type = lib.types.str;
-      default = "Papirus";
-      description = "Icon theme to use for Quickshell";
+    iconTheme = {
+      name = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        description = "Name of icon theme to use, if null uses system default";
+      };
+      package = lib.mkOption {
+        type = lib.types.nullOr lib.types.package;
+        default = null;
+        description = "Package containing the icon theme, assumes it's globally available if null";
+      };
     };
 
     service = lib.mkOption {
@@ -50,7 +60,7 @@ in
       description = "Auto start Quickshell using a Systemd service";
     };
 
-    withholdEnv = lib.mkEnableOption "Withholding of Quickshell environment from the user session";
+    withholdEnv = lib.mkEnableOption "Withholding of Quickshell environment from user session";
 
     extraQmlPaths = lib.mkOption {
       type = lib.types.listOf lib.types.package;
@@ -60,7 +70,7 @@ in
 
     runtimeDependencies = lib.mkOption {
       type = lib.types.listOf lib.types.package;
-      default = with pkgs; [ papirus-icon-theme ];
+      default = [ ];
       description = "Runtime dependencies for Quickshell";
     };
   };
@@ -68,37 +78,17 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = [ cfg.package ] ++ cfg.runtimeDependencies;
 
+    home.sessionVariables = lib.mkIf (!cfg.withholdEnv) env;
     home.activation.quickshellConfig = (
-      lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        $DRY_RUN_CMD mkdir -p "$HOME/.config/quickshell"
-        $DRY_RUN_CMD cp -rf ${cfg.configDir}/* "$HOME/.config/quickshell/"
-        $DRY_RUN_CMD chmod -R u+w "$HOME/.config/quickshell"
-      ''
+      atomazu.lib.mkWritable "${cfg.source}" "$HOME/.config/quickshell"
     );
 
-    home.sessionVariables = lib.mkIf (!cfg.withholdEnv) env;
-
-    systemd.user.services.quickshell = lib.mkIf cfg.service {
-      Unit = {
-        Description = "Quickshell";
-        After = [ "graphical-session-pre.target" ];
-        PartOf = [ "graphical-session.target" ];
-      };
-
-      Service = {
-        Type = "simple";
-        ExecStart = "${cfg.package}/bin/quickshell";
-        Restart = "on-failure";
-        RestartSec = 1;
-        TimeoutStopSec = 10;
-        EnvironmentFile = pkgs.writeText "quickshell.env" (
-          lib.generators.toINIWithGlobalSection { } { globalSection = env; }
-        );
-      };
-
-      Install = {
-        WantedBy = [ "graphical-session.target" ];
-      };
+    systemd.user.services.quickshell = atomazu.lib.mkAutoStart {
+      name = "Quickshell";
+      exec = "${cfg.package}/bin/quickshell";
+      env = pkgs.writeText "quickshell.env" (
+        lib.generators.toINIWithGlobalSection { } { globalSection = env; }
+      );
     };
   };
 }

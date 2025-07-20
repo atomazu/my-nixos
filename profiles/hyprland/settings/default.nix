@@ -13,10 +13,6 @@ let
   };
 
   albert = {
-    exec-once = [
-      "/run/current-system/sw/bin/albert"
-    ];
-
     windowrule = [
       "noborder, title:Albert"
       "noblur, title:Albert"
@@ -24,7 +20,7 @@ let
     ];
 
     bind = [
-      "${cfg.albertIntegration.keybind}, exec, /run/current-system/sw/bin/albert toggle"
+      "${cfg.albertIntegration.keybind}, exec, ${pkgs.albert}/bin/albert toggle"
     ];
   };
 

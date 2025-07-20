@@ -1,4 +1,5 @@
 {
+  atomazu,
   lib,
   config,
   ...
@@ -11,7 +12,7 @@ in
 {
   options.atomazu.my-nixos.home.albert = {
     enable = lib.mkEnableOption "Albert application launcher";
-    xdg-autostart = lib.mkEnableOption "Add Albert to xdg-Autostart";
+    xdgAutostart = lib.mkEnableOption "Add Albert to xdg-Autostart";
   };
 
   config = lib.mkIf cfg.enable {
@@ -23,22 +24,22 @@ in
         ...
       }:
       let
-        stylixColors = nixConfig.lib.stylix.colors.withHashtag;
-        stylixFonts = nixConfig.stylix.fonts;
+        colors = nixConfig.lib.stylix.colors.withHashtag;
+        fonts = nixConfig.stylix.fonts;
 
         albertQssContent = ''
           * {
             border: none;
-            color: ${stylixColors.base05};
-            background-color: ${stylixColors.base00};
-            font-family: "${stylixFonts.sansSerif.name}", sans-serif;
+            color: ${colors.base05};
+            background-color: ${colors.base00};
+            font-family: "${fonts.sansSerif.name}", sans-serif;
           }
 
           #frame {
             padding: 3px;
             border-radius: 12px;
-            background-color: ${stylixColors.base00};
-            border: 1px solid ${stylixColors.base02};
+            background-color: ${colors.base00};
+            border: 1px solid ${colors.base02};
             min-width: 560px;
             max-width: 560px;
           }
@@ -47,10 +48,10 @@ in
             padding: 6px 10px;
             border-radius: 8px;
             font-size: 22px;
-            selection-color: ${stylixColors.base07};
-            selection-background-color: ${stylixColors.base0D};
-            background-color: ${stylixColors.base00};
-            color: ${stylixColors.base05};
+            selection-color: ${colors.base07};
+            selection-background-color: ${colors.base0D};
+            background-color: ${colors.base00};
+            color: ${colors.base05};
             border: none;
           }
 
@@ -68,9 +69,9 @@ in
           }
 
           QListView {
-            selection-color: ${stylixColors.base07};
-            selection-background-color: ${stylixColors.base01};
-            background-color: ${stylixColors.base00};
+            selection-color: ${colors.base07};
+            selection-background-color: ${colors.base01};
+            background-color: ${colors.base00};
             outline: none;
           }
 
@@ -81,9 +82,9 @@ in
           }
 
           QListView::item:selected {
-            background: ${stylixColors.base01};
-            color: ${stylixColors.base07};
-            border: 1px solid ${stylixColors.base03};
+            background: ${colors.base01};
+            color: ${colors.base07};
+            border: 1px solid ${colors.base03};
             border-radius: 8px;
             padding: 2px 5px;
           }
@@ -95,7 +96,7 @@ in
           }
 
           QListView QScrollBar::handle:vertical {
-            background: ${stylixColors.base03};
+            background: ${colors.base03};
             min-height: 20px;
             border-radius: 3px;
           }
@@ -140,28 +141,20 @@ in
           }
 
           QLineEdit[placeholderText] {
-              color: ${stylixColors.base04};
+              color: ${colors.base04};
           }
 
           QLineEdit[text=""] {
-              color: ${stylixColors.base04};
+              color: ${colors.base04};
           }
         '';
 
-        themedAlbertQssFile = pkgs.writeText "CUSTOM.qss" albertQssContent;
+        themeSource = pkgs.writeText "CUSTOM.qss" albertQssContent;
+        themeTarget = "${config.xdg.dataHome}/albert/widgetsboxmodel/themes/CUSTOM.qss";
       in
       {
         home.packages = [ pkgs.albert ];
-
-        home.activation = {
-          copyAlbertTheme = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-            target="${config.xdg.dataHome}/albert/widgetsboxmodel/themes/CUSTOM.qss"
-            source="${themedAlbertQssFile}"
-            targetDir="$(${pkgs.coreutils}/bin/dirname "$target")"
-            ${pkgs.coreutils}/bin/mkdir -p "$targetDir"
-            ${pkgs.coreutils}/bin/cp -f "$source" "$target"
-          '';
-        };
+        home.activation.albertTheme = atomazu.lib.mkWritable "${themeSource}" "${themeTarget}";
 
         xdg = {
           configFile = {
@@ -181,7 +174,11 @@ in
                   enabled = true;
                   command_poweroff = "systemctl poweroff";
                   command_reboot = "systemctl reboot";
-                  command_logout = "systemctl --user exit";
+                  command_logout =
+                    if nixConfig.atomazu.my-nixos.profiles.hyprland.enable then
+                      "${pkgs.hyprland}/bin/hyprctl dispatch exit"
+                    else
+                      "systemctl --user exit";
                 };
 
                 widgetsboxmodel = {
@@ -203,24 +200,22 @@ in
             };
 
             # Add Albert to xdg autostart
-            "autostart/albert.desktop" = lib.mkIf cfg.xdg-autostart {
+            "autostart/albert.desktop" = lib.mkIf cfg.xdgAutostart {
               text = lib.generators.toINI { } {
                 "Desktop Entry" = {
                   Categories = "Utility;";
                   Comment = "A desktop agnostic launcher";
-                  Exec = "${pkgs.albert}/bin/albert --platform xcb";
+                  Exec = "${pkgs.albert}/bin/albert --platform ${
+                    if nixConfig.atomazu.my-nixos.host.wayland then "wayland" else "xcb"
+                  } %u";
                   GenericName = "Launcher";
                   Icon = "albert";
                   Name = "Albert";
                   StartupNotify = false;
                   Type = "Application";
                   Version = "1.0";
+                  MimeType = "x-scheme-handler/albert";
                   "X-GNOME-Autostart-Delay" = 3;
-                  "X-GNOME-Autostart-enabled" = true;
-                  NoDisplay = false;
-                  Hidden = false;
-                  "Name[en_US]" = "Albert";
-                  "Comment[en_US]" = "A desktop agnostic launcher";
                 };
               };
             };

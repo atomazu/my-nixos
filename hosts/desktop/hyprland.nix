@@ -47,7 +47,7 @@
 
       exec-once = [
         "${pkgs.hyprland}/bin/hyprctl dispatch workspace 6" # Put mouse on main monitor at startup
-        "/run/current-system/sw/bin/fcitx5" # Doesn't work when using pkg path
+        # "/run/current-system/sw/bin/fcitx5" # Doesn't work when using pkg path
       ];
     };
   };

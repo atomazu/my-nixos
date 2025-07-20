@@ -2,6 +2,7 @@
   atomazu,
   config,
   lib,
+  pkgs,
   ...
 }:
 
@@ -36,6 +37,13 @@ in
       imports = [
         ../modules/home
       ];
+
+      stylix.iconTheme = {
+        enable = true;
+        dark = "Papirus";
+        light = "Papirus";
+        package = pkgs.papirus-icon-theme;
+      };
 
       atomazu.nixvim.enable = cfg.nixvim.enable;
       home.stateVersion = "25.05";
