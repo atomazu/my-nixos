@@ -79,7 +79,6 @@ in
 
     extras.jp = {
       enable = lib.mkEnableOption "Japanese language support and input methods";
-      wayland = atomazu.lib.mkEnableOption "Suppress warning messages when using a Wayland frontend" true;
 
       fonts = {
         serif = lib.mkOption {
@@ -189,7 +188,7 @@ in
         enable = true;
         type = "fcitx5";
         fcitx5 = {
-          waylandFrontend = cfg.extras.jp.wayland;
+          waylandFrontend = cfg.wayland;
           addons = with pkgs; [
             fcitx5-mozc
             fcitx5-gtk

@@ -30,7 +30,7 @@
       ];
 
       workspace = [
-        # DP-1: Vertical Monitor (acer)
+        # DP-1: Vertical Monitor (Acer)
         "1, monitor:HDMI-A-1, default:true, defaultName:1-1"
         "2, monitor:HDMI-A-1, defaultName:1-2"
         "3, monitor:HDMI-A-1, defaultName:1-3"
@@ -46,8 +46,8 @@
       ];
 
       exec-once = [
-        "${pkgs.hyprland}/bin/hyprctl dispatch workspace 6" # Put mouse on main monitor at startup
-        # "/run/current-system/sw/bin/fcitx5" # Doesn't work when using pkg path
+        # Put mouse on main monitor at startup
+        "${pkgs.hyprland}/bin/hyprctl dispatch workspace 6"
       ];
     };
   };
