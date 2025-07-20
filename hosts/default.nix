@@ -67,13 +67,12 @@ in
 
       cursor = lib.mkOption {
         type = lib.types.attrs;
+        description = "Cursor theme, package, and size";
         default = {
           package = pkgs.bibata-cursors;
           name = "Bibata-Modern-Classic";
           size = 24;
         };
-
-        description = "Cursor theme, package, and size";
       };
     };
 
@@ -83,20 +82,20 @@ in
       fonts = {
         serif = lib.mkOption {
           type = lib.types.attrs;
+          description = "Default Japanese serif font";
           default = {
             package = pkgs.noto-fonts-cjk-serif;
             name = "Noto Serif CJK JP";
           };
-          description = "Default Japanese serif font";
         };
 
         sansSerif = lib.mkOption {
           type = lib.types.attrs;
+          description = "Default Japanese sans-serif font";
           default = {
             package = pkgs.noto-fonts-cjk-sans;
             name = "Noto Sans CJK JP";
           };
-          description = "Default Japanese sans-serif font";
         };
       };
     };

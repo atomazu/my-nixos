@@ -1,7 +1,8 @@
 {
   atomazu,
-  lib,
   config,
+  pkgs,
+  lib,
   ...
 }:
 
@@ -20,7 +21,6 @@ in
       {
         lib,
         config,
-        pkgs,
         ...
       }:
       let

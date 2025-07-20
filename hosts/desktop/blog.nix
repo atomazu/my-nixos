@@ -78,7 +78,6 @@ in
 
         forceSSL = true;
         enableACME = true;
-
         root = atomazu-org;
       };
     };

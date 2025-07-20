@@ -23,9 +23,7 @@
       locale = "en_US.UTF-8";
       extraLocale = "de_DE.UTF-8";
       layout = "us";
-      extras = {
-        jp.enable = true;
-      };
+      extras.jp.enable = true;
 
       stylix = {
         scheme = "tomorrow-night";
@@ -72,17 +70,14 @@
         };
       };
 
-      shell = {
-        enable = true;
-      };
-
-      youtube-music.enable = true;
-
-      yazi.enable = true;
       albert = {
         enable = true;
         xdgAutostart = true;
       };
+
+      yazi.enable = true;
+      shell.enable = true;
+      youtube-music.enable = true;
       nixvim.enable = true;
       tmux.enable = true;
     };
@@ -143,7 +138,6 @@
                 color0E = colors.base0E;
                 color0F = colors.base0F;
               };
-
             }
           )
         );
@@ -153,5 +147,4 @@
       };
     # --- Quickshell End ---
   };
-
 }

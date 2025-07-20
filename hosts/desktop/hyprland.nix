@@ -45,10 +45,11 @@
         "10, monitor:DP-2, defaultName:2-5"
       ];
 
-      exec-once = [
-        # Put mouse on main monitor at startup
-        "${pkgs.hyprland}/bin/hyprctl dispatch workspace 6"
-      ];
+      exec-once = [ "${pkgs.hyprland}/bin/hyprctl dispatch workspace 6" ];
+
+      input = {
+        kb_options = "ctrl:nocaps";
+      };
     };
   };
 }
