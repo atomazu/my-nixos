@@ -80,7 +80,7 @@ in
 
     home.sessionVariables = lib.mkIf (!cfg.withholdEnv) env;
     home.activation.quickshellConfig = (
-      atomazu.lib.mkWritable "${cfg.source}" "$HOME/.config/quickshell"
+      atomazu.lib.mkWritable "${cfg.source}" ".config/quickshell"
     );
 
     systemd.user.services.quickshell = atomazu.lib.mkAutoStart {
