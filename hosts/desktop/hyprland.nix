@@ -21,6 +21,15 @@
       bind = [
         "$mod, RETURN, exec, ${pkgs.kitty}/bin/kitty"
         "$mod, B, exec, ${config.atomazu.my-nixos.home.chromium.package}/bin/chromium"
+        "$mod, N, exec, ${pkgs.writeShellScript "toggle-hyprsunset" ''
+          if pgrep -x "hyprsunset" > /dev/null; then
+              pkill hyprsunset
+              echo "Stopped hyprsunset"
+          else
+              ${pkgs.hyprsunset}/bin/hyprsunset -g 65 -t 3250 &
+              echo "Started hyprsunset"
+          fi
+        ''}"
 
         # Monitor-column traversal
         "$mod CTRL, E, workspace, +1"
