@@ -8,7 +8,7 @@
 let
   cfg = config.atomazu.youtube-music;
   source = pkgs.writeText "yt-music-config.json" (pkgs.lib.generators.toJSON { } cfg.settings);
-  target = "$HOME/.config/YouTube Music/config.json";
+  target = ".config/YouTube Music/config.json";
 in
 {
   options.atomazu.youtube-music = {
