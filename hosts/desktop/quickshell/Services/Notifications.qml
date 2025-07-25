@@ -1,10 +1,11 @@
 pragma Singleton
 pragma ComponentBehavior: Bound
 
+import "root:/Services"
+
 import Quickshell
 import Quickshell.Services.Notifications
 import QtQuick
-import "root:/Services"
 
 Singleton {
     id: root
@@ -60,7 +61,8 @@ Singleton {
 
         readonly property Timer timer: Timer {
             running: true
-            interval: notif.notification.expireTimeout > 0 ? notif.notification.expireTimeout : 10
+            interval: 10000 // 10 seconds
+
             onTriggered: {
                 notif.popup = false;
             }
