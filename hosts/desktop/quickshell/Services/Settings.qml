@@ -6,7 +6,7 @@ import Quickshell.Io
 
 Singleton {
     FileView {
-        path: Quickshell.configDir + "/settings.json"
+        path: Quickshell.shellDir + "/settings.json"
         watchChanges: true
         onFileChanged: reload()
 

@@ -3,8 +3,9 @@ pragma ComponentBehavior: Bound
 import Quickshell
 import QtQuick
 import QtQuick.Layouts
+import "root:/Services"
+import "root:/Templates"
 import "./Bar"
-import "../Services"
 
 PanelWindow { //qmllint disable
     id: root

@@ -2,7 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import Quickshell.Hyprland
-import "../../Services"
+import "root:/Services"
 
 Row {
     id: root
@@ -17,10 +17,13 @@ Row {
         delegate: Rectangle {
             id: workspaceItem
             required property HyprlandWorkspace modelData
+            property var activeWidth: Settings.bar.workspaces.width.active
+            property var inactiveWidth: Settings.bar.workspaces.width.inactive
 
+            implicitWidth: modelData.focused ? activeWidth : inactiveWidth
             visible: root.modelData.name == modelData.monitor.name
+
             implicitHeight: Settings.bar.workspaces.height
-            implicitWidth: modelData.focused ? Settings.bar.workspaces.width.active : Settings.bar.workspaces.width.inactive
             radius: Settings.bar.workspaces.radius
             border.width: Settings.bar.workspaces.border.width
             color: Settings.bar.workspaces.color
@@ -36,11 +39,11 @@ Row {
                 text: workspaceItem.modelData.id
                 anchors.centerIn: parent
 
+                bottomPadding: Settings.bar.workspaces.font.padding
                 color: Settings.bar.workspaces.font.color
                 font.family: Settings.bar.workspaces.font.family
-                font.hintingPreference: Font.PreferFullHinting
                 font.pointSize: Settings.bar.workspaces.font.size
-                bottomPadding: Settings.bar.workspaces.font.padding
+                font.hintingPreference: Font.PreferFullHinting
             }
         }
     }

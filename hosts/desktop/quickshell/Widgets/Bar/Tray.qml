@@ -4,7 +4,7 @@ import Quickshell
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
 import QtQuick
-import "../../Services"
+import "root:/Services"
 
 Row {
     spacing: Settings.bar.tray.spacing
@@ -45,6 +45,7 @@ Row {
                 anchors.fill: parent
                 color: Settings.bar.tray.item.background
                 radius: Settings.bar.tray.item.radius
+
                 IconImage {
                     id: icon
 

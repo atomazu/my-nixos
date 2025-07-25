@@ -4,6 +4,7 @@ pragma ComponentBehavior: Bound
 import Quickshell
 import Quickshell.Services.Notifications
 import QtQuick
+import "root:/Services"
 
 Singleton {
     id: root
@@ -37,7 +38,7 @@ Singleton {
         property bool popup
         readonly property date time: new Date()
         readonly property string timeStr: {
-            const diff = Time.date.getTime() - time.getTime();
+            const diff = System.clock.date.getTime() - time.getTime();
             const m = Math.floor(diff / 60000);
             const h = Math.floor(m / 60);
 

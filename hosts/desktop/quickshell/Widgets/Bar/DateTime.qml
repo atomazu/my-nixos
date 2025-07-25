@@ -1,16 +1,10 @@
 pragma ComponentBehavior: Bound
 
-import Quickshell
 import QtQuick
-import "../../Services"
+import "root:/Services"
 
 Text {
-    text: Qt.formatDateTime(clock.date, "ddd d MMM HH:mm")
+    text: Qt.formatDateTime(System.clock.date, "ddd d MMM HH:mm")
     font.pointSize: Settings.bar.datetime.font.size
     color: Settings.bar.datetime.font.color
-
-    SystemClock {
-        id: clock
-        precision: SystemClock.Minutes
-    }
 }
