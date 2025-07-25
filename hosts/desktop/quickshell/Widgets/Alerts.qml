@@ -13,20 +13,24 @@ import QtQuick.Effects
 PanelWindow {
     id: window
     color: "transparent"
+    exclusiveZone: 0
+
+    mask: Region {
+        item: column
+    }
 
     anchors {
         top: true
         right: true
         bottom: true
+        left: true
     }
-
-    implicitWidth: column.implicitWidth
-    exclusiveZone: 0
 
     ColumnLayout {
         id: column
         anchors.top: parent.top
-        anchors.topMargin: 15
+        anchors.right: parent.right
+        anchors.margins: 15
         spacing: 15
 
         Repeater {
@@ -35,7 +39,7 @@ PanelWindow {
             Item {
                 id: nroot
                 required property var modelData
-                implicitWidth: area.implicitWidth + 20
+                implicitWidth: area.implicitWidth
                 implicitHeight: area.implicitHeight
 
                 WrapperMouseArea {
