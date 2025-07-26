@@ -114,13 +114,6 @@ in
       }
     ];
 
-    systemd.services = {
-      "home-manager-${cfg.user}" = {
-        after = [ "graphical-session.target" ];
-        wantedBy = lib.mkForce [ ];
-      };
-    };
-
     nixpkgs.config.allowUnfree = true;
     nix.settings.experimental-features = [
       "nix-command"
