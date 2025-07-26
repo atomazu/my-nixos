@@ -12,31 +12,27 @@ let
     ];
   };
 
-  albert = {
-    windowrule = [
-      "noborder, title:Albert"
-      "noblur, title:Albert"
-      "noshadow, title:Albert"
-    ];
+  launcher = {
+    windowrule = cfg.launcher.windowRules;
 
     bind = [
-      "${cfg.albertIntegration.keybind}, exec, ${pkgs.albert}/bin/albert toggle"
+      "${cfg.launcher.keybind}, exec, ${cfg.launcher.command}"
     ];
   };
 
   osd = {
     exec-once = [
-      "${pkgs.swayosd}/bin/swayosd-server"
+      cfg.osd.server.command
     ];
 
     # Media & Hardware Controls
     bindel = [
-      ", XF86AudioRaiseVolume, exec, ${pkgs.swayosd}/bin/swayosd-client --output-volume raise --max-volume 100"
-      ", XF86AudioLowerVolume, exec, ${pkgs.swayosd}/bin/swayosd-client --output-volume lower --max-volume 100"
-      ", XF86AudioMute, exec, ${pkgs.swayosd}/bin/swayosd-client --output-volume mute-toggle"
-      ", XF86AudioMicMute, exec, ${pkgs.swayosd}/bin/swayosd-client --input-volume mute-toggle"
-      ", XF86MonBrightnessUp, exec, ${pkgs.swayosd}/bin/swayosd-client --brightness raise"
-      ", XF86MonBrightnessDown, exec, ${pkgs.swayosd}/bin/swayosd-client --brightness lower"
+      ", XF86AudioRaiseVolume, exec, ${cfg.osd.commands.volumeRaise}"
+      ", XF86AudioLowerVolume, exec, ${cfg.osd.commands.volumeLower}"
+      ", XF86AudioMute, exec, ${cfg.osd.commands.volumeToggle}"
+      ", XF86AudioMicMute, exec, ${cfg.osd.commands.micToggle}"
+      ", XF86MonBrightnessUp, exec, ${cfg.osd.commands.brightnessUp}"
+      ", XF86MonBrightnessDown, exec, ${cfg.osd.commands.brightnessDown}"
     ];
   };
 
@@ -59,6 +55,20 @@ let
 
   global = {
     "$mod" = cfg.mod;
+  };
+
+  hyprsunset = {
+    bind = [
+      "${cfg.hyprsunset.keybind}, exec, ${pkgs.writeShellScript "toggle-hyprsunset" ''
+        if pgrep -x "hyprsunset" > /dev/null; then
+            pkill hyprsunset
+            echo "Stopped hyprsunset"
+        else
+            ${pkgs.hyprsunset}/bin/hyprsunset -g ${toString cfg.hyprsunset.gamma} -t ${toString cfg.hyprsunset.temperature} &
+            echo "Started hyprsunset"
+        fi
+      ''}"
+    ];
   };
 
   visual = {
@@ -96,9 +106,10 @@ lib.recursiveUpdate { } (
     visual
     binding
     screenshot
-    (lib.mkIf cfg.albertIntegration.enable albert)
-    (lib.mkIf cfg.playerctl playerctl)
-    (lib.mkIf cfg.polkit polkit)
-    (lib.mkIf cfg.osd osd)
+    (lib.mkIf cfg.launcher.enable launcher)
+    (lib.mkIf cfg.hyprsunset.enable hyprsunset)
+    (lib.mkIf cfg.playerctl.enable playerctl)
+    (lib.mkIf cfg.polkit.enable polkit)
+    (lib.mkIf cfg.osd.enable osd)
   ]
 )
