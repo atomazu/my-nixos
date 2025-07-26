@@ -109,9 +109,44 @@ Singleton {
                     }
                 }
             }
+
+            property JsonObject notifications: JsonObject {
+                id: _notifications
+
+                property JsonObject position: JsonObject {
+                    property string vertical: _bar.position
+                    property string horizontal: "right"
+                }
+
+                property string color: _theme.color01
+                property string hoverColor: _theme.color02
+
+                property int width: 400
+                property int height: 100
+                property int radius: 30
+                property int margin: 15
+                property int spacing: 15
+
+                property JsonObject padding: JsonObject {
+                    property int vertical: 10
+                    property int horizontal: 20
+                }
+
+                property JsonObject animation: JsonObject {
+                    property int duration: 250
+                    property JsonObject hover: JsonObject {
+                        property int duration: 100
+                    }
+                }
+
+                property JsonObject shadow: JsonObject {
+                    property bool enabled: true
+                }
+            }
         }
     }
 
     property var bar: _bar  // qmllint disable
     property var theme: _theme // qmllint disable
+    property var notifications: _notifications // qmllint disable
 }
