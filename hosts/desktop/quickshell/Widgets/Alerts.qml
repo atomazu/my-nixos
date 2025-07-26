@@ -28,12 +28,11 @@ PanelWindow {
 
     ColumnLayout {
         id: column
-        spacing: Settings.notifications.spacing
 
         anchors {
-            margins: Settings.notifications.margin
+            margins: Settings.alerts.margin
 
-            property var position: Settings.notifications.position
+            property var position: Settings.alerts.position
             top: position.vertical === "top" ? parent.top : undefined
             bottom: position.vertical === "bottom" ? parent.bottom : undefined
             left: position.horizontal === "left" ? parent.left : undefined
@@ -41,28 +40,19 @@ PanelWindow {
         }
 
         Repeater {
-            model: Notifications.list
+            model: {
+                let list = Notifications.list;
+                let reverse = Settings.alerts.position.vertical === "bottom";
+                return reverse ? Array.from(list).reverse() : list;
+            }
 
             Item {
                 id: item
                 required property var modelData
-                implicitWidth: modelData.expired ? 0 : area.implicitWidth
-                implicitHeight: modelData.expired ? 0 : area.implicitHeight
+
+                implicitWidth: area.implicitWidth
+                implicitHeight: area.implicitHeight + Settings.alerts.spacing
                 visible: modelData.popup
-
-                Behavior on implicitHeight {
-                    NumberAnimation {
-                        duration: Settings.notifications.animation.duration
-                        easing.type: Easing.Bezier
-                    }
-                }
-
-                Behavior on implicitWidth {
-                    NumberAnimation {
-                        duration: Settings.notifications.animation.duration
-                        easing.type: Easing.Bezier
-                    }
-                }
 
                 Component.onCompleted: {
                     if (!item.modelData.expired) {
@@ -70,6 +60,7 @@ PanelWindow {
                             rect.opacity = 1;
                         } else {
                             enterAnim.start();
+                            item.modelData.seen = true;
                         }
                     }
                 }
@@ -79,29 +70,37 @@ PanelWindow {
                     target: rect
                     property: "opacity"
                     to: 1
-                    duration: Settings.notifications.animation.duration
+                    duration: Settings.alerts.animation.duration
                     easing.type: Easing.OutCubic
-                    onStopped: item.modelData.seen = true
                 }
 
                 Connections {
                     target: item.modelData
                     function onExpiredChanged() {
-                        if (item.modelData.seen) {
-                            exitAnim.start();
+                        if (item.modelData.seen && item.modelData.expired) {
                             area.enabled = false;
                             area.cursorShape = Qt.ArrowCursor;
+                            exitAnim.start();
                         }
                     }
                 }
 
-                PropertyAnimation {
+                ParallelAnimation {
                     id: exitAnim
-                    target: rect
-                    property: "opacity"
-                    to: 0
-                    duration: Settings.notifications.animation.duration
-                    easing.type: Easing.OutCubic
+                    PropertyAnimation {
+                        target: rect
+                        property: "opacity"
+                        to: 0
+                        duration: Settings.alerts.animation.duration
+                        easing.type: Easing.OutCubic
+                    }
+                    PropertyAnimation {
+                        target: item
+                        property: "implicitHeight"
+                        to: 0
+                        duration: Settings.alerts.animation.duration
+                        easing.type: Easing.OutCubic
+                    }
                     onStopped: item.modelData.stow()
                 }
 
@@ -109,43 +108,36 @@ PanelWindow {
                     id: area
                     cursorShape: Qt.PointingHandCursor
                     hoverEnabled: true
-                    anchors.centerIn: parent
 
                     onClicked: item.modelData.expired = true
 
-                    Rectangle {
+                    ClippingWrapperRectangle {
                         id: rect
-                        property var hoverColor: Settings.notifications.hoverColor
-                        color: area.containsMouse ? hoverColor : Settings.notifications.color
+                        property var hoverColor: Settings.alerts.hoverColor
 
-                        property int maxHeight: Settings.notifications.height
-                        implicitWidth: Settings.notifications.width
-                        implicitHeight: Math.min(layout.implicitHeight, maxHeight)
+                        property var overMax: layout.implicitHeight > Settings.alerts.height
+                        implicitHeight: overMax ? Settings.alerts.height : undefined
+                        implicitWidth: Settings.alerts.width
 
-                        radius: Settings.notifications.radius
+                        color: area.containsMouse ? hoverColor : Settings.alerts.color
+                        radius: Settings.alerts.radius
+                        margin: Settings.alerts.padding
                         opacity: 0
 
                         Behavior on color {
                             ColorAnimation {
-                                duration: Settings.notifications.animation.hover.duration
+                                duration: Settings.alerts.animation.hover.duration
                                 easing.type: Easing.InOutQuad
                             }
                         }
 
                         ColumnLayout {
                             id: layout
-                            anchors.fill: parent
-
-                            property var padding: Settings.notifications.padding
-                            anchors.leftMargin: padding.horizontal
-                            anchors.rightMargin: padding.horizontal
-                            anchors.topMargin: padding.vertical
-                            anchors.bottomMargin: padding.vertical
 
                             Label {
                                 id: summaryLabel
                                 text: item.modelData.summary
-                                wrapMode: Text.WordWrap
+                                elide: Text.ElideRight
                                 Layout.fillWidth: true
                             }
 
@@ -164,7 +156,7 @@ PanelWindow {
                     id: effect
                     source: area
                     anchors.fill: area
-                    shadowEnabled: Settings.notifications.shadow.enabled
+                    shadowEnabled: Settings.alerts.shadow.enabled
                 }
             }
         }

@@ -120,8 +120,8 @@ Singleton {
                 }
             }
 
-            property JsonObject notifications: JsonObject {
-                id: _notifications
+            property JsonObject alerts: JsonObject {
+                id: _alerts
 
                 property JsonObject position: JsonObject {
                     property string vertical: _bar.position
@@ -132,15 +132,11 @@ Singleton {
                 property string hoverColor: _theme.color02
 
                 property int width: 400
-                property int height: 100
-                property int radius: 30
-                property int margin: 15
-                property int spacing: 15
-
-                property JsonObject padding: JsonObject {
-                    property int vertical: 10
-                    property int horizontal: 20
-                }
+                property int height: 300
+                property int radius: 10
+                property int margin: 10
+                property int spacing: 10
+                property int padding: 10
 
                 property JsonObject animation: JsonObject {
                     property int duration: 250
@@ -158,5 +154,5 @@ Singleton {
 
     property var bar: _bar  // qmllint disable
     property var theme: _theme // qmllint disable
-    property var notifications: _notifications // qmllint disable
+    property var alerts: _alerts // qmllint disable
 }
