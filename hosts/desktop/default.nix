@@ -32,7 +32,7 @@
 
     sys = {
       gpu.nvidia.enable = true;
-      displayManager.gdm.enable = true;
+      displayManager.regreet.enable = true;
       boot = {
         loader.grub = {
           enable = true;

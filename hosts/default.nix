@@ -114,6 +114,13 @@ in
       }
     ];
 
+    systemd.services = {
+      "home-manager-${cfg.user}" = {
+        after = [ "graphical-session.target" ];
+        wantedBy = lib.mkForce [ ];
+      };
+    };
+
     nixpkgs.config.allowUnfree = true;
     nix.settings.experimental-features = [
       "nix-command"
@@ -128,6 +135,7 @@ in
       polarity = "dark";
       targets.grub.enable = false;
       targets.plymouth.enable = false;
+      targets.console.enable = false;
 
       fonts = {
         sizes.terminal = 14;

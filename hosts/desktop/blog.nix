@@ -30,6 +30,28 @@ in
     atomazu.inputs.sops-nix.nixosModules.sops
   ];
 
+  systemd.services = {
+    "acme-api.atomazu.org" = {
+      after = [ "multi-user.target" ];
+      wantedBy = pkgs.lib.mkForce [ ];
+    };
+
+    "acme-blog.atomazu.org" = {
+      after = [ "multi-user.target" ];
+      wantedBy = pkgs.lib.mkForce [ ];
+    };
+
+    "nginx" = {
+      after = [ "multi-user.target" ];
+      wantedBy = pkgs.lib.mkForce [ ];
+    };
+
+    "nginx-config-reload" = {
+      after = [ "multi-user.target" ];
+      wantedBy = pkgs.lib.mkForce [ ];
+    };
+  };
+
   sops = {
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
     defaultSopsFile = ./secrets/my-secrets.yaml;

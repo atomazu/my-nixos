@@ -87,6 +87,7 @@ in
           "udev.log_priority=3"
           "systemd.show_status=false"
           "fbcon=nodefer"
+          "vt.global_cursor_default=0"
         ];
       })
 
@@ -107,6 +108,7 @@ in
 
     networking.hostName = "${config.atomazu.my-nixos.host.name}";
     networking.networkmanager.enable = true;
+    systemd.services.NetworkManager-wait-online.enable = false;
 
     hardware.bluetooth.enable = true;
     hardware.bluetooth.powerOnBoot = true;
