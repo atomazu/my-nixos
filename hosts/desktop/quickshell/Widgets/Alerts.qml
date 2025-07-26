@@ -34,13 +34,62 @@ PanelWindow {
         spacing: 15
 
         Repeater {
-            model: Notifications.popups
+            model: Notifications.list
 
             Item {
-                id: nroot
+                id: item
                 required property var modelData
                 implicitWidth: area.implicitWidth
-                implicitHeight: area.implicitHeight
+                implicitHeight: modelData.expired ? 0 : area.implicitHeight
+                visible: modelData.popup
+
+                Behavior on implicitHeight {
+                    NumberAnimation {
+                        duration: 250
+                        easing.type: Easing.Bezier
+                    }
+                }
+
+                Component.onCompleted: {
+                    if (!item.modelData.expired) {
+                        if (item.modelData.seen) {
+                            notification.opacity = 1;
+                        } else {
+                            item.modelData.seen = true;
+                            enterAnim.start();
+                        }
+                    }
+                }
+
+                PropertyAnimation {
+                    id: enterAnim
+                    target: notification
+                    property: "opacity"
+                    to: 1
+                    duration: 250
+                    easing.type: Easing.OutCubic
+                }
+
+                Connections {
+                    target: item.modelData
+                    function onExpiredChanged() {
+                        if (item.modelData.seen) {
+                            exitAnim.start();
+                            area.enabled = false;
+                            area.cursorShape = Qt.ArrowCursor;
+                        }
+                    }
+                }
+
+                PropertyAnimation {
+                    id: exitAnim
+                    target: notification
+                    property: "opacity"
+                    to: 0
+                    duration: 250
+                    easing.type: Easing.OutCubic
+                    onStopped: item.modelData.stow()
+                }
 
                 WrapperMouseArea {
                     id: area
@@ -48,7 +97,7 @@ PanelWindow {
                     hoverEnabled: true
                     anchors.centerIn: parent
 
-                    onClicked: nroot.modelData.popup = false
+                    onClicked: item.modelData.expired = true
 
                     Rectangle {
                         id: notification
@@ -58,6 +107,7 @@ PanelWindow {
                         implicitHeight: 100
                         implicitWidth: 400
                         radius: 30
+                        opacity: 0
 
                         Behavior on color {
                             ColorAnimation {
@@ -73,11 +123,11 @@ PanelWindow {
                             anchors.bottomMargin: 10
 
                             Label {
-                                text: nroot.modelData.summary
+                                text: item.modelData.summary
                             }
 
                             Label {
-                                text: nroot.modelData.body
+                                text: item.modelData.body
                                 wrapMode: Text.WordWrap
                                 Layout.preferredWidth: notification.width - 20
                             }

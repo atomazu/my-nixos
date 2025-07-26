@@ -27,7 +27,6 @@ Singleton {
             notif.tracked = true;
 
             root.list.push(notifComp.createObject(root, {
-                popup: true,
                 notification: notif
             }));
         }
@@ -36,7 +35,9 @@ Singleton {
     component Notif: QtObject {
         id: notif
 
-        property bool popup
+        property bool popup: true
+        property bool expired: false
+        property bool seen: false
         readonly property date time: new Date()
         readonly property string timeStr: {
             const diff = System.clock.date.getTime() - time.getTime();
@@ -59,13 +60,15 @@ Singleton {
         readonly property int urgency: notification.urgency
         readonly property list<NotificationAction> actions: notification.actions
 
+        function stow(): void {
+            popup = false;
+        }
+
         readonly property Timer timer: Timer {
             running: true
-            interval: 10000 // 10 seconds
+            interval: 10000
 
-            onTriggered: {
-                notif.popup = false;
-            }
+            onTriggered: notif.expired = true
         }
 
         readonly property Connections conn: Connections {
@@ -83,7 +86,6 @@ Singleton {
 
     Component {
         id: notifComp
-
         Notif {}
     }
 }
