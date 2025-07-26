@@ -31,14 +31,13 @@ PanelWindow {
         spacing: Settings.notifications.spacing
 
         anchors {
+            margins: Settings.notifications.margin
+
             property var position: Settings.notifications.position
             top: position.vertical === "top" ? parent.top : undefined
             bottom: position.vertical === "bottom" ? parent.bottom : undefined
             left: position.horizontal === "left" ? parent.left : undefined
             right: position.horizontal === "right" ? parent.right : undefined
-
-            // This margin will apply to the active anchors
-            margins: Settings.notifications.margin
         }
 
         Repeater {
@@ -47,11 +46,18 @@ PanelWindow {
             Item {
                 id: item
                 required property var modelData
-                implicitWidth: area.implicitWidth
+                implicitWidth: modelData.expired ? 0 : area.implicitWidth
                 implicitHeight: modelData.expired ? 0 : area.implicitHeight
                 visible: modelData.popup
 
                 Behavior on implicitHeight {
+                    NumberAnimation {
+                        duration: Settings.notifications.animation.duration
+                        easing.type: Easing.Bezier
+                    }
+                }
+
+                Behavior on implicitWidth {
                     NumberAnimation {
                         duration: Settings.notifications.animation.duration
                         easing.type: Easing.Bezier
@@ -63,7 +69,6 @@ PanelWindow {
                         if (item.modelData.seen) {
                             rect.opacity = 1;
                         } else {
-                            item.modelData.seen = true;
                             enterAnim.start();
                         }
                     }
@@ -76,6 +81,7 @@ PanelWindow {
                     to: 1
                     duration: Settings.notifications.animation.duration
                     easing.type: Easing.OutCubic
+                    onStopped: item.modelData.seen = true
                 }
 
                 Connections {
@@ -111,8 +117,11 @@ PanelWindow {
                         id: rect
                         property var hoverColor: Settings.notifications.hoverColor
                         color: area.containsMouse ? hoverColor : Settings.notifications.color
-                        implicitHeight: Settings.notifications.height
+
+                        property int maxHeight: Settings.notifications.height
                         implicitWidth: Settings.notifications.width
+                        implicitHeight: Math.min(layout.implicitHeight, maxHeight)
+
                         radius: Settings.notifications.radius
                         opacity: 0
 
@@ -124,21 +133,28 @@ PanelWindow {
                         }
 
                         ColumnLayout {
+                            id: layout
                             anchors.fill: parent
-                            anchors.leftMargin: Settings.notifications.padding.horizontal
-                            anchors.rightMargin: Settings.notifications.padding.horizontal
-                            anchors.topMargin: Settings.notifications.padding.vertical
-                            anchors.bottomMargin: Settings.notifications.padding.vertical
+
+                            property var padding: Settings.notifications.padding
+                            anchors.leftMargin: padding.horizontal
+                            anchors.rightMargin: padding.horizontal
+                            anchors.topMargin: padding.vertical
+                            anchors.bottomMargin: padding.vertical
 
                             Label {
+                                id: summaryLabel
                                 text: item.modelData.summary
+                                wrapMode: Text.WordWrap
+                                Layout.fillWidth: true
                             }
 
                             Label {
                                 text: item.modelData.body
                                 wrapMode: Text.WordWrap
-                                property var marginSum: Settings.notifications.padding.horizontal * 2
-                                Layout.preferredWidth: rect.width - marginSum
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                elide: Text.ElideRight
                             }
                         }
                     }
