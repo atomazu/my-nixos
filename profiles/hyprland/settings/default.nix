@@ -22,7 +22,7 @@ let
 
   osd = {
     exec-once = [
-      cfg.osd.server.command
+      cfg.osd.serverCmd
     ];
 
     # Media & Hardware Controls
