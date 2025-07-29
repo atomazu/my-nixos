@@ -64,11 +64,25 @@ Singleton {
             popup = false;
         }
 
-        readonly property Timer timer: Timer {
-            running: true
-            interval: 10000
+        function pause(): void {
+            timer.running = false;
+        }
 
-            onTriggered: notif.expired = true
+        function resume(): void {
+            timer.running = true;
+        }
+
+        property Timer timer: Timer {
+            running: true
+            interval: Settings.alerts.timeout
+
+            onTriggered: {
+                if (notif.hovered) {
+                    running = true;
+                } else {
+                    notif.expired = true;
+                }
+            }
         }
 
         readonly property Connections conn: Connections {

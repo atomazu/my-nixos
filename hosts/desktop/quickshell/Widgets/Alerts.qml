@@ -51,7 +51,7 @@ PanelWindow {
                 required property var modelData
 
                 implicitWidth: area.implicitWidth
-                implicitHeight: area.implicitHeight + Settings.alerts.spacing
+                implicitHeight: area.implicitHeight
                 visible: modelData.popup
 
                 Component.onCompleted: {
@@ -110,14 +110,17 @@ PanelWindow {
                     hoverEnabled: true
 
                     onClicked: item.modelData.expired = true
+                    onEntered: item.modelData.pause()
+                    onExited: item.modelData.resume()
 
                     ClippingWrapperRectangle {
                         id: rect
                         property var hoverColor: Settings.alerts.hoverColor
-
                         property var overMax: layout.implicitHeight > Settings.alerts.height
+                        property var extraWidth: item.modelData.image != "" ? 50 : 24
+
                         implicitHeight: overMax ? Settings.alerts.height : undefined
-                        implicitWidth: Settings.alerts.width
+                        implicitWidth: Settings.alerts.width + Settings.alerts.spacing + 50
 
                         color: area.containsMouse ? hoverColor : Settings.alerts.color
                         radius: Settings.alerts.radius
@@ -133,20 +136,107 @@ PanelWindow {
 
                         ColumnLayout {
                             id: layout
-
-                            Label {
-                                id: summaryLabel
-                                text: item.modelData.summary
-                                elide: Text.ElideRight
+                            RowLayout {
+                                id: header
                                 Layout.fillWidth: true
+                                ClippingWrapperRectangle {
+                                    radius: Settings.alerts.radius
+                                    visible: iconImage.source != ""
+                                    Layout.preferredWidth: 24
+                                    Layout.preferredHeight: 24
+                                    IconImage {
+                                        id: iconImage
+                                        source: Quickshell.iconPath(item.modelData.appName.toLowerCase(), true)
+                                    }
+                                }
+                                Label {
+                                    text: item.modelData.appName
+                                    font.bold: true
+                                    Layout.fillWidth: true
+                                    font.pointSize: Settings.alerts.font.size
+                                    elide: Text.ElideRight
+                                }
+                                Label {
+                                    text: item.modelData.timeStr
+                                    font.pointSize: Settings.alerts.font.size
+                                    opacity: 0.7
+                                }
                             }
 
-                            Label {
-                                text: item.modelData.body
-                                wrapMode: Text.WordWrap
+                            RowLayout {
+                                id: content
+                                spacing: Settings.alerts.padding
+
+                                ColumnLayout {
+                                    id: image
+                                    visible: item.modelData.image != ""
+                                    spacing: Settings.alerts.spacing
+
+                                    ClippingWrapperRectangle {
+                                        Layout.preferredWidth: 100
+                                        Layout.preferredHeight: 100
+                                        radius: Settings.alerts.radius
+
+                                        Image {
+                                            source: item.modelData.image
+                                            anchors.fill: parent
+                                            fillMode: Image.PreserveAspectCrop
+                                        }
+                                    }
+                                }
+
+                                ColumnLayout {
+                                    id: full
+                                    visible: item.modelData.image != ""
+                                    Label {
+                                        text: item.modelData.summary
+                                        elide: Text.ElideRight
+                                        Layout.fillWidth: true
+                                        font.bold: true
+                                        font.pointSize: Settings.alerts.font.size
+                                    }
+                                    Label {
+                                        text: item.modelData.body
+                                        wrapMode: Text.WordWrap
+                                        Layout.fillWidth: true
+                                        elide: Text.ElideRight
+                                        font.pointSize: Settings.alerts.font.size
+                                        linkColor: Settings.theme.color0D
+                                    }
+                                }
+
+                                RowLayout {
+                                    id: compact
+                                    visible: item.modelData.image == ""
+                                    Label {
+                                        text: item.modelData.summary + ": "
+                                        elide: Text.ElideRight
+                                        font.bold: true
+                                        font.pointSize: Settings.alerts.font.size
+                                    }
+                                    Label {
+                                        text: item.modelData.body
+                                        wrapMode: Text.WordWrap
+                                        elide: Text.ElideRight
+                                        font.pointSize: Settings.alerts.font.size
+                                        linkColor: Settings.theme.color0D
+                                    }
+                                }
+                            }
+
+                            ColumnLayout {
+                                id: actionsColumn
                                 Layout.fillWidth: true
-                                Layout.fillHeight: true
-                                elide: Text.ElideRight
+                                Layout.topMargin: item.modelData.actions.length > 0 ? Settings.alerts.spacing : 0
+
+                                Repeater {
+                                    model: item.modelData.actions
+
+                                    delegate: Button {
+                                        text: modelData.text
+                                        onClicked: modelData.invoke()
+                                    }
+                                }
                             }
                         }
                     }
