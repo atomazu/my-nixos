@@ -1,4 +1,5 @@
 {
+  atomazu,
   pkgs,
   config,
   lib,
@@ -139,10 +140,13 @@ in
         description = "Fastfetch system information";
       };
 
-      config = lib.mkOption {
-        type = lib.types.str;
-        default = "examples/8.jsonc";
-        description = "Fastfetch configuration to load";
+      shellInit = {
+        enable = atomazu.lib.mkEnableOption "Show fastfetch on shellInit" true;
+        args = lib.mkOption {
+          type = lib.types.string;
+          default = ''--load-config "examples/8.jsonc"'';
+          description = "fastfetch args when run on shellinit";
+        };
       };
     };
 
@@ -220,15 +224,69 @@ in
         };
       };
 
-      programs.fastfetch.enable = cfg.fastfetch.enable;
       programs.direnv.enable = cfg.direnv.enable;
+      programs.fastfetch = {
+        enable = cfg.fastfetch.enable;
+        settings = {
+          logo = {
+            source = pkgs.fetchurl {
+              url = "https://avatanplus.com/files/resources/original/5a2a716939bda16035cb0315.png";
+              sha256 = "sha256-RjqBJp9LcV+HC0Kw4nNlv0WuuQhipw/RlpFqtZZCfRg=";
+            };
+            width = 40;
+          };
+          modules = [
+            "title"
+            "separator"
+            "datetime"
+            "break"
+            "os"
+            "host"
+            "kernel"
+            "uptime"
+            "packages"
+            "shell"
+            "break"
+            "de"
+            "wm"
+            "theme"
+            "icons"
+            "font"
+            "terminal"
+            "break"
+            "cpu"
+            "gpu"
+            "memory"
+            "disk"
+            "break"
+            "player"
+            "song"
+            "break"
+            "localip"
+            "colors"
+          ];
+        };
+      };
 
       programs.fish = lib.mkIf cfg.fish.enable {
         enable = true;
-        interactiveShellInit = lib.mkIf cfg.fastfetch.enable ''
-          set fish_greeting
-          fastfetch --load-config ${cfg.fastfetch.config}
-        '';
+        interactiveShellInit =
+          "set fish_greeting \n"
+          + (lib.optionalString cfg.fastfetch.shellInit.enable (
+            "fastfetch ${cfg.fastfetch.shellInit.args}" + "\n"
+          ))
+          + (lib.optionalString cfg.fastfetch.enable ''
+            function myfetch
+              set cols (tput cols)
+              if test $cols -lt 80
+                fastfetch --logo none
+              else
+                set width (math --scale=0 "min(40, max(8, $cols * 2 / 5))")
+                fastfetch --logo-width $width
+              end
+            end
+          '');
+
         shellAliases =
           (lib.optionalAttrs cfg.eza.enable {
             ls = "eza";
