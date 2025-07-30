@@ -58,8 +58,8 @@ PanelWindow {
                         if (item.modelData.seen) {
                             rect.opacity = 1;
                         } else {
-                            item.modelData.busy = true;
                             item.modelData.seen = true;
+                            item.modelData.toggleBusy(true);
                             enterAnim.start();
                         }
                     }
@@ -78,14 +78,14 @@ PanelWindow {
                     to: 1
                     duration: Settings.alerts.animation.duration
                     easing.type: Easing.OutCubic
-                    onStopped: item.modelData.busy = false
+                    onStopped: item.modelData.toggleBusy(false)
                 }
 
                 Connections {
                     target: item.modelData
                     function onExpiredChanged() {
                         if (item.modelData.seen && item.modelData.expired) {
-                            item.modelData.busy = true;
+                            item.modelData.toggleBusy(true);
                             area.enabled = false;
                             area.cursorShape = Qt.ArrowCursor;
                             exitAnim.start();
@@ -109,7 +109,10 @@ PanelWindow {
                         duration: Settings.alerts.animation.duration
                         easing.type: Easing.OutCubic
                     }
-                    onStopped: item.destroy()
+                    onStopped: {
+                        item.visible = false;
+                        item.modelData.toggleBusy(false);
+                    }
                 }
 
                 WrapperMouseArea {

@@ -52,7 +52,6 @@ Singleton {
     component Notif: QtObject {
         id: notif
 
-        property bool busy: false
         property bool expired: false
         property bool seen: false
         readonly property date time: new Date()
@@ -78,7 +77,7 @@ Singleton {
         readonly property list<NotificationAction> actions: notification.actions
 
         function stow(): void {
-            busy = false;
+            toggleBusy(false);
             const popupsIndex = root.popups.indexOf(notif);
             const queueIndex = root.queue.indexOf(notif);
 
@@ -92,21 +91,17 @@ Singleton {
             root.process();
         }
 
-        function pause(): void {
-            timer.running = false;
+        function toggleTimer(): void {
+            timer.running = !timer.running;
         }
 
-        function resume(): void {
-            timer.running = true;
-        }
-
-        onBusyChanged: {
+        function toggleBusy(busy): void {
+            busy = !busy;
             if (busy) {
-                root.busyCount++;
-            } else {
                 root.busyCount--;
+            } else {
+                root.busyCount++;
             }
-            root.process();
         }
 
         property Timer timer: Timer {
