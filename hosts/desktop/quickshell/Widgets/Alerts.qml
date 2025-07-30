@@ -67,7 +67,6 @@ PanelWindow {
 
                 Component.onDestruction: {
                     if (modelData.expired) {
-                        modelData.busy = false;
                         modelData.stow();
                     }
                 }

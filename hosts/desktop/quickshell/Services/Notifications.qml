@@ -78,6 +78,7 @@ Singleton {
         readonly property list<NotificationAction> actions: notification.actions
 
         function stow(): void {
+            busy = false;
             const popupsIndex = root.popups.indexOf(notif);
             const queueIndex = root.queue.indexOf(notif);
 
