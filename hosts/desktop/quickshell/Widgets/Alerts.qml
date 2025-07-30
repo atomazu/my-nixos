@@ -41,7 +41,7 @@ PanelWindow {
 
         Repeater {
             model: {
-                let list = Notifications.list;
+                let list = Notifications.popups;
                 let reverse = Settings.alerts.position.vertical === "bottom";
                 return reverse ? Array.from(list).reverse() : list;
             }
@@ -52,16 +52,23 @@ PanelWindow {
 
                 implicitWidth: area.implicitWidth
                 implicitHeight: area.implicitHeight
-                visible: modelData.popup
 
                 Component.onCompleted: {
                     if (!item.modelData.expired) {
                         if (item.modelData.seen) {
                             rect.opacity = 1;
                         } else {
-                            enterAnim.start();
+                            item.modelData.busy = true;
                             item.modelData.seen = true;
+                            enterAnim.start();
                         }
+                    }
+                }
+
+                Component.onDestruction: {
+                    if (modelData.expired) {
+                        item.modelData.busy = false;
+                        modelData.stow();
                     }
                 }
 
@@ -72,12 +79,14 @@ PanelWindow {
                     to: 1
                     duration: Settings.alerts.animation.duration
                     easing.type: Easing.OutCubic
+                    onStopped: item.modelData.busy = false
                 }
 
                 Connections {
                     target: item.modelData
                     function onExpiredChanged() {
                         if (item.modelData.seen && item.modelData.expired) {
+                            item.modelData.busy = true;
                             area.enabled = false;
                             area.cursorShape = Qt.ArrowCursor;
                             exitAnim.start();
@@ -101,7 +110,7 @@ PanelWindow {
                         duration: Settings.alerts.animation.duration
                         easing.type: Easing.OutCubic
                     }
-                    onStopped: item.modelData.stow()
+                    onStopped: item.modelData.busy = false
                 }
 
                 WrapperMouseArea {

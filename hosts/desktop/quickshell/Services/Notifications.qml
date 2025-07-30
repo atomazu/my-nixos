@@ -10,8 +10,11 @@ import QtQuick
 Singleton {
     id: root
 
-    readonly property list<Notif> list: []
-    readonly property list<Notif> popups: list.filter(n => n.popup)
+    readonly property list<Notif> stowed: []
+    readonly property list<Notif> popups: []
+    readonly property list<Notif> queue: []
+
+    property int busyCount: 0
 
     NotificationServer {
         id: server
@@ -26,16 +29,30 @@ Singleton {
         onNotification: notif => {
             notif.tracked = true;
 
-            root.list.push(notifComp.createObject(root, {
+            const newNotif = notifComp.createObject(root, {
                 notification: notif
-            }));
+            });
+
+            root.queue.push(newNotif);
+            process();
+        }
+    }
+
+    function popupsReady(): bool {
+        return root.busyCount === 0;
+    }
+
+    function process(): void {
+        if (popupsReady() && root.queue.length > 0) {
+            const notifToMove = root.queue.shift();
+            root.popups.push(notifToMove);
         }
     }
 
     component Notif: QtObject {
         id: notif
 
-        property bool popup: true
+        property bool busy: false
         property bool expired: false
         property bool seen: false
         readonly property date time: new Date()
@@ -61,7 +78,17 @@ Singleton {
         readonly property list<NotificationAction> actions: notification.actions
 
         function stow(): void {
-            popup = false;
+            const popupsIndex = root.popups.indexOf(notif);
+            const queueIndex = root.queue.indexOf(notif);
+
+            if (popupsIndex !== -1) {
+                root.popups.splice(popupsIndex, 1);
+            } else if (queueIndex !== -1) {
+                root.queue.splice(queueIndex, 1);
+            }
+
+            root.stowed.push(notif);
+            root.process();
         }
 
         function pause(): void {
@@ -72,16 +99,21 @@ Singleton {
             timer.running = true;
         }
 
+        onBusyChanged: {
+            if (busy) {
+                root.busyCount++;
+            } else {
+                root.busyCount--;
+            }
+            root.process();
+        }
+
         property Timer timer: Timer {
             running: true
             interval: Settings.alerts.timeout
 
             onTriggered: {
-                if (notif.hovered) {
-                    running = true;
-                } else {
-                    notif.expired = true;
-                }
+                notif.expired = true;
             }
         }
 
@@ -89,7 +121,19 @@ Singleton {
             target: notif.notification.Retainable
 
             function onDropped(): void {
-                root.list.splice(root.list.indexOf(notif), 1);
+                const popupsIndex = root.popups.indexOf(notif);
+                const queueIndex = root.queue.indexOf(notif);
+                const stowedIndex = root.stowed.indexOf(notif);
+
+                if (popupsIndex !== -1) {
+                    root.popups.splice(popupsIndex, 1);
+                } else if (queueIndex !== -1) {
+                    root.queue.splice(queueIndex, 1);
+                } else if (stowedIndex !== -1) {
+                    root.stowed.splice(stowedIndex, 1);
+                }
+
+                root.process();
             }
 
             function onAboutToDestroy(): void {
