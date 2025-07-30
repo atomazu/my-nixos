@@ -67,7 +67,7 @@ PanelWindow {
 
                 Component.onDestruction: {
                     if (modelData.expired) {
-                        item.modelData.busy = false;
+                        modelData.busy = false;
                         modelData.stow();
                     }
                 }
@@ -110,7 +110,7 @@ PanelWindow {
                         duration: Settings.alerts.animation.duration
                         easing.type: Easing.OutCubic
                     }
-                    onStopped: item.modelData.busy = false
+                    onStopped: item.destroy()
                 }
 
                 WrapperMouseArea {
