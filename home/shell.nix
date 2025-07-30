@@ -143,7 +143,7 @@ in
       shellInit = {
         enable = atomazu.lib.mkEnableOption "Show fastfetch on shellInit" true;
         args = lib.mkOption {
-          type = lib.types.string;
+          type = lib.types.str;
           default = ''--load-config "examples/8.jsonc"'';
           description = "fastfetch args when run on shellinit";
         };
