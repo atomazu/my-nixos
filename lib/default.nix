@@ -36,24 +36,26 @@
     };
 
   mkWritable =
-    src: path:
-    home.lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      TARGET="$HOME/${path}"
+    {
+      from,
+      to,
+      after ? "writeBoundary",
+      also ? "",
+    }:
+    home.lib.hm.dag.entryAfter [ after ] ''
+      TARGET="$HOME/${to}"
       TARGET_DIR="$(dirname "$TARGET")"
 
-      $DRY_RUN_CMD mkdir -p "$TARGET_DIR"
+      run mkdir -p "$TARGET_DIR"
+      run rm -rf "$TARGET"
 
-      if [ -d "${src}" ]; then
-        $DRY_RUN_CMD cp -rf ${src}/* "$TARGET/"
-      else
-        if [ -L "$TARGET" ]; then
-          $DRY_RUN_CMD cp -f "$(readlink -f "$TARGET")" "$TARGET.tmp"
-          $DRY_RUN_CMD mv "$TARGET.tmp" "$TARGET"
-        else
-          $DRY_RUN_CMD cp -f ${src} "$TARGET"
-        fi
+      if [ -d "${from}" ]; then
+        run cp -rT "${from}" "$TARGET"
+      else 
+        run cp "${from}" "$TARGET"
       fi
 
-      $DRY_RUN_CMD chmod -R u+w "$TARGET"
+      run chmod -R u+w "$TARGET"
+      ${also}
     '';
 }

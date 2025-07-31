@@ -154,7 +154,10 @@ in
       in
       {
         home.packages = [ pkgs.albert ];
-        home.activation.albertTheme = atomazu.lib.mkWritable "${themeSource}" "${themeTarget}";
+        home.activation.albertTheme = atomazu.lib.mkWritable {
+          from = "${themeSource}";
+          to = "${themeTarget}";
+        };
 
         xdg = {
           configFile = {

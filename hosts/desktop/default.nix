@@ -107,7 +107,7 @@
       let
         colors = config.lib.stylix.colors.withHashtag;
         fonts = config.stylix.fonts;
-        target = "$HOME/.config/quickshell/settings.json";
+        target = ".config/quickshell/settings.json";
         source = (
           pkgs.writeText "quickshell-config.json" (
             pkgs.lib.generators.toJSON { } {
@@ -143,7 +143,11 @@
         );
       in
       {
-        quickshellSettings = atomazu.lib.mkWritable source target;
+        quickshellSettings = atomazu.lib.mkWritable {
+          from = source;
+          to = target;
+          after = "quickshell";
+        };
       };
     # --- Quickshell End ---
   };

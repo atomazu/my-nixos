@@ -41,6 +41,9 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = [ cfg.package ];
-    home.activation.youtubeMusicSettings = atomazu.lib.mkWritable source target;
+    home.activation.youtubeMusicSettings = atomazu.lib.mkWritable {
+      from = source;
+      to = target;
+    };
   };
 }

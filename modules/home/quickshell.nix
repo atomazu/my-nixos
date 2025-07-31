@@ -79,7 +79,11 @@ in
     home.packages = [ cfg.package ] ++ cfg.runtimeDependencies;
 
     home.sessionVariables = lib.mkIf (!cfg.withholdEnv) env;
-    home.activation.quickshellConfig = atomazu.lib.mkWritable "${cfg.source}" ".config/quickshell";
+    home.activation."quickshell" = atomazu.lib.mkWritable {
+      from = "${cfg.source}";
+      to = ".config/quickshell";
+      also = "run touch $HOME/.config/quickshell/.qmlls.ini";
+    };
 
     systemd.user.services.quickshell = atomazu.lib.mkAutoStart {
       name = "Quickshell";
