@@ -5,6 +5,6 @@ import QtQuick
 
 Text {
     text: Qt.formatDateTime(System.clock.date, "ddd d MMM HH:mm")
-    font.pointSize: Settings.bar.datetime.font.size
-    color: Settings.bar.datetime.font.color
+    font.pointSize: Config.bar.datetime.font.size
+    color: Config.bar.datetime.font.color
 }

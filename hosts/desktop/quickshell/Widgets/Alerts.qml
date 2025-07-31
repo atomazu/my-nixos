@@ -29,9 +29,9 @@ PanelWindow { // qmllint disable
         id: column
 
         anchors {
-            margins: Settings.alerts.margin
+            margins: Config.alerts.margin
 
-            property var position: Settings.alerts.position
+            property var position: Config.alerts.position
             top: position.vertical === "top" ? parent.top : undefined // qmllint disable
             bottom: position.vertical === "bottom" ? parent.bottom : undefined // qmllint disable
             left: position.horizontal === "left" ? parent.left : undefined // qmllint disable
@@ -47,11 +47,11 @@ PanelWindow { // qmllint disable
 
                 implicitWidth: area.implicitWidth
                 implicitHeight: area.implicitHeight
-                Layout.bottomMargin: Settings.alerts.margin / 2
+                Layout.bottomMargin: Config.alerts.margin / 2
 
                 Behavior on Layout.bottomMargin {
                     NumberAnimation {
-                        duration: Settings.alerts.animation.duration
+                        duration: Config.alerts.animation.duration
                         easing.type: Easing.InOutCubic
                     }
                 }
@@ -68,18 +68,12 @@ PanelWindow { // qmllint disable
                     }
                 }
 
-                Component.onDestruction: {
-                    if (modelData.expired) {
-                        modelData.stow();
-                    }
-                }
-
                 PropertyAnimation {
                     id: enterAnim
                     target: rect
                     property: "opacity"
                     to: 1
-                    duration: Settings.alerts.animation.duration
+                    duration: Config.alerts.animation.duration
                     easing.type: Easing.InOutCubic
                     onStopped: item.modelData.busy = false
                 }
@@ -103,19 +97,20 @@ PanelWindow { // qmllint disable
                         target: rect
                         property: "opacity"
                         to: 0
-                        duration: Settings.alerts.animation.duration
+                        duration: Config.alerts.animation.duration
                         easing.type: Easing.InOutCubic
                     }
                     PropertyAnimation {
                         target: item
                         property: "implicitHeight"
                         to: 0
-                        duration: Settings.alerts.animation.duration
+                        duration: Config.alerts.animation.duration
                         easing.type: Easing.InOutCubic
                     }
                     onStopped: {
                         item.visible = false;
                         item.modelData.busy = false;
+                        item.modelData.stow();
                     }
                 }
 
@@ -130,20 +125,20 @@ PanelWindow { // qmllint disable
 
                     ClippingWrapperRectangle {
                         id: rect
-                        property var hoverColor: Settings.alerts.hoverColor
-                        property var overMax: layout.implicitHeight > Settings.alerts.height
+                        property var hoverColor: Config.alerts.hoverColor
+                        property var overMax: layout.implicitHeight > Config.alerts.height
 
-                        implicitHeight: overMax ? Settings.alerts.height : undefined
-                        implicitWidth: Settings.alerts.width + Settings.alerts.spacing
+                        implicitHeight: overMax ? Config.alerts.height : undefined
+                        implicitWidth: Config.alerts.width + Config.alerts.spacing
 
-                        color: area.containsMouse ? hoverColor : Settings.alerts.color
-                        radius: Settings.alerts.radius
-                        margin: Settings.alerts.padding
+                        color: area.containsMouse ? hoverColor : Config.alerts.color
+                        radius: Config.alerts.radius
+                        margin: Config.alerts.padding
                         opacity: 0
 
                         Behavior on color {
                             ColorAnimation {
-                                duration: Settings.alerts.animation.hover.duration
+                                duration: Config.alerts.animation.hover.duration
                                 easing.type: Easing.InOutQuad
                             }
                         }
@@ -154,8 +149,9 @@ PanelWindow { // qmllint disable
                                 id: header
                                 Layout.fillWidth: true
                                 ClippingWrapperRectangle {
-                                    radius: Settings.alerts.radius
+                                    radius: Config.alerts.radius
                                     visible: iconImage.source != ""
+                                    color: "transparent"
                                     Layout.preferredWidth: 24
                                     Layout.preferredHeight: 24
                                     IconImage {
@@ -167,29 +163,30 @@ PanelWindow { // qmllint disable
                                     text: item.modelData.appName
                                     font.bold: true
                                     Layout.fillWidth: true
-                                    font.pointSize: Settings.alerts.font.size
+                                    font.pointSize: Config.alerts.font.size
                                     elide: Text.ElideRight
                                 }
                                 Label {
                                     text: item.modelData.timeStr
-                                    font.pointSize: Settings.alerts.font.size
+                                    font.pointSize: Config.alerts.font.size
                                     opacity: 0.7
                                 }
                             }
 
                             RowLayout {
                                 id: content
-                                spacing: Settings.alerts.padding
+                                spacing: Config.alerts.padding
 
                                 ColumnLayout {
                                     id: image
                                     visible: item.modelData.image != ""
-                                    spacing: Settings.alerts.spacing
+                                    spacing: Config.alerts.spacing
 
                                     ClippingWrapperRectangle {
                                         Layout.preferredWidth: 100
                                         Layout.preferredHeight: 100
-                                        radius: Settings.alerts.radius
+                                        radius: Config.alerts.radius
+                                        color: "transparent"
 
                                         Image {
                                             source: item.modelData.image
@@ -202,8 +199,8 @@ PanelWindow { // qmllint disable
                                 Label {
                                     textFormat: Text.RichText
                                     elide: Text.ElideRight
-                                    font.pointSize: Settings.alerts.font.size
-                                    linkColor: Settings.theme.color0D
+                                    font.pointSize: Config.alerts.font.size
+                                    linkColor: Config.theme.color0D
                                     wrapMode: Text.WordWrap
                                     Layout.fillWidth: true
 
@@ -235,7 +232,7 @@ PanelWindow { // qmllint disable
                     id: effect
                     source: area
                     anchors.fill: area
-                    shadowEnabled: Settings.alerts.shadow.enabled
+                    shadowEnabled: Config.alerts.shadow.enabled
                 }
             }
         }

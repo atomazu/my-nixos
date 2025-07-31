@@ -41,7 +41,7 @@ Singleton {
     function process(): void {
         if (root.busyCount === 0 && root.queue.length > 0) {
             const notifToMove = root.queue.shift();
-            if (Settings.alerts.position.vertical === "bottom") {
+            if (Config.alerts.position.vertical === "bottom") {
                 root.popups.unshift(notifToMove);
             } else {
                 root.popups.push(notifToMove);
@@ -103,7 +103,7 @@ Singleton {
 
         property Timer timer: Timer {
             running: true
-            interval: Settings.alerts.timeout
+            interval: Config.alerts.timeout
             onTriggered: notif.expired = true
         }
 

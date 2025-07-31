@@ -4,7 +4,7 @@ import qs.Services
 import QtQuick
 
 Text {
-    font.pointSize: Settings.theme.font.size
-    font.family: Settings.theme.font.family
-    color: Settings.theme.font.color
+    font.pointSize: Config.theme.font.size
+    font.family: Config.theme.font.family
+    color: Config.theme.font.color
 }

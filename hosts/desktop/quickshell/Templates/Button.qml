@@ -13,7 +13,7 @@ Rectangle {
     signal entered
     signal exited
 
-    readonly property var cfg: Settings.templates.button
+    readonly property var cfg: Config.templates.button
     readonly property var _hoverState: mouseArea.containsMouse ? cfg.hover : cfg.normal
     property var state: root.enabled ? _hoverState : cfg.disabled
 

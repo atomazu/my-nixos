@@ -7,7 +7,7 @@ import Quickshell.Services.SystemTray
 import QtQuick
 
 Row {
-    spacing: Settings.bar.tray.spacing
+    spacing: Config.bar.tray.spacing
     Repeater {
         model: SystemTray.items
         delegate: MouseArea {
@@ -16,8 +16,8 @@ Row {
             required property SystemTrayItem modelData
 
             acceptedButtons: Qt.LeftButton | Qt.RightButton
-            implicitWidth: Settings.bar.tray.item.width
-            implicitHeight: Settings.bar.tray.item.height
+            implicitWidth: Config.bar.tray.item.width
+            implicitHeight: Config.bar.tray.item.height
 
             onClicked: event => {
                 if (event.button === Qt.LeftButton)
@@ -43,8 +43,8 @@ Row {
 
             ClippingRectangle {
                 anchors.fill: parent
-                color: Settings.bar.tray.item.background
-                radius: Settings.bar.tray.item.radius
+                color: Config.bar.tray.item.background
+                radius: Config.bar.tray.item.radius
 
                 IconImage {
                     id: icon

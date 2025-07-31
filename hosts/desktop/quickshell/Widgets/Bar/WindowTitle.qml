@@ -7,15 +7,15 @@ import QtQuick
 Item {
     id: root
     anchors.centerIn: parent
-    implicitWidth: Settings.bar.windowTitle.width
+    implicitWidth: Config.bar.windowTitle.width
 
     Text {
         text: ToplevelManager.activeToplevel.title
         elide: Text.ElideMiddle
 
         font.hintingPreference: Font.PreferFullHinting
-        font.pointSize: Settings.bar.font.size
-        color: Settings.bar.font.color
+        font.pointSize: Config.bar.font.size
+        color: Config.bar.font.color
 
         width: root.implicitWidth
         anchors.centerIn: parent

@@ -6,7 +6,7 @@ import Quickshell.Hyprland
 
 Row {
     id: root
-    spacing: Settings.bar.workspaces.spacing
+    spacing: Config.bar.workspaces.spacing
 
     required property var modelData
 
@@ -17,16 +17,16 @@ Row {
         delegate: Rectangle {
             id: workspaceItem
             required property HyprlandWorkspace modelData
-            property var activeWidth: Settings.bar.workspaces.width.active
-            property var inactiveWidth: Settings.bar.workspaces.width.inactive
+            property var activeWidth: Config.bar.workspaces.width.active
+            property var inactiveWidth: Config.bar.workspaces.width.inactive
 
             implicitWidth: modelData.focused ? activeWidth : inactiveWidth
             visible: root.modelData.name == modelData.monitor.name
 
-            implicitHeight: Settings.bar.workspaces.height
-            radius: Settings.bar.workspaces.radius
-            border.width: Settings.bar.workspaces.border.width
-            color: Settings.bar.workspaces.color
+            implicitHeight: Config.bar.workspaces.height
+            radius: Config.bar.workspaces.radius
+            border.width: Config.bar.workspaces.border.width
+            color: Config.bar.workspaces.color
 
             Behavior on implicitWidth {
                 NumberAnimation {
@@ -39,11 +39,11 @@ Row {
                 text: workspaceItem.modelData.id
                 anchors.centerIn: parent
 
-                bottomPadding: Settings.bar.workspaces.font.padding
-                rightPadding: Settings.bar.workspaces.font.padding
-                color: Settings.bar.workspaces.font.color
-                font.family: Settings.bar.workspaces.font.family
-                font.pointSize: Settings.bar.workspaces.font.size
+                bottomPadding: Config.bar.workspaces.font.padding
+                rightPadding: Config.bar.workspaces.font.padding
+                color: Config.bar.workspaces.font.color
+                font.family: Config.bar.workspaces.font.family
+                font.pointSize: Config.bar.workspaces.font.size
             }
         }
     }

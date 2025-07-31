@@ -11,12 +11,12 @@ PanelWindow { //qmllint disable
     required property var modelData
 
     screen: modelData
-    color: Settings.bar.background
-    implicitHeight: Settings.bar.height
+    color: Config.bar.background
+    implicitHeight: Config.bar.height
 
     anchors {
-        top: Settings.bar.position === "top"
-        bottom: Settings.bar.position === "bottom"
+        top: Config.bar.position === "top"
+        bottom: Config.bar.position === "bottom"
         left: true
         right: true
     }
@@ -25,9 +25,9 @@ PanelWindow { //qmllint disable
 
     RowLayout {
         anchors.fill: parent
-        spacing: Settings.bar.spacing
-        anchors.rightMargin: Settings.bar.margin.right
-        anchors.leftMargin: Settings.bar.margin.left
+        spacing: Config.bar.spacing
+        anchors.rightMargin: Config.bar.margin.right
+        anchors.leftMargin: Config.bar.margin.left
 
         Workspaces {
             modelData: root.modelData
