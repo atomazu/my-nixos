@@ -40,10 +40,10 @@ Row {
                 anchors.centerIn: parent
 
                 bottomPadding: Settings.bar.workspaces.font.padding
+                rightPadding: Settings.bar.workspaces.font.padding
                 color: Settings.bar.workspaces.font.color
                 font.family: Settings.bar.workspaces.font.family
                 font.pointSize: Settings.bar.workspaces.font.size
-                font.hintingPreference: Font.PreferFullHinting
             }
         }
     }

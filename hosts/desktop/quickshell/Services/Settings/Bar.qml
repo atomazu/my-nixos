@@ -45,7 +45,7 @@ JsonObject {
 
         property JsonObject font: JsonObject {
             property int size: 8
-            property int padding: 2
+            property int padding: 1
             property string color: root.theme.color00
             property string family: root.theme.font.family
         }
