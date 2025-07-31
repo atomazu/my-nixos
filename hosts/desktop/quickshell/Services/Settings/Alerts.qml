@@ -18,7 +18,7 @@ JsonObject {
     property string hoverColor: root.theme.color02
 
     property int timeout: 5000
-    property int width: 400
+    property int width: 450
     property int height: 300
     property int radius: 15
     property int margin: 15

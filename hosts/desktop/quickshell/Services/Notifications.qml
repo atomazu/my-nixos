@@ -14,6 +14,7 @@ Singleton {
     readonly property list<Notif> queue: []
 
     property int busyCount: 0
+    onBusyCountChanged: Qt.callLater(process)
 
     NotificationServer {
         id: server
@@ -33,18 +34,18 @@ Singleton {
             });
 
             root.queue.push(newNotif);
-            process();
+            Qt.callLater(root.process);
         }
     }
 
-    function popupsReady(): bool {
-        return root.busyCount === 0;
-    }
-
     function process(): void {
-        if (popupsReady() && root.queue.length > 0) {
+        if (root.busyCount === 0 && root.queue.length > 0) {
             const notifToMove = root.queue.shift();
-            root.popups.push(notifToMove);
+            if (Settings.alerts.position.vertical === "bottom") {
+                root.popups.unshift(notifToMove);
+            } else {
+                root.popups.push(notifToMove);
+            }
         }
     }
 
@@ -53,6 +54,9 @@ Singleton {
 
         property bool expired: false
         property bool seen: false
+        property bool busy: false
+        property bool hovering: false
+
         readonly property date time: new Date()
         readonly property string timeStr: {
             const diff = System.clock.date.getTime() - time.getTime();
@@ -76,7 +80,6 @@ Singleton {
         readonly property list<NotificationAction> actions: notification.actions
 
         function stow(): void {
-            toggleBusy(false);
             const popupsIndex = root.popups.indexOf(notif);
             const queueIndex = root.queue.indexOf(notif);
 
@@ -87,18 +90,14 @@ Singleton {
             }
 
             root.stowed.push(notif);
-            root.process();
         }
 
-        function toggleTimer(running): void {
-            timer.running = running;
-        }
-
-        function toggleBusy(busy): void {
+        onHoveringChanged: timer.running = !hovering
+        onBusyChanged: {
             if (busy) {
-                root.busyCount--;
-            } else {
                 root.busyCount++;
+            } else {
+                root.busyCount--;
             }
         }
 
@@ -123,8 +122,6 @@ Singleton {
                 } else if (stowedIndex !== -1) {
                     root.stowed.splice(stowedIndex, 1);
                 }
-
-                root.process();
             }
 
             function onAboutToDestroy(): void {

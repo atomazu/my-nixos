@@ -21,18 +21,18 @@ Singleton {
 
             property JsonObject bar: Bar {
                 id: _bar
-                theme: _theme
+                theme: _theme // qmllint disable
             }
 
             property JsonObject alerts: Alerts {
                 id: _alerts
-                theme: _theme
-                bar: _bar
+                theme: _theme // qmllint disable
+                bar: _bar // qmllint disable
             }
 
             property JsonObject templates: Templates {
                 id: _templates
-                theme: _theme
+                theme: _theme // qmllint disable
             }
         }
     }
