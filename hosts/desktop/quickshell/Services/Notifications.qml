@@ -90,12 +90,11 @@ Singleton {
             root.process();
         }
 
-        function toggleTimer(): void {
-            timer.running = !timer.running;
+        function toggleTimer(running): void {
+            timer.running = running;
         }
 
         function toggleBusy(busy): void {
-            busy = !busy;
             if (busy) {
                 root.busyCount--;
             } else {
@@ -106,10 +105,7 @@ Singleton {
         property Timer timer: Timer {
             running: true
             interval: Settings.alerts.timeout
-
-            onTriggered: {
-                notif.expired = true;
-            }
+            onTriggered: notif.expired = true
         }
 
         readonly property Connections conn: Connections {

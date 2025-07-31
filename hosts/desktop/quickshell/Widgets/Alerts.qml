@@ -120,8 +120,8 @@ PanelWindow {
                     hoverEnabled: true
 
                     onClicked: item.modelData.expired = true
-                    onEntered: item.modelData.pause()
-                    onExited: item.modelData.resume()
+                    onEntered: item.modelData.toggleTimer(false)
+                    onExited: item.modelData.toggleTimer(true)
 
                     ClippingWrapperRectangle {
                         id: rect
