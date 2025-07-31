@@ -1,5 +1,6 @@
-import "root:/Services"
+pragma ComponentBehavior: Bound
 
+import qs.Services
 import QtQuick
 import QtQuick.Layouts
 

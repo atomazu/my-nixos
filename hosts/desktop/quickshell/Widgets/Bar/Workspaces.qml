@@ -1,8 +1,8 @@
 pragma ComponentBehavior: Bound
 
+import qs.Services
 import QtQuick
 import Quickshell.Hyprland
-import "root:/Services"
 
 Row {
     id: root

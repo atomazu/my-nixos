@@ -1,7 +1,7 @@
 pragma ComponentBehavior: Bound
 
+import qs.Services
 import QtQuick
-import "root:/Services"
 
 Text {
     font.pointSize: Settings.theme.font.size

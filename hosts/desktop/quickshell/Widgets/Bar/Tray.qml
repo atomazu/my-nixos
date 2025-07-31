@@ -1,10 +1,10 @@
 pragma ComponentBehavior: Bound
 
+import qs.Services
 import Quickshell
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
 import QtQuick
-import "root:/Services"
 
 Row {
     spacing: Settings.bar.tray.spacing

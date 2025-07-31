@@ -1,8 +1,8 @@
 pragma ComponentBehavior: Bound
 
-import QtQuick
+import qs.Services
 import Quickshell.Wayland
-import "root:/Services"
+import QtQuick
 
 Item {
     id: root

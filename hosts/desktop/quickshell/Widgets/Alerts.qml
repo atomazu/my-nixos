@@ -1,8 +1,7 @@
 //@ pragma UseQApplication
 
-import "root:/Widgets"
-import "root:/Services"
-import "root:/Templates"
+import qs.Services
+import qs.Templates
 
 import Quickshell
 import Quickshell.Widgets

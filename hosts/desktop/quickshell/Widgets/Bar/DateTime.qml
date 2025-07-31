@@ -1,7 +1,7 @@
 pragma ComponentBehavior: Bound
 
+import qs.Services
 import QtQuick
-import "root:/Services"
 
 Text {
     text: Qt.formatDateTime(System.clock.date, "ddd d MMM HH:mm")
