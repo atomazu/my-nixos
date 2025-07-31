@@ -118,7 +118,7 @@
 
                 font = {
                   size = fonts.sizes.applications;
-                  family = fonts.serif.name;
+                  family = fonts.sansSerif.name;
                 };
 
                 color00 = colors.base00;

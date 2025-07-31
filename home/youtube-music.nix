@@ -210,7 +210,7 @@ let
       background-color: ${colors.base01} !important;
     }
 
-    * { font-family: ${fonts.serif.name} !important; }
+    * { font-family: ${fonts.sansSerif.name} !important; }
   '';
 
   settings = {
