@@ -15,6 +15,10 @@ Singleton {
         JsonAdapter { // qmllint disable
             id: adapter
 
+            property JsonObject general: General {
+                id: _general
+            }
+
             property JsonObject theme: Theme {
                 id: _theme
             }
@@ -40,5 +44,6 @@ Singleton {
     property var bar: _bar  // qmllint disable
     property var theme: _theme // qmllint disable
     property var alerts: _alerts // qmllint disable
+    property var general: _general // qmllint disable
     property var templates: _templates // qmllint disable
 }

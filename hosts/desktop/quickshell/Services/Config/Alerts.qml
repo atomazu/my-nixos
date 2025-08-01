@@ -16,6 +16,7 @@ JsonObject {
     property JsonObject font: root.theme.font
     property string color: root.theme.color01
     property string hoverColor: root.theme.color02
+    property bool perScreen: true
 
     property int timeout: 5000
     property int width: 450

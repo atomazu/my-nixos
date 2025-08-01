@@ -18,9 +18,11 @@ JsonObject {
     }
 
     property JsonObject font: root.theme.font
+    property bool perScreen: true
 
     property JsonObject windowTitle: JsonObject {
         property int width: 500
+        property bool perScreen: false
     }
 
     property JsonObject tray: JsonObject {
@@ -43,6 +45,7 @@ JsonObject {
         property int spacing: 3
         property int height: 17
         property int radius: 100
+        property bool perScreen: root.perScreen
 
         property JsonObject font: JsonObject {
             property int size: 8

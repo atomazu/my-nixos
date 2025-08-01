@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 
 import qs.Services
 import Quickshell
+import Quickshell.Wayland
 import Quickshell.Services.Notifications
 import QtQuick
 
@@ -52,6 +53,7 @@ Singleton {
     component Notif: QtObject {
         id: notif
 
+        property string screen: ""
         property bool expired: false
         property bool seen: false
         property bool busy: false

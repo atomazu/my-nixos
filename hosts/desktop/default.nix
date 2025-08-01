@@ -112,10 +112,6 @@
           pkgs.writeText "quickshell-config.json" (
             pkgs.lib.generators.toJSON { } {
               theme = {
-                bar = {
-                  position = "top";
-                };
-
                 font = {
                   size = fonts.sizes.applications;
                   family = fonts.sansSerif.name;
@@ -138,6 +134,9 @@
                 color0E = colors.base0E;
                 color0F = colors.base0F;
               };
+
+              bar.position = "bottom";
+              general.defaultScreen = "DP-2";
             }
           )
         );

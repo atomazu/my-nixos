@@ -19,9 +19,10 @@ Row {
             required property HyprlandWorkspace modelData
             property var activeWidth: Config.bar.workspaces.width.active
             property var inactiveWidth: Config.bar.workspaces.width.inactive
+            property bool perScreen: Config.bar.perScreen
 
             implicitWidth: modelData.focused ? activeWidth : inactiveWidth
-            visible: root.modelData.name == modelData.monitor.name
+            visible: !perScreen || root.modelData.name == modelData.monitor.name
 
             implicitHeight: Config.bar.workspaces.height
             radius: Config.bar.workspaces.radius

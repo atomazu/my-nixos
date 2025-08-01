@@ -21,7 +21,9 @@ PanelWindow { //qmllint disable
         right: true
     }
 
-    WindowTitle {}
+    WindowTitle {
+        modelData: root.modelData
+    }
 
     RowLayout {
         anchors.fill: parent

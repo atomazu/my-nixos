@@ -1,18 +1,24 @@
 //@ pragma UseQApplication
+pragma ComponentBehavior: Bound
 
 import qs.Services
 import qs.Templates
 
 import Quickshell
+import Quickshell.Wayland
 import Quickshell.Widgets
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Effects
 
 PanelWindow { // qmllint disable
-    id: window
+    id: root
     color: "transparent"
     exclusiveZone: 0
+
+    property string currentScreen: ToplevelManager.activeToplevel.screens[0].name
+    required property var modelData
+    screen: modelData
 
     mask: Region {
         item: column
@@ -39,7 +45,10 @@ PanelWindow { // qmllint disable
         }
 
         Repeater {
-            model: Notifications.popups
+            property var popups: Notifications.popups
+            property var thisScreen: root.modelData.name
+            model: Config.alerts.perScreen //
+            ? popups.filter(item => item.screen == thisScreen || item.screen == "") : popups
 
             Item {
                 id: item
@@ -57,7 +66,13 @@ PanelWindow { // qmllint disable
                 }
 
                 Component.onCompleted: {
-                    if (!item.modelData.expired) {
+                    let perScreen = Config.alerts.perScreen;
+                    if (root.modelData.name == root.currentScreen && perScreen) {
+                        item.modelData.screen = root.modelData.name;
+                    }
+
+                    let correctScreen = root.modelData.name == item.modelData.screen;
+                    if (!item.modelData.expired && (correctScreen || !perScreen)) {
                         if (item.modelData.seen) {
                             rect.opacity = 1;
                         } else {
@@ -156,7 +171,8 @@ PanelWindow { // qmllint disable
                                     Layout.preferredHeight: 24
                                     IconImage {
                                         id: iconImage
-                                        source: Quickshell.iconPath(item.modelData.appName.toLowerCase(), true)
+                                        property string appName: item.modelData.appName.toLowerCase()
+                                        source: Quickshell.iconPath(appName, true)
                                     }
                                 }
                                 Label {
@@ -205,7 +221,8 @@ PanelWindow { // qmllint disable
                                     Layout.fillWidth: true
 
                                     property string imageString: item.modelData.image != "" ? "<br>" : " "
-                                    text: `<b>${item.modelData.summary}:</b>${imageString}${item.modelData.body}`
+                                    property string summary: `<b>${item.modelData.summary}:</b>`
+                                    text: `${summary}${imageString}${item.modelData.body}`
                                 }
                             }
 
