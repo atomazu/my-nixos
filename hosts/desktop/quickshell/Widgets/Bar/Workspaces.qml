@@ -22,7 +22,7 @@ Row {
             property bool perScreen: Config.bar.perScreen
 
             implicitWidth: modelData.focused ? activeWidth : inactiveWidth
-            visible: !perScreen || root.modelData.name == modelData.monitor.name
+            visible: !perScreen || Hyprland.monitorFor(root.modelData) == modelData.monitor
 
             implicitHeight: Config.bar.workspaces.height
             radius: Config.bar.workspaces.radius

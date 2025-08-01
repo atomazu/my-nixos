@@ -3,7 +3,6 @@ pragma ComponentBehavior: Bound
 
 import qs.Services
 import Quickshell
-import Quickshell.Wayland
 import Quickshell.Services.Notifications
 import QtQuick
 

@@ -5,7 +5,7 @@ import qs.Services
 import qs.Templates
 
 import Quickshell
-import Quickshell.Wayland
+import Quickshell.Hyprland
 import Quickshell.Widgets
 import QtQuick
 import QtQuick.Layouts
@@ -16,7 +16,6 @@ PanelWindow { // qmllint disable
     color: "transparent"
     exclusiveZone: 0
 
-    property string currentScreen: ToplevelManager.activeToplevel.screens[0].name
     required property var modelData
     screen: modelData
 
@@ -67,8 +66,10 @@ PanelWindow { // qmllint disable
 
                 Component.onCompleted: {
                     let perScreen = Config.alerts.perScreen;
-                    if (root.modelData.name == root.currentScreen && perScreen) {
-                        item.modelData.screen = root.modelData.name;
+                    if (root.modelData.name == Hyprland.focusedMonitor.name && perScreen) {
+                        if (item.modelData.screen == "") {
+                            item.modelData.screen = root.modelData.name;
+                        }
                     }
 
                     let correctScreen = root.modelData.name == item.modelData.screen;

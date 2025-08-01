@@ -1,7 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import qs.Services
-import Quickshell.Wayland
+import Quickshell.Hyprland
 import QtQuick
 
 Item {
@@ -11,15 +11,20 @@ Item {
     required property var modelData
 
     Text {
-        property var toplevel: ToplevelManager.activeToplevel
-        property string perScreenTitle: "None"
+        property var toplevel: Hyprland.activeToplevel
+        property string perScreenTitle: ""
+        property string title: toplevel?.title || ""
 
-        text: Config.bar.windowTitle.perScreen ? perScreenTitle : toplevel.title
+        text: Config.bar.windowTitle.perScreen ? perScreenTitle : title
         elide: Text.ElideMiddle
 
         onToplevelChanged: {
-            if (toplevel.screens[0].name == root.modelData.name) {
-                perScreenTitle = toplevel.title;
+            if (Hyprland.focusedMonitor == Hyprland.monitorFor(root.modelData)) {
+                if (!toplevel) {
+                    perScreenTitle = "";
+                } else {
+                    perScreenTitle = toplevel.title || "";
+                }
             }
         }
 
