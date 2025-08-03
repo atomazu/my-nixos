@@ -31,7 +31,7 @@ in
 
     package = lib.mkOption {
       type = lib.types.package;
-      default = atomazu.inputs.quickshell.packages.${pkgs.system}.default;
+      default = pkgs.quickshell;
       description = "Quickshell package to use";
     };
 

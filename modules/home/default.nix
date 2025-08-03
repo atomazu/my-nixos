@@ -5,5 +5,6 @@
     ./nixvim.nix
     ./youtube-music.nix
     ./quickshell.nix
+    ./my-shell
   ];
 }

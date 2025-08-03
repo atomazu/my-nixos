@@ -22,6 +22,7 @@ in
     ./chromium.nix
     ./firefox.nix
     ./youtube-music.nix
+    ./my-shell.nix
   ];
 
   options.atomazu.my-nixos.home = {

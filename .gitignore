@@ -1,6 +1,6 @@
 # Ignore Vim's swap files
 *.swp 
-todo.md
+*todo.md
 result
 src/book
 *direnv/
