@@ -150,7 +150,7 @@ in
         '';
 
         themeSource = pkgs.writeText "CUSTOM.qss" albertQssContent;
-        themeTarget = "${config.xdg.dataHome}/albert/widgetsboxmodel/themes/CUSTOM.qss";
+        themeTarget = ".local/share/albert/widgetsboxmodel/themes/CUSTOM.qss";
       in
       {
         home.packages = [ pkgs.albert ];
