@@ -32,7 +32,7 @@ Row {
 
                 anchor {
                     item: icon
-                    adjustment: PopupAdjustment.FlipX // qmllint disable
+                    adjustment: PopupAdjustment.FlipX | PopupAdjustment.FlipY // qmllint disable
                     edges: Edges.Bottom | Edges.Left // qmllint disable
                     rect {
                         w: icon.width
