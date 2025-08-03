@@ -1,5 +1,4 @@
 {
-  atomazu,
   config,
   pkgs,
   ...
@@ -79,6 +78,7 @@
         enable = true;
         settings = {
           general.defaultScreen = "DP-2";
+          bar.position = "bottom";
         };
       };
 

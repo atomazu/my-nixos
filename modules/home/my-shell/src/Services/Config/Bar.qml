@@ -8,7 +8,7 @@ JsonObject {
     required property JsonObject theme
 
     property string position: "top"
-    property string background: root.theme.color00
+    property string background: root.theme.color01
     property int height: 30
     property int spacing: 20
 
