@@ -121,7 +121,7 @@ in
       User = "atmz";
       Group = "atmz";
       EnvironmentFile = config.sops.templates."atmz-env".path;
-      ExecStart = "${pkgs.nodejs}/bin/node server.js";
+      ExecStart = "${pkgs.bun}/bin/bun server.js";
       WorkingDirectory = "${atomazu-org}";
       Restart = "always";
       RestartSec = "5";
