@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
 import QtQuick
+import QtQuick.Effects
 
 Row {
     spacing: Config.bar.tray.spacing
@@ -22,7 +23,7 @@ Row {
             onClicked: event => {
                 if (event.button === Qt.LeftButton)
                     modelData.activate();
-                else if (modelData.hasMenu)
+                else if (event.button === Qt.RightButton && modelData.hasMenu)
                     menu.open();
             }
 
@@ -31,12 +32,12 @@ Row {
                 menu: root.modelData.menu // qmllint disable
 
                 anchor {
-                    item: icon
+                    item: iconContainer
                     adjustment: PopupAdjustment.FlipX | PopupAdjustment.FlipY // qmllint disable
                     edges: Edges.Bottom | Edges.Left // qmllint disable
                     rect {
-                        w: icon.width
-                        h: icon.height + 4
+                        w: iconContainer.width
+                        h: iconContainer.height + 4
                     }
                 }
             }
@@ -46,11 +47,24 @@ Row {
                 color: Config.bar.tray.item.background
                 radius: Config.bar.tray.item.radius
 
-                IconImage {
-                    id: icon
-
-                    source: root.modelData.icon
+                Item {
+                    id: iconContainer
                     anchors.fill: parent
+
+                    IconImage {
+                        id: icon
+                        source: root.modelData.icon
+                        anchors.fill: parent
+                        visible: !brightnessEffect.visible
+                    }
+
+                    MultiEffect {
+                        id: brightnessEffect
+                        source: icon
+                        anchors.fill: icon
+                        visible: root.modelData.icon.toString().includes("symbolic")
+                        brightness: 0.67
+                    }
                 }
             }
         }
